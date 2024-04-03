@@ -235,4 +235,7 @@ public class Reservas implements IReservas {
                 reservaARealizarCheckout.setCheckOut(fecha);
             }*/
             }
+
+            public void comenzar(){}
+            public void terminar(){}
         }

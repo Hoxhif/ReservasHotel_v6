@@ -13,5 +13,7 @@ public interface IHabitaciones {
     void insertar(Habitacion habitacion) throws OperationNotSupportedException;
     Habitacion buscar(Habitacion habitacion);
     void borrar(Habitacion habitacion) throws OperationNotSupportedException;
+    void comenzar();
+    void terminar();
 
 }

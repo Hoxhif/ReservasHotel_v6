@@ -88,5 +88,8 @@ public class Huespedes implements IHuespedes {
 
     }
 
+    public void comenzar(){}
+    public void terminar(){}
+
 
 }

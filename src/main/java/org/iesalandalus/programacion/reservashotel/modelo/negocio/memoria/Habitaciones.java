@@ -157,6 +157,8 @@ public class Habitaciones implements IHabitaciones {
         }
     }
 
+    public void comenzar(){}
+    public void terminar(){}
 
 
 }

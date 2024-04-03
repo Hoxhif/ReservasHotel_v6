@@ -11,4 +11,7 @@ public interface IHuespedes {
     void insertar(Huesped huesped) throws OperationNotSupportedException;
     Huesped buscar(Huesped huesped);
     void borrar(Huesped huesped) throws OperationNotSupportedException;
+    void comenzar();
+    void terminar();
+
 }
