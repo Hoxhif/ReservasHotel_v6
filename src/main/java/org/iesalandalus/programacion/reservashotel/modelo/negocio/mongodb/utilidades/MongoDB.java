@@ -173,8 +173,7 @@ public class MongoDB {
         LocalDate fechaFin = LocalDate.parse(fechaFinCadena, FORMATO_DIA);
         Regimen regimen= null;
 
-        Regimen[] opciones = Regimen.values();
-        for (Regimen opcion: opciones){
+        for (Regimen opcion: Regimen.values()){
             if (opcion.toString().equals(documentoReserva.getString(REGIMEN))){
                 regimen = opcion;
             }
