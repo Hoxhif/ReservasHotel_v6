@@ -597,7 +597,7 @@ public class Vista {
 
             if (habitacionesTipoSolicitado.get(i)!=null)
             {
-                ArrayList<Reserva> reservasFuturas = controlador.getReserva(habitacionesTipoSolicitado.get(i));
+                ArrayList<Reserva> reservasFuturas = controlador.getReservaFutura(habitacionesTipoSolicitado.get(i));
                 numElementos=getNumElementosNoNulos(reservasFuturas);
 
                 if (numElementos == 0)

@@ -4,6 +4,7 @@ import org.iesalandalus.programacion.reservashotel.modelo.dominio.Habitacion;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.Huesped;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.Reserva;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.TipoHabitacion;
+import org.iesalandalus.programacion.reservashotel.modelo.negocio.IFuenteDatos;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.IHabitaciones;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.IHuespedes;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.IReservas;
@@ -15,35 +16,41 @@ import javax.naming.OperationNotSupportedException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class Modelo {
+public class Modelo implements IModelo{
 
     // Aquí hemos copiado y pegado
     private static IHabitaciones habitaciones;
     private static IReservas reservas;
     private static IHuespedes huespedes;
+    private IFuenteDatos fuenteDatos;
 
 
-    public Modelo(){
-
+    public Modelo(FactorialFuenteDatos factorialFuenteDatos){
+        setFuenteDatos(factorialFuenteDatos.crear());
     }
 
-    public static void comenzar(){
+    @Override
+    public void comenzar(){
         habitaciones = new Habitaciones();
         huespedes = new Huespedes();
         reservas = new Reservas();
     }
 
+    @Override
     public void terminar(){
+        habitaciones.terminar();
+        huespedes.terminar();
+        reservas.terminar();
         System.out.println("Fin del programa.");
     }
 
-    public static void insertar(Huesped huesped) throws OperationNotSupportedException{
+    public void insertar(Huesped huesped) throws OperationNotSupportedException{
         // Aqui directamente hacemos la llamada al método que insertará el huesped en el array, y como no lo vamos a tratar aqui
         // sino que lo vamos a tratar la excepcion en la vista, pues hacemos un throws.
         huespedes.insertar(huesped);
     }
 
-    public static Huesped buscar(Huesped huesped){
+    public Huesped buscar(Huesped huesped){
         return huespedes.buscar(huesped);
     }
 
@@ -51,17 +58,17 @@ public class Modelo {
         huespedes.borrar(huesped);
     }
 
-    public static ArrayList<Huesped> getHuespedes(){
+    public ArrayList<Huesped> getHuespedes(){
         return huespedes.get();
 
 
     }
 
-    public static void insertar(Habitacion habitacion)throws OperationNotSupportedException{
+    public void insertar(Habitacion habitacion)throws OperationNotSupportedException{
         habitaciones.insertar(habitacion);
     }
 
-    public static Habitacion buscar(Habitacion habitacion){
+    public Habitacion buscar(Habitacion habitacion){
         return habitaciones.buscar(habitacion);
     }
 
@@ -69,17 +76,17 @@ public class Modelo {
         habitaciones.borrar(habitacion);
     }
 
-    public static ArrayList<Habitacion> getHabitaciones(){
+    public ArrayList<Habitacion> getHabitaciones(){
         return habitaciones.get();
 
     }
 
-    public static ArrayList<Habitacion> getHabitaciones(TipoHabitacion tipoHabitacion){
+    public ArrayList<Habitacion> getHabitaciones(TipoHabitacion tipoHabitacion){
         return habitaciones.get(tipoHabitacion);
 
     }
 
-    public static void insertar(Reserva reserva)throws OperationNotSupportedException{
+    public void insertar(Reserva reserva)throws OperationNotSupportedException{
         reservas.insertar(reserva);
     }
 
@@ -87,11 +94,11 @@ public class Modelo {
         reservas.borrar(reserva);
     }
 
-    public static Reserva buscar(Reserva reserva){
+    public Reserva buscar(Reserva reserva){
         return reservas.buscar(reserva);
     }
 
-    public static ArrayList<Reserva> getReservas(){
+    public ArrayList<Reserva> getReserva(){
         return reservas.get();
         // He hecho esto porque en el enunciado pone que que devolvemos una lista de objetos nuevos de los geters, y no una copia.
         // LUEGO pregunte a mis compañeros y me dijeron que solo hacia falta el reservas.get();
@@ -103,28 +110,34 @@ public class Modelo {
         return reservasADevolver;*/
     }
 
-    public static ArrayList<Reserva> getReserva(Huesped huesped){
+    public ArrayList<Reserva> getReservas(Huesped huesped){
         return reservas.getReservas(huesped);
 
     }
 
-    public static ArrayList<Reserva> getReserva(TipoHabitacion tipoHabitacion){
+    public ArrayList<Reserva> getReservas(TipoHabitacion tipoHabitacion){
         return reservas.getReservas(tipoHabitacion);
 
     }
 
-    public static ArrayList<Reserva> getReserva(Habitacion habitacion){
-
-        return reservas.getReservasFuturas(habitacion);
-
+    public ArrayList<Reserva> getReservas(Habitacion habitacion){
+        return reservas.getReservas(habitacion);
     }
 
-    public static void realizarCheckin(Reserva reserva, LocalDateTime fecha){
+    public ArrayList<Reserva> getReservaFutura(Habitacion habitacion){
+        return reservas.getReservasFuturas(habitacion);
+    }
+
+    public void realizarCheckIn(Reserva reserva, LocalDateTime fecha){
         reservas.realizarCheckin(reserva,fecha);
     }
 
-    public static void realizarCheckout(Reserva reserva, LocalDateTime fecha){
+    public void realizarCheckOut(Reserva reserva, LocalDateTime fecha){
         reservas.realizarCheckout(reserva,fecha);
     }
 
+    private void setFuenteDatos(IFuenteDatos fuenteDatos){
+        this.fuenteDatos=fuenteDatos;
 }
+}
+

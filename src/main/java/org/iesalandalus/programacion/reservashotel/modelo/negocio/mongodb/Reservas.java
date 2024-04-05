@@ -18,7 +18,7 @@ import java.util.*;
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 
-public class Reservas implements IReservas {
+public class Reservas implements IReservas{
 
     private static final String COLECCION="reservas";
     private MongoCollection<Document> coleccionReservas;
@@ -140,13 +140,39 @@ public class Reservas implements IReservas {
     /*
     En este caso, como necesitamos obtener las fechas posteriores a las que tenemos, primero inicializamos una variable de tipo LocalDate con el valor de la fecha actual y entonces hacemos lo mismo que antes verificando la fecha actual.
      */
+
+    @Override
+    public ArrayList<Reserva> getReservas(Habitacion habitacion){
+        if (habitacion == null)
+            throw new NullPointerException("ERROR: No se pueden buscar reservas de una habitación nula.");
+        ArrayList<Reserva> reservasHabitacion = new ArrayList<>();
+        FindIterable<Document> documentosReservasHabitacion = coleccionReservas.find().filter(eq(MongoDB.HABITACION_IDENTIFICADOR,habitacion.getIdentificador()));
+        for (Document documentoReserva: documentosReservasHabitacion){
+            Reserva reserva = MongoDB.getReserva(documentoReserva);
+            if (documentoReserva.getString(MongoDB.CHECKIN) != null || documentoReserva.getString(MongoDB.CHECKIN).equals("No registrado")){
+                LocalDateTime fechaCheckIn = LocalDateTime.parse(documentoReserva.getString(MongoDB.CHECKIN),MongoDB.FORMATO_DIA_HORA);
+                reserva.setCheckIn(fechaCheckIn);
+            }
+            if (documentoReserva.getString(MongoDB.CHECKOUT)!= null || documentoReserva.getString(MongoDB.CHECKOUT).equals("No registrado")){
+                LocalDateTime fechaCheckOut = LocalDateTime.parse(documentoReserva.getString(MongoDB.CHECKOUT),MongoDB.FORMATO_DIA_HORA);
+                reserva.setCheckOut(fechaCheckOut);
+            }
+            reservasHabitacion.add(reserva);
+        }
+        return reservasHabitacion;
+    }
+
     @Override
     public ArrayList<Reserva> getReservasFuturas (Habitacion habitacion) {
         if (habitacion == null)
             throw new NullPointerException("ERROR: No se pueden buscar reservas de una habitación nula.");
         LocalDate fechaActual = LocalDate.now();
         ArrayList<Reserva> reservasHabitacionFuturas = new ArrayList<>();
-        FindIterable<Document> documentosReservasFuturas = coleccionReservas.find().filter(eq(MongoDB.FECHA_INICIO_RESERVA,fechaActual.toString().formatted(MongoDB.FORMATO_DIA)));
+        //FindIterable<Document> documentosReservasFuturas = coleccionReservas.find().filter(eq(MongoDB.FECHA_INICIO_RESERVA,fechaActual.toString().formatted(MongoDB.FORMATO_DIA)));
+        FindIterable<Document> documentosReservasFuturas = coleccionReservas.find().filter(and(
+                eq(MongoDB.FECHA_INICIO_RESERVA,fechaActual.toString().formatted(MongoDB.FORMATO_DIA)),
+                eq(MongoDB.HABITACION_IDENTIFICADOR,habitacion.getIdentificador())
+        ));
 
         for (Document documentoReservaFutura: documentosReservasFuturas){
             Reserva reserva = MongoDB.getReserva(documentoReservaFutura);

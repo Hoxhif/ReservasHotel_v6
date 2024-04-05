@@ -1,5 +1,6 @@
 package org.iesalandalus.programacion.reservashotel.controlador;
 
+import org.iesalandalus.programacion.reservashotel.modelo.IModelo;
 import org.iesalandalus.programacion.reservashotel.modelo.Modelo;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.Habitacion;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.Huesped;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 public class Controlador {
 
     private Vista vista;
-    private Modelo modelo;
+    private final IModelo modelo;
 
     public Controlador(Modelo modelo, Vista vista){
         if (modelo == null)
@@ -87,27 +88,31 @@ public class Controlador {
     }
 
     public ArrayList<Reserva> getReservas(){
-        return modelo.getReservas();
+        return modelo.getReserva();
     }
 
     public ArrayList<Reserva> getReserva(Huesped huesped){
-        return modelo.getReserva(huesped);
+        return modelo.getReservas(huesped);
     }
 
     public ArrayList<Reserva> getReserva(TipoHabitacion tipoHabitacion){
-        return modelo.getReserva(tipoHabitacion);
+        return modelo.getReservas(tipoHabitacion);
     }
 
-    public ArrayList<Reserva> getReserva(Habitacion habitacion){
-        return modelo.getReserva(habitacion);
+    public ArrayList<Reserva> getReservas(Habitacion habitacion){
+        return modelo.getReservas(habitacion);
+    }
+
+    public ArrayList<Reserva> getReservaFutura(Habitacion habitacion){
+        return modelo.getReservaFutura(habitacion);
     }
 
     public void realizarCheckin(Reserva reserva, LocalDateTime fecha){
-        modelo.realizarCheckin(reserva,fecha);
+        modelo.realizarCheckIn(reserva,fecha);
     }
 
     public void realizarCheckout(Reserva reserva, LocalDateTime fecha){
-        modelo.realizarCheckout(reserva,fecha);
+        modelo.realizarCheckOut(reserva,fecha);
     }
 
 
