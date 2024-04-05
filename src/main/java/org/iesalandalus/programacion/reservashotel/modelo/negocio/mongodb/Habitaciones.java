@@ -53,10 +53,12 @@ public class Habitaciones implements IHabitaciones {
         FindIterable<Document> findTipoHabitacion = coleccionHabitaciones.find().filter(eq(MongoDB.TIPO,tipoHabitacion.toString()));
         for (Document documentoHabitacion: findTipoHabitacion){
             Habitacion habitacion = MongoDB.getHabitacion(documentoHabitacion);
+            copiaHabitaciones.add(habitacion);
+            /*
             if (habitacion instanceof Simple) copiaHabitaciones.add(new Simple((Simple) habitacion));
             if (habitacion instanceof Doble) copiaHabitaciones.add(new Doble((Doble) habitacion));
             if (habitacion instanceof Triple) copiaHabitaciones.add(new Triple((Triple) habitacion));
-            if (habitacion instanceof Suite) copiaHabitaciones.add(new Suite((Suite) habitacion));
+            if (habitacion instanceof Suite) copiaHabitaciones.add(new Suite((Suite) habitacion));*/
         }
         return copiaHabitaciones;
     }
