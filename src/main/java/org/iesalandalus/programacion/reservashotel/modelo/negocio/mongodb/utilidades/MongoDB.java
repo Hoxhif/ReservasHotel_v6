@@ -115,7 +115,7 @@ public class MongoDB {
     public static Document getDocumento (Huesped huesped){
         if (huesped == null)
             throw new NullPointerException("ERROR: El huesped es nulo.");
-        return new Document().append(NOMBRE,huesped.getNombre()).append(DNI,huesped.getDni()).append(TELEFONO,huesped.getTelefono()).append(CORREO,huesped.getCorreo()).append(FECHA_NACIMIENTO,huesped.getFechaNacimiento());
+        return new Document().append(NOMBRE,huesped.getNombre()).append(DNI,huesped.getDni()).append(TELEFONO,huesped.getTelefono()).append(CORREO,huesped.getCorreo()).append(FECHA_NACIMIENTO,huesped.getFechaNacimiento().toString());
     }
 
     public static Huesped getHuesped(Document documentoHuesped){
@@ -197,7 +197,7 @@ public class MongoDB {
     public static Document getDocumento(Reserva reserva){
         if (reserva == null)
             throw new NullPointerException("ERROR: La reserva es nula.");
-        return new Document().append(HUESPED,reserva.getHuesped()).append(HABITACION,reserva.getHabitacion()).append(REGIMEN,reserva.getRegimen()).append(FECHA_INICIO_RESERVA, reserva.getFechaInicioReserva()).append(FECHA_FIN_RESERVA, reserva.getFechaFinReserva()).append(NUMERO_PERSONAS, reserva.getNumeroPersonas()).append(CHECKIN, reserva.getCheckIn()).append(CHECKOUT, reserva.getCheckOut()).append(PRECIO_RESERVA, reserva.getPrecio());
+        return new Document().append(HUESPED,reserva.getHuesped()).append(HABITACION,reserva.getHabitacion()).append(REGIMEN,reserva.getRegimen()).append(FECHA_INICIO_RESERVA, reserva.getFechaInicioReserva().toString()).append(FECHA_FIN_RESERVA, reserva.getFechaFinReserva().toString()).append(NUMERO_PERSONAS, reserva.getNumeroPersonas()).append(CHECKIN, reserva.getCheckIn().toString()).append(CHECKOUT, reserva.getCheckOut().toString()).append(PRECIO_RESERVA, reserva.getPrecio());
     }
 
 
