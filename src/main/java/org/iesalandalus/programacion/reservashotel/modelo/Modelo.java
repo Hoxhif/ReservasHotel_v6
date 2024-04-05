@@ -8,6 +8,7 @@ import org.iesalandalus.programacion.reservashotel.modelo.negocio.IFuenteDatos;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.IHabitaciones;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.IHuespedes;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.IReservas;
+import org.iesalandalus.programacion.reservashotel.modelo.negocio.memoria.FuenteDatosMemoria;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.memoria.Habitaciones;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.memoria.Huespedes;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.memoria.Reservas;
@@ -31,9 +32,9 @@ public class Modelo implements IModelo{
 
     @Override
     public void comenzar(){
-        habitaciones = new Habitaciones();
-        huespedes = new Huespedes();
-        reservas = new Reservas();
+        huespedes=fuenteDatos.crearHuespedes();
+        habitaciones=fuenteDatos.crearHabitaciones();
+        reservas=fuenteDatos.crearReservas();
     }
 
     @Override
