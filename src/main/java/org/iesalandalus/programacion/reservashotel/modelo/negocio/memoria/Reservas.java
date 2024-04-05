@@ -176,6 +176,23 @@ public class Reservas implements IReservas {
     /*
     En este caso, como necesitamos obtener las fechas posteriores a las que tenemos, primero inicializamos una variable de tipo LocalDate con el valor de la fecha actual y entonces hacemos lo mismo que antes verificando la fecha actual.
      */
+
+    @Override
+    public ArrayList<Reserva> getReservas(Habitacion habitacion){
+        if (habitacion == null)
+            throw new NullPointerException("ERROR: No se pueden buscar reservas de una habitación nula.");
+
+        ArrayList<Reserva> reservasHabitacionFuturas = new ArrayList<>();
+        Iterator<Reserva> iteradorReservasFuturas= get().iterator();
+
+        while (iteradorReservasFuturas.hasNext()){
+            Reserva reservaFutura= iteradorReservasFuturas.next();
+            if (reservaFutura.getHabitacion().equals(habitacion))
+                reservasHabitacionFuturas.add(reservaFutura);
+        }
+        return reservasHabitacionFuturas;
+    }
+
     @Override
     public ArrayList<Reserva> getReservasFuturas (Habitacion habitacion) {
         if (habitacion == null)
