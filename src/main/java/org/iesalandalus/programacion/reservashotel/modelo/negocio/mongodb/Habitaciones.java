@@ -24,7 +24,7 @@ public class Habitaciones implements IHabitaciones {
     private static final String COLECCION="habitaciones";
 
     public Habitaciones(){
-
+        comenzar();
     }
 
     @Override
@@ -71,9 +71,9 @@ public class Habitaciones implements IHabitaciones {
     @Override
     public void insertar (Habitacion habitacion) throws OperationNotSupportedException{
         if (habitacion == null)
-            throw new NullPointerException("ERROR: No se puede insertar una habitación nula.");
+            throw new NullPointerException("ERROR: No se puede insertar una habitaciï¿½n nula.");
         if (buscar(habitacion)!= null){
-            throw new OperationNotSupportedException("ERROR: Ya existe una habitación con ese identificador.");
+            throw new OperationNotSupportedException("ERROR: Ya existe una habitaciï¿½n con ese identificador.");
         }
         coleccionHabitaciones.insertOne(MongoDB.getDocumento(habitacion));
     }
@@ -81,7 +81,7 @@ public class Habitaciones implements IHabitaciones {
     @Override
     public Habitacion buscar (Habitacion habitacion) {
         if (habitacion == null)
-            throw new NullPointerException("ERROR: No se puede buscar una habitación nula.");
+            throw new NullPointerException("ERROR: No se puede buscar una habitaciï¿½n nula.");
 
         Document documentoHabitacion = coleccionHabitaciones.find().filter(eq(MongoDB.IDENTIFICADOR,habitacion.getIdentificador())).first();
         if (documentoHabitacion != null){
@@ -97,9 +97,9 @@ public class Habitaciones implements IHabitaciones {
     @Override
     public void borrar (Habitacion habitacion) throws OperationNotSupportedException{
         if (habitacion == null)
-            throw new NullPointerException("ERROR: No se puede borrar una habitación nula.");
+            throw new NullPointerException("ERROR: No se puede borrar una habitaciï¿½n nula.");
         if (buscar(habitacion)== null)
-            throw new OperationNotSupportedException("ERROR: No existe ninguna habitación como la indicada.");
+            throw new OperationNotSupportedException("ERROR: No existe ninguna habitaciï¿½n como la indicada.");
         coleccionHabitaciones.deleteOne(MongoDB.getDocumento(habitacion));
     }
 

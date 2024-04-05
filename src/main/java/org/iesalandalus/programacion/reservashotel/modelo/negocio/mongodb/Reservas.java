@@ -24,7 +24,7 @@ public class Reservas implements IReservas{
     private MongoCollection<Document> coleccionReservas;
 
     public Reservas (){
-
+        comenzar();
     }
 
     @Override

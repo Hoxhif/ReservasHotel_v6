@@ -18,7 +18,7 @@ public class Huespedes implements IHuespedes {
     private MongoCollection<Document> coleccionHuespedes;
     private static final String COLECCION="huespedes";
     public Huespedes(){
-
+        comenzar();
     }
 
     @Override
