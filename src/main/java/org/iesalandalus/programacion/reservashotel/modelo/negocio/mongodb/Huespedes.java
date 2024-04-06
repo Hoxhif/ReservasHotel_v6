@@ -66,7 +66,7 @@ public class Huespedes implements IHuespedes {
             throw new NullPointerException("ERROR: No se puede borrar un huésped nulo.");
         if (buscar(huesped)==null)
             throw new OperationNotSupportedException("ERROR: No existe ningún huésped como el indicado.");
-        coleccionHuespedes.deleteOne(MongoDB.getDocumento(huesped));
+        coleccionHuespedes.deleteOne(MongoDB.getDocumento(buscar(huesped)));
     }
 
     @Override
