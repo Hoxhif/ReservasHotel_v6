@@ -93,13 +93,18 @@ public class MongoDB {
 
         conexion = MongoClients.create(settings);
 
-        try{
-            if (!SERVIDOR.equals("localhost")){
+        try
+        {
+            if (!SERVIDOR.equals("localhost"))
+            {
                 MongoDatabase database = conexion.getDatabase(DB);
-                database.runCommand(new Document("pìng",1));
+                database.runCommand(new Document("ping", 1));
             }
-        }catch (MongoException e){
+        }
+        catch (MongoException e)
+        {
             e.printStackTrace();
+
         }
         System.out.println("Conexión a MongoDB realizada correctamente.");
     }
