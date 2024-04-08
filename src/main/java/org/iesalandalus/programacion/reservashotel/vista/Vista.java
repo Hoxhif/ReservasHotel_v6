@@ -143,12 +143,14 @@ public class Vista {
         try {
             Huesped huespedABorrar = Consola.getClientePorDni();
             Iterator<Huesped> iteradorHuesped= controlador.getHuespedes().iterator();
+            int contador=0;
             while (iteradorHuesped.hasNext()){
                 Huesped huespedIterado= iteradorHuesped.next();
                 if (huespedIterado.getDni().equals(huespedABorrar.getDni())) {
+                    contador++;
                     controlador.borrar(huespedABorrar);
                     System.out.println("Huesped borrado satisfactoriamente");
-                }else System.out.println("No se puede borrar un huesped que no existe.");
+                }else if (contador==0) System.out.println("No se puede borrar un huesped que no existe.");
                 }
         }catch (OperationNotSupportedException | NullPointerException | IllegalArgumentException e){
             System.out.println("-"+e.getMessage());
