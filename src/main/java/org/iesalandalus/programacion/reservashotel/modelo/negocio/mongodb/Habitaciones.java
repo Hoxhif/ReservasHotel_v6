@@ -48,9 +48,10 @@ public class Habitaciones implements IHabitaciones {
 
         if (tipoHabitacion == null)
             throw new NullPointerException("ERROR: No se pueden buscar reservas de un huesped nulo // Es posible que se haya equivocado al escribir el DNI.");
+        String tipo [] = tipoHabitacion.toString().split(" ");
 
         ArrayList<Habitacion> copiaHabitaciones= new ArrayList<>();
-        FindIterable<Document> findTipoHabitacion = coleccionHabitaciones.find().filter(eq(MongoDB.TIPO,tipoHabitacion.toString()));
+        FindIterable<Document> findTipoHabitacion = coleccionHabitaciones.find().filter(eq(MongoDB.TIPO,tipo[1]));
         for (Document documentoHabitacion: findTipoHabitacion){
             Habitacion habitacion = MongoDB.getHabitacion(documentoHabitacion);
             copiaHabitaciones.add(habitacion);

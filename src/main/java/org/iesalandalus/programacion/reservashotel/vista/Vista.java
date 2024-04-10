@@ -268,7 +268,7 @@ public class Vista {
                 if (nuevaReserva != null) {
                     if (getNumElementosNoNulos(controlador.getReservas()) > 0) { //CAMBIAR LENGTH POR ELEMENTOSNONULOS.
                         Habitacion habitacionDisponible = consultarDisponibilidad(TipoHabitacion.SIMPLE, nuevaReserva.getFechaInicioReserva(), nuevaReserva.getFechaFinReserva());
-                        if (habitacionDisponible != null) {
+                        if (habitacionDisponible == null) {
                             controlador.insertar(reservaReal);
                             System.out.println("Reserva creada satisfactoriamente");
                         } else
@@ -286,7 +286,7 @@ public class Vista {
                 if (nuevaReserva != null) {
                     if (getNumElementosNoNulos(controlador.getReservas()) > 0) { //CAMBIAR LENGTH POR ELEMENTOSNONULOS.
                         Habitacion habitacionDisponible = consultarDisponibilidad(TipoHabitacion.DOBLE, nuevaReserva.getFechaInicioReserva(), nuevaReserva.getFechaFinReserva());
-                        if (habitacionDisponible != null) {
+                        if (habitacionDisponible == null) {
                             controlador.insertar(reservaReal);
                             System.out.println("Reserva creada satisfactoriamente");
                         } else
@@ -304,7 +304,7 @@ public class Vista {
                 if (nuevaReserva != null) {
                     if (getNumElementosNoNulos(controlador.getReservas()) > 0) { //CAMBIAR LENGTH POR ELEMENTOSNONULOS.
                         Habitacion habitacionDisponible = consultarDisponibilidad(TipoHabitacion.TRIPLE, nuevaReserva.getFechaInicioReserva(), nuevaReserva.getFechaFinReserva());
-                        if (habitacionDisponible != null) {
+                        if (habitacionDisponible == null) {
                             controlador.insertar(reservaReal);
                             System.out.println("Reserva creada satisfactoriamente");
                         } else
@@ -322,7 +322,7 @@ public class Vista {
                 if (nuevaReserva != null) {
                     if (getNumElementosNoNulos(controlador.getReservas()) > 0) { //CAMBIAR LENGTH POR ELEMENTOSNONULOS.
                         Habitacion habitacionDisponible = consultarDisponibilidad(TipoHabitacion.SUITE, nuevaReserva.getFechaInicioReserva(), nuevaReserva.getFechaFinReserva());
-                        if (habitacionDisponible != null) {
+                        if (habitacionDisponible == null) {
                             controlador.insertar(reservaReal);
                             System.out.println("Reserva creada satisfactoriamente");
                         } else
@@ -591,7 +591,7 @@ public class Vista {
 
         ArrayList<Habitacion> habitacionesTipoSolicitado= controlador.getHabitaciones(tipoHabitacion);
 
-        if (habitacionesTipoSolicitado==null)
+        if (habitacionesTipoSolicitado==null || habitacionesTipoSolicitado.isEmpty())
             return habitacionDisponible;
 
         for (int i=0; i<habitacionesTipoSolicitado.size() && !tipoHabitacionEncontrada; i++)
