@@ -147,9 +147,10 @@ public class Vista {
             while (iteradorHuesped.hasNext()){
                 Huesped huespedIterado= iteradorHuesped.next();
                 if (huespedIterado.getDni().equals(huespedABorrar.getDni())) {
+                    if (controlador.getReserva(huespedABorrar).isEmpty()){
                     contador++;
                     controlador.borrar(huespedABorrar);
-                    System.out.println("Huesped borrado satisfactoriamente");
+                    System.out.println("Huesped borrado satisfactoriamente");}else System.out.println("No se puede borrar un huesped con reservas");
                 }else if (contador==0) System.out.println("No se puede borrar un huesped que no existe.");
                 }
         }catch (OperationNotSupportedException | NullPointerException | IllegalArgumentException e){
@@ -216,10 +217,13 @@ public class Vista {
                 while (iteradorHabitacion.hasNext()){
                     Habitacion habitacion = iteradorHabitacion.next();
                     if (habitacion.getIdentificador().equals(habitacionABorrar.getIdentificador())){
-                        controlador.borrar(habitacion);
+                        if (controlador.getReservas(habitacion).isEmpty()) {
+                            controlador.borrar(habitacion);
+                            System.out.println("Habitaci�n borrada satisfactoriamente");
+                        }
+                        else System.out.println("No se puede borrar una habitación con reservas.");
                     }
                 }
-                System.out.println("Habitaci�n borrada satisfactoriamente");
             }else System.out.println("No se puede borrar la habitación porque no existe.");
         }catch (OperationNotSupportedException | IllegalArgumentException e){
             System.out.println("-"+e.getMessage());
@@ -594,7 +598,7 @@ public class Vista {
         if (habitacionesTipoSolicitado==null || habitacionesTipoSolicitado.isEmpty())
             return habitacionDisponible;
 
-        for (int i=0; i<habitacionesTipoSolicitado.size() && !tipoHabitacionEncontrada; i++)
+        for (int i=0; i<=habitacionesTipoSolicitado.size() && !tipoHabitacionEncontrada; i++)
         {
 
             if (habitacionesTipoSolicitado.get(i)!=null)
