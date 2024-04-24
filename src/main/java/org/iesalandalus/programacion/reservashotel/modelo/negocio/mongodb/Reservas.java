@@ -152,11 +152,11 @@ public class Reservas implements IReservas{
         FindIterable<Document> documentosReservasHabitacion = coleccionReservas.find().filter(eq(MongoDB.HABITACION_IDENTIFICADOR,habitacion.getIdentificador()));
         for (Document documentoReserva: documentosReservasHabitacion){
             Reserva reserva = MongoDB.getReserva(documentoReserva);
-            if (documentoReserva.getString(MongoDB.CHECKIN) != null || documentoReserva.getString(MongoDB.CHECKIN).equals("No registrado")){
+            if (!documentoReserva.getString(MongoDB.CHECKIN).equals("No registrado")){
                 LocalDateTime fechaCheckIn = LocalDateTime.parse(documentoReserva.getString(MongoDB.CHECKIN),MongoDB.FORMATO_DIA_HORA);
                 reserva.setCheckIn(fechaCheckIn);
             }
-            if (documentoReserva.getString(MongoDB.CHECKOUT)!= null || documentoReserva.getString(MongoDB.CHECKOUT).equals("No registrado")){
+            if (!documentoReserva.getString(MongoDB.CHECKOUT).equals("No registrado")){
                 LocalDateTime fechaCheckOut = LocalDateTime.parse(documentoReserva.getString(MongoDB.CHECKOUT),MongoDB.FORMATO_DIA_HORA);
                 reserva.setCheckOut(fechaCheckOut);
             }

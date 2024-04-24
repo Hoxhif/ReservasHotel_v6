@@ -272,7 +272,7 @@ public class Vista {
                 if (nuevaReserva != null) {
                     if (getNumElementosNoNulos(controlador.getReservas()) > 0) { //CAMBIAR LENGTH POR ELEMENTOSNONULOS.
                         Habitacion habitacionDisponible = consultarDisponibilidad(TipoHabitacion.SIMPLE, nuevaReserva.getFechaInicioReserva(), nuevaReserva.getFechaFinReserva());
-                        if (habitacionDisponible == null) {
+                        if (habitacionDisponible != null) {
                             controlador.insertar(reservaReal);
                             System.out.println("Reserva creada satisfactoriamente");
                         } else
@@ -290,7 +290,7 @@ public class Vista {
                 if (nuevaReserva != null) {
                     if (getNumElementosNoNulos(controlador.getReservas()) > 0) { //CAMBIAR LENGTH POR ELEMENTOSNONULOS.
                         Habitacion habitacionDisponible = consultarDisponibilidad(TipoHabitacion.DOBLE, nuevaReserva.getFechaInicioReserva(), nuevaReserva.getFechaFinReserva());
-                        if (habitacionDisponible == null) {
+                        if (habitacionDisponible != null) {
                             controlador.insertar(reservaReal);
                             System.out.println("Reserva creada satisfactoriamente");
                         } else
@@ -308,7 +308,7 @@ public class Vista {
                 if (nuevaReserva != null) {
                     if (getNumElementosNoNulos(controlador.getReservas()) > 0) { //CAMBIAR LENGTH POR ELEMENTOSNONULOS.
                         Habitacion habitacionDisponible = consultarDisponibilidad(TipoHabitacion.TRIPLE, nuevaReserva.getFechaInicioReserva(), nuevaReserva.getFechaFinReserva());
-                        if (habitacionDisponible == null) {
+                        if (habitacionDisponible != null) {
                             controlador.insertar(reservaReal);
                             System.out.println("Reserva creada satisfactoriamente");
                         } else
@@ -326,7 +326,7 @@ public class Vista {
                 if (nuevaReserva != null) {
                     if (getNumElementosNoNulos(controlador.getReservas()) > 0) { //CAMBIAR LENGTH POR ELEMENTOSNONULOS.
                         Habitacion habitacionDisponible = consultarDisponibilidad(TipoHabitacion.SUITE, nuevaReserva.getFechaInicioReserva(), nuevaReserva.getFechaFinReserva());
-                        if (habitacionDisponible == null) {
+                        if (habitacionDisponible != null) {
                             controlador.insertar(reservaReal);
                             System.out.println("Reserva creada satisfactoriamente");
                         } else
@@ -468,7 +468,7 @@ public class Vista {
     }
 
     public ArrayList<Reserva> getReservasAnulables (ArrayList<Reserva> reservasAAnular){
-        LocalDate fechaAhora= LocalDate.now();
+        LocalDate fechaAhora= LocalDate.now().minusDays(1);
         ArrayList<Reserva> reservasAnulables= new ArrayList<>();
         Iterator<Reserva> iteradorReservasAnulables= reservasAAnular.iterator();
         while (iteradorReservasAnulables.hasNext()){
@@ -490,7 +490,7 @@ public class Vista {
         // Aqui lo que hago es copiar el codigo de leerReserva de un Huesped para poder saber cuales son de nuevo las reservas de ese huesped, ya que el m�todo no devuelve nada.
 
         if (getReservasAnulables(controlador.getReserva(huesped)).isEmpty())
-                System.out.println("No hay reservas a anuelar, el Huesped no tiene hecha ninguna reserva.");
+                System.out.println("No hay reservas a anular, el Huesped no tiene hecha ninguna reserva.");
             else {
                 if (getNumElementosNoNulos(controlador.getReserva(huesped))==0) {
                         Reserva reservaHuespedABorrar = controlador.getReserva(huesped).get(0);
@@ -595,15 +595,15 @@ public class Vista {
 
         ArrayList<Habitacion> habitacionesTipoSolicitado= controlador.getHabitaciones(tipoHabitacion);
 
-        if (habitacionesTipoSolicitado==null || habitacionesTipoSolicitado.isEmpty())
+        if (habitacionesTipoSolicitado.isEmpty())
             return habitacionDisponible;
 
-        for (int i=0; i<=habitacionesTipoSolicitado.size() && !tipoHabitacionEncontrada; i++)
+        for (int i=0; i<=habitacionesTipoSolicitado.size()-1 && !tipoHabitacionEncontrada; i++)
         {
 
             if (habitacionesTipoSolicitado.get(i)!=null)
             {
-                ArrayList<Reserva> reservasFuturas = controlador.getReservaFutura(habitacionesTipoSolicitado.get(i));
+                ArrayList<Reserva> reservasFuturas = controlador.getReservas(habitacionesTipoSolicitado.get(i));
                 numElementos=getNumElementosNoNulos(reservasFuturas);
 
                 if (numElementos == 0)
@@ -716,7 +716,7 @@ boolean tipoHabitacionEncontrada=false;
 
         ArrayList<Habitacion> habitacionesTipoSolicitado= controlador.getHabitaciones(tipoHabitacion);
 
-        if (habitacionesTipoSolicitado==null)
+        if (habitacionesTipoSolicitado.isEmpty())
             return habitacionDisponible;
 
         for (int i=0; i<habitacionesTipoSolicitado.size() && !tipoHabitacionEncontrada; i++)
@@ -724,7 +724,7 @@ boolean tipoHabitacionEncontrada=false;
 
             if (habitacionesTipoSolicitado.get(i)!=null)
             {
-                ArrayList<Reserva> reservasFuturas = controlador.getReserva(habitacionesTipoSolicitado.get(i));
+                ArrayList<Reserva> reservasFuturas = controlador.getReservas(habitacionesTipoSolicitado.get(i));
                 numElementos=getNumElementosNoNulos(reservasFuturas);
 
                 if (numElementos == 0)
