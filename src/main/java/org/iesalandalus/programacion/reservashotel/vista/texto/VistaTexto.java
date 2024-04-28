@@ -1,22 +1,19 @@
-package org.iesalandalus.programacion.reservashotel.vista;
+package org.iesalandalus.programacion.reservashotel.vista.texto;
 
 import org.iesalandalus.programacion.reservashotel.controlador.Controlador;
-import org.iesalandalus.programacion.reservashotel.modelo.Modelo;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.*;
-import org.iesalandalus.programacion.reservashotel.modelo.negocio.memoria.Habitaciones;
 import org.iesalandalus.programacion.utilidades.Entrada;
 
 import javax.naming.OperationNotSupportedException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 
 
-public class Vista {
+public class VistaTexto {
 
     private Controlador controlador;
 
-    public Vista(){
+    public VistaTexto(){
         //Al principio use Opcion.setVista(new Vista()), pero parece que usando this también funciona.
         Opcion.setVista(this);
     }

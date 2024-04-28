@@ -1,4 +1,4 @@
-package org.iesalandalus.programacion.reservashotel.vista;
+package org.iesalandalus.programacion.reservashotel.vista.texto;
 
 
 

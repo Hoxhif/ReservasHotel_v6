@@ -4,7 +4,7 @@ package org.iesalandalus.programacion.reservashotel;
 import org.iesalandalus.programacion.reservashotel.controlador.Controlador;
 import org.iesalandalus.programacion.reservashotel.modelo.FactorialFuenteDatos;
 import org.iesalandalus.programacion.reservashotel.modelo.Modelo;
-import org.iesalandalus.programacion.reservashotel.vista.Vista;
+import org.iesalandalus.programacion.reservashotel.vista.texto.VistaTexto;
 
 
 public class MainApp {
@@ -13,7 +13,7 @@ public class MainApp {
         //Inicio del programa.
         try {
             Modelo modelo = new Modelo(procesarArgumentosFuenteDatos(args));
-            Vista vista = new Vista();
+            VistaTexto vista = new VistaTexto();
             Controlador controlador = new Controlador(modelo, vista);
             controlador.comenzar();
         }catch (NullPointerException | IllegalArgumentException e){

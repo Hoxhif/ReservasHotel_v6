@@ -1,6 +1,4 @@
-package org.iesalandalus.programacion.reservashotel.vista;
-
-import org.iesalandalus.programacion.reservashotel.MainApp;
+package org.iesalandalus.programacion.reservashotel.vista.texto;
 
 public enum Opcion {
 
@@ -84,11 +82,11 @@ public enum Opcion {
         }
     };
 
-    private static Vista vistaOpcion;
+    private static VistaTexto vistaOpcion;
     private String mensajeAMostrar;
 
 
-    public static void setVista(Vista vista){
+    public static void setVista(VistaTexto vista){
         if (vista==null)
             throw new NullPointerException("ERROR: La vista no puede ser nula.");
         vistaOpcion=vista;
