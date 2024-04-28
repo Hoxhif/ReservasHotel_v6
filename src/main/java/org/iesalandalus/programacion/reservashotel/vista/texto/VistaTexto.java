@@ -2,6 +2,7 @@ package org.iesalandalus.programacion.reservashotel.vista.texto;
 
 import org.iesalandalus.programacion.reservashotel.controlador.Controlador;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.*;
+import org.iesalandalus.programacion.reservashotel.vista.Vista;
 import org.iesalandalus.programacion.utilidades.Entrada;
 
 import javax.naming.OperationNotSupportedException;
@@ -9,9 +10,9 @@ import java.time.LocalDate;
 import java.util.*;
 
 
-public class VistaTexto {
+public class VistaTexto extends Vista {
 
-    private Controlador controlador;
+    //private Controlador controlador;
 
     public VistaTexto(){
         //Al principio use Opcion.setVista(new Vista()), pero parece que usando this también funciona.
@@ -21,9 +22,11 @@ public class VistaTexto {
     public void setControlador(Controlador controlador) {
         if (controlador == null)
             throw new NullPointerException("ERROR: El controlador no puede ser nulo.");
-        this.controlador = controlador;
+        //this.controlador = controlador;
+        super.setControlador(controlador);
     }
 
+    @Override
     public void comenzar() {
         Opcion opcion = Opcion.SALIR;
         do {
@@ -33,8 +36,9 @@ public class VistaTexto {
         } while (opcion != Opcion.SALIR);
     }
 
+    @Override
     public void terminar() {
-        controlador.terminar();
+        super.getControlador().terminar();
     }
 
     /*public void ejecutarOpcion(Opcion opcion) {
@@ -109,7 +113,7 @@ public class VistaTexto {
         try {
             Huesped nuevoHuesped = Consola.leerHuesped();
             if (nuevoHuesped != null){
-                controlador.insertar(nuevoHuesped);
+                getControlador().insertar(nuevoHuesped);
                 System.out.println("Huesped creado satisfactoriamente");
             }else System.out.println("Error al crear el huesped. No se han introducido datos válidos.");
         } catch (OperationNotSupportedException | NullPointerException | IllegalArgumentException e) {
@@ -121,13 +125,13 @@ public class VistaTexto {
     public void buscarHuesped(){
         try{
             Huesped huesped = Consola.getClientePorDni();
-            Iterator<Huesped> iteradorHuesped = controlador.getHuespedes().iterator();
-            if (controlador.getHuespedes().isEmpty()) System.out.println("No hay huespedes registrados.");
+            Iterator<Huesped> iteradorHuesped = super.getControlador().getHuespedes().iterator();
+            if (super.getControlador().getHuespedes().isEmpty()) System.out.println("No hay huespedes registrados.");
             while (iteradorHuesped.hasNext()){
                 Huesped huespedIterado= iteradorHuesped.next();
                 if (huesped!=null)
                     if (huespedIterado.getDni().equals(huesped.getDni())){
-                        System.out.println(controlador.buscar(huespedIterado));
+                        System.out.println(super.getControlador().buscar(huespedIterado));
                     }else System.out.println("No se a encontrado al Huesped.");
             }
         }catch(NullPointerException | IllegalArgumentException e){
@@ -139,14 +143,14 @@ public class VistaTexto {
     public void borrarHuesped(){
         try {
             Huesped huespedABorrar = Consola.getClientePorDni();
-            Iterator<Huesped> iteradorHuesped= controlador.getHuespedes().iterator();
+            Iterator<Huesped> iteradorHuesped= super.getControlador().getHuespedes().iterator();
             int contador=0;
             while (iteradorHuesped.hasNext()){
                 Huesped huespedIterado= iteradorHuesped.next();
                 if (huespedIterado.getDni().equals(huespedABorrar.getDni())) {
-                    if (controlador.getReserva(huespedABorrar).isEmpty()){
+                    if (super.getControlador().getReserva(huespedABorrar).isEmpty()){
                     contador++;
-                    controlador.borrar(huespedABorrar);
+                    super.getControlador().borrar(huespedABorrar);
                     System.out.println("Huesped borrado satisfactoriamente");}else System.out.println("No se puede borrar un huesped con reservas");
                 }else if (contador==0) System.out.println("No se puede borrar un huesped que no existe.");
                 }
@@ -156,11 +160,11 @@ public class VistaTexto {
     }
 
     public void mostrarHuespedes(){
-        if (controlador.getHuespedes().isEmpty()){
+        if (super.getControlador().getHuespedes().isEmpty()){
             System.out.println("No hay huespedes a mostrar. ");
         }else{
             System.out.println("Listado de huespedes: ");
-            ArrayList<Huesped> listado= controlador.getHuespedes();
+            ArrayList<Huesped> listado= super.getControlador().getHuespedes();
             Collections.sort(listado, Comparator.comparing(Huesped::getNombre));
             Iterator<Huesped> iteradorMostrarHuesped= listado.iterator();
             while (iteradorMostrarHuesped.hasNext()){
@@ -177,7 +181,7 @@ public class VistaTexto {
         try{
             Habitacion nuevaHabitacion = Consola.leerHabitacion();
             if (nuevaHabitacion != null) {
-                controlador.insertar(nuevaHabitacion);
+                super.getControlador().insertar(nuevaHabitacion);
                 System.out.println("Habitaci�n creada satisfactoriamente");
             }else System.out.println("Error al crear la habitación, los datos no son los esperados.");
         }catch (OperationNotSupportedException | NullPointerException | IllegalArgumentException e){
@@ -190,12 +194,12 @@ public class VistaTexto {
             Habitacion habitacion = Consola.leerHabitacionPorIdentificador();
             if (habitacion != null){
                 /*System.out.println(controlador.buscar(habitacion));*/
-                if (controlador.getHabitaciones().isEmpty()) System.out.println("No hay habitaciones que mostrar.");
-                Iterator<Habitacion> iteradorHabitacion = controlador.getHabitaciones().iterator();
+                if (super.getControlador().getHabitaciones().isEmpty()) System.out.println("No hay habitaciones que mostrar.");
+                Iterator<Habitacion> iteradorHabitacion = super.getControlador().getHabitaciones().iterator();
                 while (iteradorHabitacion.hasNext()){
                     Habitacion habitacionIterada = iteradorHabitacion.next();
                     if (habitacionIterada.getIdentificador().equals(habitacion.getIdentificador())){
-                        System.out.println(controlador.buscar(habitacionIterada));
+                        System.out.println(super.getControlador().buscar(habitacionIterada));
                     }
                 }
             }else System.out.println("No se ha encontrado la habitación.");
@@ -210,12 +214,12 @@ public class VistaTexto {
         try{
             Habitacion habitacionABorrar = Consola.leerHabitacionPorIdentificador();
             if (habitacionABorrar != null) {
-                Iterator<Habitacion> iteradorHabitacion = controlador.getHabitaciones().iterator();
+                Iterator<Habitacion> iteradorHabitacion = super.getControlador().getHabitaciones().iterator();
                 while (iteradorHabitacion.hasNext()){
                     Habitacion habitacion = iteradorHabitacion.next();
                     if (habitacion.getIdentificador().equals(habitacionABorrar.getIdentificador())){
-                        if (controlador.getReservas(habitacion).isEmpty()) {
-                            controlador.borrar(habitacion);
+                        if (super.getControlador().getReservas(habitacion).isEmpty()) {
+                            super.getControlador().borrar(habitacion);
                             System.out.println("Habitaci�n borrada satisfactoriamente");
                         }
                         else System.out.println("No se puede borrar una habitación con reservas.");
@@ -228,11 +232,11 @@ public class VistaTexto {
     }
 
     public void mostrarHabitaciones(){
-        if (controlador.getHabitaciones().isEmpty()){
+        if (super.getControlador().getHabitaciones().isEmpty()){
             System.out.println("No hay habitaciones a mostrar. ");
         }else{
             System.out.println("Listado de Habitaciones: ");
-            ArrayList<Habitacion> mostrarHabitaciones= controlador.getHabitaciones();
+            ArrayList<Habitacion> mostrarHabitaciones= super.getControlador().getHabitaciones();
             Collections.sort(mostrarHabitaciones, Comparator.comparing(Habitacion::getIdentificador));
             Iterator<Habitacion> iteradorMostrarHabitaciones= mostrarHabitaciones.iterator();
             while (iteradorMostrarHabitaciones.hasNext()){
@@ -249,13 +253,13 @@ public class VistaTexto {
             Reserva nuevaReserva = Consola.leerReserva();
             Huesped huesped = null;
             Habitacion habitacion = null;
-            for (Huesped huespedes : controlador.getHuespedes()) {
+            for (Huesped huespedes : super.getControlador().getHuespedes()) {
                 if (huespedes.getDni().equals(nuevaReserva.getHuesped().getDni())) {
                     huesped = huespedes;
                 }
             }
 
-            for (Habitacion habitaciones : controlador.getHabitaciones()) {
+            for (Habitacion habitaciones : super.getControlador().getHabitaciones()) {
                 if (habitaciones.getIdentificador().equals(nuevaReserva.getHabitacion().getIdentificador())) {
                     habitacion = habitaciones;
                 }
@@ -267,16 +271,16 @@ public class VistaTexto {
             if (habitacion instanceof Simple) {
                 Reserva reservaReal = new Reserva(huesped, habitacion, nuevaReserva.getRegimen(), nuevaReserva.getFechaInicioReserva(), nuevaReserva.getFechaFinReserva(), nuevaReserva.getNumeroPersonas());
                 if (nuevaReserva != null) {
-                    if (getNumElementosNoNulos(controlador.getReservas()) > 0) { //CAMBIAR LENGTH POR ELEMENTOSNONULOS.
+                    if (getNumElementosNoNulos(super.getControlador().getReservas()) > 0) { //CAMBIAR LENGTH POR ELEMENTOSNONULOS.
                         Habitacion habitacionDisponible = consultarDisponibilidad(TipoHabitacion.SIMPLE, nuevaReserva.getFechaInicioReserva(), nuevaReserva.getFechaFinReserva());
                         if (habitacionDisponible != null) {
-                            controlador.insertar(reservaReal);
+                            super.getControlador().insertar(reservaReal);
                             System.out.println("Reserva creada satisfactoriamente");
                         } else
                             System.out.println("No se puede realizar la reserva en esas fechas. No se encuentra disponible la habitaci�n");
                     } else {
                         if (nuevaReserva.getHabitacion() != null) {
-                            controlador.insertar(reservaReal);
+                            super.getControlador().insertar(reservaReal);
                             System.out.println("Reserva creada satisfactoriamente");
                         }
                     }
@@ -285,16 +289,16 @@ public class VistaTexto {
             if (habitacion instanceof Doble){
                 Reserva reservaReal = new Reserva(huesped, habitacion, nuevaReserva.getRegimen(), nuevaReserva.getFechaInicioReserva(), nuevaReserva.getFechaFinReserva(), nuevaReserva.getNumeroPersonas());
                 if (nuevaReserva != null) {
-                    if (getNumElementosNoNulos(controlador.getReservas()) > 0) { //CAMBIAR LENGTH POR ELEMENTOSNONULOS.
+                    if (getNumElementosNoNulos(super.getControlador().getReservas()) > 0) { //CAMBIAR LENGTH POR ELEMENTOSNONULOS.
                         Habitacion habitacionDisponible = consultarDisponibilidad(TipoHabitacion.DOBLE, nuevaReserva.getFechaInicioReserva(), nuevaReserva.getFechaFinReserva());
                         if (habitacionDisponible != null) {
-                            controlador.insertar(reservaReal);
+                            super.getControlador().insertar(reservaReal);
                             System.out.println("Reserva creada satisfactoriamente");
                         } else
                             System.out.println("No se puede realizar la reserva en esas fechas. No se encuentra disponible la habitaci�n");
                     } else {
                         if (nuevaReserva.getHabitacion() != null) {
-                            controlador.insertar(reservaReal);
+                            super.getControlador().insertar(reservaReal);
                             System.out.println("Reserva creada satisfactoriamente");
                         }
                     }
@@ -303,16 +307,16 @@ public class VistaTexto {
             if (habitacion instanceof Triple){
                 Reserva reservaReal = new Reserva(huesped, habitacion, nuevaReserva.getRegimen(), nuevaReserva.getFechaInicioReserva(), nuevaReserva.getFechaFinReserva(), nuevaReserva.getNumeroPersonas());
                 if (nuevaReserva != null) {
-                    if (getNumElementosNoNulos(controlador.getReservas()) > 0) { //CAMBIAR LENGTH POR ELEMENTOSNONULOS.
+                    if (getNumElementosNoNulos(super.getControlador().getReservas()) > 0) { //CAMBIAR LENGTH POR ELEMENTOSNONULOS.
                         Habitacion habitacionDisponible = consultarDisponibilidad(TipoHabitacion.TRIPLE, nuevaReserva.getFechaInicioReserva(), nuevaReserva.getFechaFinReserva());
                         if (habitacionDisponible != null) {
-                            controlador.insertar(reservaReal);
+                            super.getControlador().insertar(reservaReal);
                             System.out.println("Reserva creada satisfactoriamente");
                         } else
                             System.out.println("No se puede realizar la reserva en esas fechas. No se encuentra disponible la habitaci�n");
                     } else {
                         if (nuevaReserva.getHabitacion() != null) {
-                            controlador.insertar(reservaReal);
+                            super.getControlador().insertar(reservaReal);
                             System.out.println("Reserva creada satisfactoriamente");
                         }
                     }
@@ -321,16 +325,16 @@ public class VistaTexto {
             if (habitacion instanceof Suite){
                 Reserva reservaReal = new Reserva(huesped, habitacion, nuevaReserva.getRegimen(), nuevaReserva.getFechaInicioReserva(), nuevaReserva.getFechaFinReserva(), nuevaReserva.getNumeroPersonas());
                 if (nuevaReserva != null) {
-                    if (getNumElementosNoNulos(controlador.getReservas()) > 0) { //CAMBIAR LENGTH POR ELEMENTOSNONULOS.
+                    if (getNumElementosNoNulos(super.getControlador().getReservas()) > 0) { //CAMBIAR LENGTH POR ELEMENTOSNONULOS.
                         Habitacion habitacionDisponible = consultarDisponibilidad(TipoHabitacion.SUITE, nuevaReserva.getFechaInicioReserva(), nuevaReserva.getFechaFinReserva());
                         if (habitacionDisponible != null) {
-                            controlador.insertar(reservaReal);
+                            super.getControlador().insertar(reservaReal);
                             System.out.println("Reserva creada satisfactoriamente");
                         } else
                             System.out.println("No se puede realizar la reserva en esas fechas. No se encuentra disponible la habitaci�n");
                     } else {
                         if (nuevaReserva.getHabitacion() != null) {
-                            controlador.insertar(reservaReal);
+                            super.getControlador().insertar(reservaReal);
                             System.out.println("Reserva creada satisfactoriamente");
                         }
                     }
@@ -357,7 +361,7 @@ public class VistaTexto {
 
         Huesped huespedReal=null;
 
-        for (Huesped huespedes: controlador.getHuespedes()){
+        for (Huesped huespedes: super.getControlador().getHuespedes()){
             if (huespedes.getDni().equals(huesped.getDni())){
                 huespedReal=huespedes;
             }
@@ -368,7 +372,7 @@ public class VistaTexto {
             if (huesped != null) {
                 int contador = 1;
                 // La comparación para las reservas esta hecho en el método copiaProfunda de reservas.
-                Iterator<Reserva> iteradorListarReservasHuesped= controlador.getReserva(huespedReal).iterator();
+                Iterator<Reserva> iteradorListarReservasHuesped= super.getControlador().getReserva(huespedReal).iterator();
                 while (iteradorListarReservasHuesped.hasNext()){
                     System.out.println(contador+": "+iteradorListarReservasHuesped.next());
                     contador++;
@@ -395,19 +399,19 @@ public class VistaTexto {
 
        try {
             if (tipoHabitacion != null) {
-                Iterator<Reserva> iteradorReservaTipoHabitacion= controlador.getReserva(tipoHabitacion).iterator();
+                Iterator<Reserva> iteradorReservaTipoHabitacion= super.getControlador().getReserva(tipoHabitacion).iterator();
                 while (iteradorReservaTipoHabitacion.hasNext()){
                     Reserva reservaSiguiente = iteradorReservaTipoHabitacion.next();
                     if (tipoHabitacion == TipoHabitacion.SIMPLE){
-                    for (Reserva comprobarReserva: controlador.getReserva(TipoHabitacion.DOBLE)){
+                    for (Reserva comprobarReserva: super.getControlador().getReserva(TipoHabitacion.DOBLE)){
                         if (!comprobarReserva.getHabitacion().getIdentificador().equals(reservaSiguiente.getHabitacion().getIdentificador()))
                             System.out.println(reservaSiguiente);
                     }
-                        for (Reserva comprobarReserva: controlador.getReserva(TipoHabitacion.TRIPLE)){
+                        for (Reserva comprobarReserva: super.getControlador().getReserva(TipoHabitacion.TRIPLE)){
                             if (!comprobarReserva.getHabitacion().getIdentificador().equals(reservaSiguiente.getHabitacion().getIdentificador()))
                                 System.out.println(reservaSiguiente);
                         }
-                        for (Reserva comprobarReserva: controlador.getReserva(TipoHabitacion.SUITE)){
+                        for (Reserva comprobarReserva: super.getControlador().getReserva(TipoHabitacion.SUITE)){
                             if (!comprobarReserva.getHabitacion().getIdentificador().equals(reservaSiguiente.getHabitacion().getIdentificador()))
                                 System.out.println(reservaSiguiente);
                         }
@@ -486,11 +490,11 @@ public class VistaTexto {
         Huesped huesped = Consola.getClientePorDni();
         // Aqui lo que hago es copiar el codigo de leerReserva de un Huesped para poder saber cuales son de nuevo las reservas de ese huesped, ya que el m�todo no devuelve nada.
 
-        if (getReservasAnulables(controlador.getReserva(huesped)).isEmpty())
+        if (getReservasAnulables(super.getControlador().getReserva(huesped)).isEmpty())
                 System.out.println("No hay reservas a anular, el Huesped no tiene hecha ninguna reserva.");
             else {
-                if (getNumElementosNoNulos(controlador.getReserva(huesped))==0) {
-                        Reserva reservaHuespedABorrar = controlador.getReserva(huesped).get(0);
+                if (getNumElementosNoNulos(super.getControlador().getReserva(huesped))==0) {
+                        Reserva reservaHuespedABorrar = super.getControlador().getReserva(huesped).get(0);
                     do{
                         System.out.println("Desea anular la reserva que tiene?");
                         System.out.println("1.- S�");
@@ -503,7 +507,7 @@ public class VistaTexto {
                     switch (opcion){
                         case 1:
                             try {
-                                controlador.borrar(reservaHuespedABorrar);
+                                super.getControlador().borrar(reservaHuespedABorrar);
                                 System.out.println("La reserva se ha borrado satisfactoriamente.");
                                 break;
                             }catch (OperationNotSupportedException e){
@@ -519,7 +523,7 @@ public class VistaTexto {
                     // ME FALTA POR A�ADIR LA CONFIRMACI�N FINAL DE BORRAR LA RESERVA QUE SE SELECCIONA.
                     do {
                         System.out.println("Listado de reservas del Huesped:");
-                        Iterator<Reserva> iteradorAnularReserva= controlador.getReserva(huesped).iterator();
+                        Iterator<Reserva> iteradorAnularReserva= super.getControlador().getReserva(huesped).iterator();
                         while (iteradorAnularReserva.hasNext()){
                             System.out.println(contador+ ".- "+iteradorAnularReserva.next().toString());
                             contador++;
@@ -530,11 +534,11 @@ public class VistaTexto {
                         }*/
                         System.out.println("Indique qu� reserva desea anular: ");
                         opcion = Entrada.entero();
-                        if (opcion<1 || opcion>getReservasAnulables(controlador.getReserva(huesped)).size())
+                        if (opcion<1 || opcion>getReservasAnulables(super.getControlador().getReserva(huesped)).size())
                             System.out.println("Opci�n inv�lida, por favor, ingrese una opci�n correcta,");
-                    }while (opcion<1 || opcion>getReservasAnulables(controlador.getReserva(huesped)).size());
+                    }while (opcion<1 || opcion>getReservasAnulables(super.getControlador().getReserva(huesped)).size());
                     try{
-                        controlador.borrar(controlador.getReserva(huesped).get(opcion-1));
+                        super.getControlador().borrar(super.getControlador().getReserva(huesped).get(opcion-1));
                         System.out.println("La reserva se ha borrado satisfactoriamente.");
                     }catch(OperationNotSupportedException e){
                         System.out.println("-"+e.getMessage());
@@ -546,7 +550,7 @@ public class VistaTexto {
 
     public void mostrarReservas() {
         int opcion;
-        if (controlador.getReservas().isEmpty()) {
+        if (super.getControlador().getReservas().isEmpty()) {
             System.out.println("No hay reservas a mostrar. ");
         } else {
             do {
@@ -560,7 +564,7 @@ public class VistaTexto {
             switch (opcion) {
                 case 1:
                     System.out.println("Listado de Reservas: ");
-                    Iterator<Reserva> iteradorMostrarReservas= controlador.getReservas().iterator();
+                    Iterator<Reserva> iteradorMostrarReservas= super.getControlador().getReservas().iterator();
                     while (iteradorMostrarReservas.hasNext()){
                         System.out.println(iteradorMostrarReservas.next().toString());
                     }
@@ -590,7 +594,7 @@ public class VistaTexto {
         Habitacion habitacionDisponible=null;
         int numElementos=0;
 
-        ArrayList<Habitacion> habitacionesTipoSolicitado= controlador.getHabitaciones(tipoHabitacion);
+        ArrayList<Habitacion> habitacionesTipoSolicitado= super.getControlador().getHabitaciones(tipoHabitacion);
 
         if (habitacionesTipoSolicitado.isEmpty())
             return habitacionDisponible;
@@ -600,7 +604,7 @@ public class VistaTexto {
 
             if (habitacionesTipoSolicitado.get(i)!=null)
             {
-                ArrayList<Reserva> reservasFuturas = controlador.getReservas(habitacionesTipoSolicitado.get(i));
+                ArrayList<Reserva> reservasFuturas = super.getControlador().getReservas(habitacionesTipoSolicitado.get(i));
                 numElementos=getNumElementosNoNulos(reservasFuturas);
 
                 if (numElementos == 0)
@@ -796,7 +800,7 @@ boolean tipoHabitacionEncontrada=false;
         try {
         Huesped huesped=Consola.getClientePorDni();
         listarReservas(huesped);
-        ArrayList<Reserva> reservasHuesped= controlador.getReserva(huesped);
+        ArrayList<Reserva> reservasHuesped= super.getControlador().getReserva(huesped);
         if (reservasHuesped.isEmpty()){
             System.out.println("El huesped no tiene ninguna reserva.");
         }else{
@@ -810,8 +814,8 @@ boolean tipoHabitacionEncontrada=false;
             }while (opcion<0 || opcion>reservasHuesped.size());
 
 
-                if (controlador.getReserva((huesped)).get(opcion-1).getCheckIn()==null){
-                    controlador.realizarCheckin(controlador.getReserva(huesped).get(opcion-1), Consola.leerFechaHora("Inserte la fecha y hora de Checkin: "));
+                if (super.getControlador().getReserva((huesped)).get(opcion-1).getCheckIn()==null){
+                    super.getControlador().realizarCheckin(super.getControlador().getReserva(huesped).get(opcion-1), Consola.leerFechaHora("Inserte la fecha y hora de Checkin: "));
                     System.out.println("Se ha realizado el CheckIn correctamente.");
                 }else System.out.println("Ya se ha realizado el checkIn para esta reserva.");
             }}catch (NullPointerException | IllegalArgumentException e){
@@ -827,7 +831,7 @@ boolean tipoHabitacionEncontrada=false;
         Huesped huesped=Consola.getClientePorDni();
         listarReservas(huesped);
 
-        ArrayList<Reserva> reservasHuesped= controlador.getReserva(huesped);
+        ArrayList<Reserva> reservasHuesped= super.getControlador().getReserva(huesped);
 
         if (reservasHuesped.isEmpty()){
             System.out.println("El huesped no tiene reserva");
@@ -840,7 +844,7 @@ boolean tipoHabitacionEncontrada=false;
                     System.out.println("La opci�n no es v�lida.");
 
             }while (opcion<0 || opcion>reservasHuesped.size());
-            Reserva reservaARealizarCheckout= new Reserva(controlador.getReserva(huesped).get(0)); //Aqu� ten�a que inicializar la reserva porque sino me daba errores. Es posible que tenga que cambiarlo.
+            Reserva reservaARealizarCheckout= new Reserva(super.getControlador().getReserva(huesped).get(0)); //Aqu� ten�a que inicializar la reserva porque sino me daba errores. Es posible que tenga que cambiarlo.
             for (int i=0; i<reservasHuesped.size();i++){
                 if (opcion-1 == i){
                     reservaARealizarCheckout= reservasHuesped.get(i);
@@ -849,7 +853,7 @@ boolean tipoHabitacionEncontrada=false;
 
                 if (reservaARealizarCheckout.getCheckIn() != null) {
                     if (reservaARealizarCheckout.getCheckOut() == null) {
-                        controlador.realizarCheckout(reservaARealizarCheckout, Consola.leerFechaHora("Inserte la fecha y hora de Checkout: "));
+                        super.getControlador().realizarCheckout(reservaARealizarCheckout, Consola.leerFechaHora("Inserte la fecha y hora de Checkout: "));
                         System.out.println("Se ha realizado el CheckOut correctamente.");
                     } else System.out.println("Ya se ha realizado el CheckOut para esta reserva.");
                 }else System.out.println("Antes de realizar el CheckOut se debe realizar el CheckIn.");

@@ -2,7 +2,6 @@ package org.iesalandalus.programacion.reservashotel.vista;
 
 import org.iesalandalus.programacion.reservashotel.controlador.Controlador;
 
-import java.awt.image.ConvolveOp;
 
 public abstract class Vista {
     private Controlador controlador;
