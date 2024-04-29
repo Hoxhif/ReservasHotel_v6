@@ -9,26 +9,27 @@ import javafx.stage.WindowEvent;
 import org.iesalandalus.programacion.reservashotel.vista.grafica.recursos.LocalizadorRecursos;
 import org.iesalandalus.programacion.reservashotel.vista.grafica.utilidades.Dialogos;
 
+
 public class LanzadorVentanaPrincipal extends Application {
 
 
     public static void comenzar() {
-        try {
-            launch();
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-        }
+        launch();
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(LocalizadorRecursos.class.getResource("vistas/ventanaPrincipal.fxml"));
-        Parent raiz= fxmlLoader.load();
-        Scene scene = new Scene(raiz, 1400, 800); //Me ha gustado esta resoluci�n para mi proyecto en la ventana principal.
-        primaryStage.setTitle("DAW - Gesti�n Hotel");
-        primaryStage.setScene(scene);
-        primaryStage.setOnCloseRequest(e->confirmarSalida(primaryStage, e));
-        primaryStage.show();
+    public void start(Stage primaryStage) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(LocalizadorRecursos.class.getResource("vistas/ventanaPrincipal.fxml"));
+            Parent raiz = fxmlLoader.load();
+            Scene scene = new Scene(raiz, 1400, 800); //Me ha gustado esta resoluci�n para mi proyecto en la ventana principal.
+            primaryStage.setTitle("DAW - Gesti�n Hotel");
+            primaryStage.setScene(scene);
+            primaryStage.setOnCloseRequest(e -> confirmarSalida(primaryStage, e));
+            primaryStage.show();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     private void confirmarSalida(Stage escenarioPrincipal, WindowEvent e){

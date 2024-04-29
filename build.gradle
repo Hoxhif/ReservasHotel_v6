@@ -18,6 +18,7 @@ repositories {
 sourceCompatibility = '17'
 targetCompatibility = '17'
 
+
 javafx {
     version = '17.0.6'
     modules = ['javafx.controls', 'javafx.fxml', 'javafx.web', 'javafx.swing']

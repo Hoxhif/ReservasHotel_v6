@@ -16,13 +16,13 @@ public class MainApp {
 
     public static void main(String[] args) {
         //Inicio del programa.
-        try {
-            Modelo modelo = new Modelo(procesarArgumentosFuenteDatos(args));
-            Controlador controlador = new Controlador(modelo, procesarArgumentosVista(args).crear());
-            controlador.comenzar();
-        }catch (NullPointerException | IllegalArgumentException e){
-            System.out.println("-"+e.getMessage());
-        }
+            try {
+                Modelo modelo = new Modelo(procesarArgumentosFuenteDatos(args));
+                Controlador controlador = new Controlador(modelo, procesarArgumentosVista(args).crear());
+                controlador.comenzar();
+            } catch (NullPointerException | IllegalArgumentException e) {
+                System.out.println("-" + e.getMessage());
+            }
     }
 
     private static FactorialFuenteDatos procesarArgumentosFuenteDatos(String[] argumentos){
