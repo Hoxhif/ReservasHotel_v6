@@ -2,15 +2,17 @@ package org.iesalandalus.programacion.reservashotel.vista.grafica;
 
 import org.iesalandalus.programacion.reservashotel.vista.Vista;
 
+import java.io.IOException;
+
 public class VistaGrafica extends Vista {
 
-    VistaGrafica instancia;
+    private static VistaGrafica instancia;
 
     public VistaGrafica(){
 
     }
 
-    public VistaGrafica getInstancia(){
+    public static VistaGrafica getInstancia(){
         if (instancia == null)
             instancia = new VistaGrafica();
         return instancia;
@@ -19,7 +21,7 @@ public class VistaGrafica extends Vista {
 
     @Override
     public void comenzar() {
-        LanzadorVentanaPrincipal.comenzar();
+            LanzadorVentanaPrincipal.comenzar();
     }
 
     @Override

@@ -12,7 +12,7 @@ public enum FactorialVista {
     },
     GRAFICA{
         public Vista crear(){
-            return new VistaGrafica();
+            return VistaGrafica.getInstancia();
         }
     };
 

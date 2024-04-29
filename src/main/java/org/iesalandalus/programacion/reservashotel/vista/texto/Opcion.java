@@ -1,5 +1,7 @@
 package org.iesalandalus.programacion.reservashotel.vista.texto;
 
+import org.iesalandalus.programacion.reservashotel.vista.Vista;
+
 public enum Opcion {
 
 

@@ -13,22 +13,26 @@ public class LanzadorVentanaPrincipal extends Application {
 
 
     public static void comenzar() {
-        launch();
+        try {
+            launch();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader(LocalizadorRecursos.class.getResource("vistas/ventanaPrincipal.fxml"));
         Parent raiz= fxmlLoader.load();
-        Scene scene = new Scene(raiz, 1400, 800); //Me ha gustado esta resolución para mi proyecto en la ventana principal.
-        primaryStage.setTitle("DAW - Gestión Hotel");
+        Scene scene = new Scene(raiz, 1400, 800); //Me ha gustado esta resoluciï¿½n para mi proyecto en la ventana principal.
+        primaryStage.setTitle("DAW - Gestiï¿½n Hotel");
         primaryStage.setScene(scene);
         primaryStage.setOnCloseRequest(e->confirmarSalida(primaryStage, e));
         primaryStage.show();
     }
 
     private void confirmarSalida(Stage escenarioPrincipal, WindowEvent e){
-        if (Dialogos.mostrarDialogoConfirmacion("DAW - Gestión Hotel", "¿Estás seguro de que desea cerrar la aplicación?")){
+        if (Dialogos.mostrarDialogoConfirmacion("DAW - Gestiï¿½n Hotel", "ï¿½Estï¿½s seguro de que desea cerrar la aplicaciï¿½n?")){
             escenarioPrincipal.close();
         }else{
             e.consume();

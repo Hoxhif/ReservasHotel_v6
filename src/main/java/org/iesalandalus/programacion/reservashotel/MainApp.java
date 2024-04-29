@@ -9,6 +9,8 @@ import org.iesalandalus.programacion.reservashotel.vista.Vista;
 import org.iesalandalus.programacion.reservashotel.vista.grafica.VistaGrafica;
 import org.iesalandalus.programacion.reservashotel.vista.texto.VistaTexto;
 
+import java.io.IOException;
+
 
 public class MainApp {
 
@@ -16,13 +18,7 @@ public class MainApp {
         //Inicio del programa.
         try {
             Modelo modelo = new Modelo(procesarArgumentosFuenteDatos(args));
-            Vista vista=null;
-            FactorialVista fvista = procesarArgumentosVista(args);
-            if (fvista.equals(FactorialVista.TEXTO))
-                vista = new VistaTexto();
-            else if (fvista.equals(FactorialVista.GRAFICA))
-                vista = new VistaGrafica();
-            Controlador controlador = new Controlador(modelo, vista);
+            Controlador controlador = new Controlador(modelo, procesarArgumentosVista(args).crear());
             controlador.comenzar();
         }catch (NullPointerException | IllegalArgumentException e){
             System.out.println("-"+e.getMessage());
