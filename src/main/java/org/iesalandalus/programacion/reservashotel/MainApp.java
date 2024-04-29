@@ -34,9 +34,8 @@ public class MainApp {
 
     private static FactorialVista procesarArgumentosVista(String[] argumentos){
         for (String cadena: argumentos){
-            if (cadena.equals("-vTexto")) return FactorialVista.TEXTO;
-            if (cadena.equals("-vGrafica")) return FactorialVista.GRAFICA;
+            if (cadena.equals("-vtexto")) return FactorialVista.TEXTO;
+            if (cadena.equals("-vgrafica")) return FactorialVista.GRAFICA;
         }return FactorialVista.TEXTO;
     }
-
 }

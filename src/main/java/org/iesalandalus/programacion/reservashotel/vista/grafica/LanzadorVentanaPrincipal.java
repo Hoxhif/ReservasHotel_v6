@@ -1,6 +1,7 @@
 package org.iesalandalus.programacion.reservashotel.vista.grafica;
 
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -21,6 +22,7 @@ public class LanzadorVentanaPrincipal extends Application {
     public void start(Stage primaryStage) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(LocalizadorRecursos.class.getResource("vistas/ventanaPrincipal.fxml"));
+            //FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("vistas/ventanaPrincipal.fxml"));
             Parent raiz = fxmlLoader.load();
             Scene scene = new Scene(raiz, 1400, 800); //Me ha gustado esta resoluci�n para mi proyecto en la ventana principal.
             primaryStage.setTitle("DAW - Gesti�n Hotel");
@@ -38,8 +40,6 @@ public class LanzadorVentanaPrincipal extends Application {
         }else{
             e.consume();
         }
-
-
     }
 
 
