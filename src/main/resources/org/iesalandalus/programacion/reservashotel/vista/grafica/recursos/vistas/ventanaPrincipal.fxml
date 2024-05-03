@@ -4,7 +4,6 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -76,23 +75,12 @@
       </ImageView>
       <VBox fx:id="mainvbox" layoutX="250.0" layoutY="-7.0" prefHeight="783.0" prefWidth="1150.0">
          <children>
-            <TableView fx:id="tbHuesped1" opacity="0.48" prefHeight="411.0" prefWidth="1150.0">
-              <columns>
-                <TableColumn fx:id="cltbHuesped1nombre" prefWidth="263.0" text="Nombre" />
-                <TableColumn fx:id="cltbHuesped1dni" minWidth="0.0" prefWidth="194.0" text="DNI" />
-                  <TableColumn fx:id="cltbHuesped1telefono" minWidth="0.0" prefWidth="151.0" text="Teléfono" />
-                  <TableColumn fx:id="cltbHuesped1email" minWidth="0.0" prefWidth="366.0" text="Email" />
-                  <TableColumn fx:id="cltbHuesped1fechaNacimiento" minWidth="0.0" prefWidth="175.0" text="Fecha Nacimiento" />
-              </columns>
+            <TableView fx:id="tbHuesped1" onMouseClicked="#seleccionHuesped" opacity="0.48" prefHeight="411.0" prefWidth="1150.0">
                <VBox.margin>
                   <Insets top="40.0" />
                </VBox.margin>
             </TableView>
             <TableView fx:id="tbHuesped2" opacity="0.48" prefHeight="361.0" prefWidth="1150.0">
-              <columns>
-                <TableColumn prefWidth="75.0" text="C1" />
-                <TableColumn prefWidth="75.0" text="C2" />
-              </columns>
                <VBox.margin>
                   <Insets />
                </VBox.margin>

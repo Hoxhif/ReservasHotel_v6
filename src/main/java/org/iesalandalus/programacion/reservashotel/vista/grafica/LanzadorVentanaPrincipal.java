@@ -25,6 +25,7 @@ public class LanzadorVentanaPrincipal extends Application {
             //FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("vistas/ventanaPrincipal.fxml"));
             Parent raiz = fxmlLoader.load();
             Scene scene = new Scene(raiz, 1400, 800); //Me ha gustado esta resoluci�n para mi proyecto en la ventana principal.
+            primaryStage.resizableProperty().set(false);
             primaryStage.setTitle("DAW - Gesti�n Hotel");
             primaryStage.setScene(scene);
             primaryStage.setOnCloseRequest(e -> confirmarSalida(primaryStage, e));
