@@ -19,12 +19,13 @@ public class VistaTexto extends Vista {
         Opcion.setVista(this);
     }
 
+    /*
     public void setControlador(Controlador controlador) {
         if (controlador == null)
             throw new NullPointerException("ERROR: El controlador no puede ser nulo.");
         //this.controlador = controlador;
-        super.setControlador(controlador);
-    }
+        //super.setControlador(controlador);
+    }*/
 
     @Override
     public void comenzar() {

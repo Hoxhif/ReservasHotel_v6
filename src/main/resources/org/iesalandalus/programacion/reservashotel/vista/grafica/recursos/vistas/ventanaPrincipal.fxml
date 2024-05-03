@@ -1,13 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.*?>
-<?import javafx.geometry.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="695.0" prefWidth="911.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.iesalandalus.programacion.reservashotel.vista.grafica.controladores.ControladorVentanaPrincipal">
-
-</VBox>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1400.0" style="-fx-background-color: #281738;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.iesalandalus.programacion.reservashotel.vista.grafica.controladores.ControladorVentanaPrincipal">
+   <children>
+      <AnchorPane prefHeight="800.0" prefWidth="250.0" style="-fx-background-color: #4b2d66;">
+         <children>
+            <VBox layoutY="119.0" prefHeight="681.0" prefWidth="250.0">
+               <children>
+                  <Button fx:id="btHuesped" contentDisplay="BOTTOM" mnemonicParsing="false" onAction="#mostrarHuespedes" prefHeight="150.0" prefWidth="254.0" style="-fx-background-color: #4b2d66;" text="Huespedes" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
+                     <graphic>
+                        <ImageView fitHeight="142.0" fitWidth="170.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../imagenes/huespedes2.png" />
+                           </image>
+                           <cursor>
+                              <Cursor fx:constant="DEFAULT" />
+                           </cursor>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font name="System Bold Italic" size="13.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor>
+                  </Button>
+                  <Button contentDisplay="BOTTOM" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="150.0" prefWidth="254.0" style="-fx-background-color: #4b2d66;" text="Habitaciones" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
+                     <graphic>
+                        <ImageView fitHeight="142.0" fitWidth="170.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../imagenes/habitacion1.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font name="System Bold Italic" size="13.0" />
+                     </font>
+                  </Button>
+                  <Button contentDisplay="BOTTOM" layoutX="10.0" layoutY="183.0" mnemonicParsing="false" prefHeight="150.0" prefWidth="254.0" style="-fx-background-color: #4b2d66;" text="Reservas" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
+                     <graphic>
+                        <ImageView fitHeight="142.0" fitWidth="170.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../imagenes/reservas2.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font name="System Bold Italic" size="13.0" />
+                     </font>
+                  </Button>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="250.0" layoutY="775.0" prefHeight="25.0" prefWidth="1150.0" style="-fx-background-color: #120a1a;">
+         <children>
+            <Label layoutX="393.0" layoutY="4.0" prefHeight="17.0" prefWidth="392.0" text="Programa realizado por José Antonio Guirado González | IES Al-Ándalus" textFill="WHITE" />
+         </children>
+      </AnchorPane>
+      <ImageView fitHeight="291.0" fitWidth="334.0" layoutX="658.0" layoutY="255.0" opacity="0.22">
+         <image>
+            <Image url="@../imagenes/iesalandalus.png" />
+         </image>
+      </ImageView>
+      <VBox fx:id="mainvbox" layoutX="250.0" layoutY="-7.0" prefHeight="783.0" prefWidth="1150.0">
+         <children>
+            <TableView fx:id="tbHuesped1" opacity="0.48" prefHeight="411.0" prefWidth="1150.0">
+              <columns>
+                <TableColumn fx:id="cltbHuesped1nombre" prefWidth="263.0" text="Nombre" />
+                <TableColumn fx:id="cltbHuesped1dni" minWidth="0.0" prefWidth="194.0" text="DNI" />
+                  <TableColumn fx:id="cltbHuesped1telefono" minWidth="0.0" prefWidth="151.0" text="Teléfono" />
+                  <TableColumn fx:id="cltbHuesped1email" minWidth="0.0" prefWidth="366.0" text="Email" />
+                  <TableColumn fx:id="cltbHuesped1fechaNacimiento" minWidth="0.0" prefWidth="175.0" text="Fecha Nacimiento" />
+              </columns>
+               <VBox.margin>
+                  <Insets top="40.0" />
+               </VBox.margin>
+            </TableView>
+            <TableView fx:id="tbHuesped2" opacity="0.48" prefHeight="361.0" prefWidth="1150.0">
+              <columns>
+                <TableColumn prefWidth="75.0" text="C1" />
+                <TableColumn prefWidth="75.0" text="C2" />
+              </columns>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </TableView>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

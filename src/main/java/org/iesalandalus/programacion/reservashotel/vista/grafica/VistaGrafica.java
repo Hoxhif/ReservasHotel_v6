@@ -8,7 +8,7 @@ public class VistaGrafica extends Vista {
 
     private static VistaGrafica instancia;
 
-    public VistaGrafica(){
+    private VistaGrafica(){
 
     }
 
