@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.Huesped;
 import org.iesalandalus.programacion.reservashotel.vista.Vista;
 import org.iesalandalus.programacion.reservashotel.vista.grafica.VistaGrafica;
+import org.iesalandalus.programacion.reservashotel.vista.grafica.utilidades.Dialogos;
 
 import javax.naming.OperationNotSupportedException;
 import java.time.LocalDate;
@@ -34,13 +35,13 @@ public class ControladorVentanaAnadirHuesped {
 
     @FXML
     void insertarHuesped(ActionEvent event) {
-        Huesped huesped = new Huesped(tfNombre.getText(), tfDNI.getText(), tfCorreo.getText(), tfTelefono.getText(), LocalDate.parse(tfFechaNac.getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         try {
+            Huesped huesped = new Huesped(tfNombre.getText(), tfDNI.getText(), tfCorreo.getText(), tfTelefono.getText(), LocalDate.parse(tfFechaNac.getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
             VistaGrafica.getInstancia().getControlador().insertar(huesped);
             Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow(); //Sacado de ChatGPT... un poco raro pero tiene su sentido...
             stage.close();
-        }catch (OperationNotSupportedException e){
-            e.getMessage();
+        }catch (IllegalArgumentException | OperationNotSupportedException e){
+            Dialogos.mostrarDialogoError("Error al crear Huesped", e.getMessage());
         }
         }
 

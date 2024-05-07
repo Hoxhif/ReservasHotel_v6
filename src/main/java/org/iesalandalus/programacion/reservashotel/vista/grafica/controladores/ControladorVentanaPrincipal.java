@@ -46,6 +46,12 @@ public class ControladorVentanaPrincipal {
     private VBox tablaListados;
     @FXML
     private ImageView imagenIES;
+    @FXML
+    private MenuItem btInformacion;
+    @FXML
+    private MenuItem btConfiguracion;
+    @FXML
+    private MenuItem btproyecto;
 
     private TableView<Huesped> tableviewHuesped = null;
     private TableView<Habitacion> tableviewHabitacion = null;
@@ -66,6 +72,19 @@ public class ControladorVentanaPrincipal {
     private static final ObservableList<Reserva> RESERVAS = FXCollections.observableArrayList(VistaGrafica.getInstancia().getControlador().getReservas());
     private static final ObservableList<Habitacion> HABITACIONES = FXCollections.observableArrayList(VistaGrafica.getInstancia().getControlador().getHabitaciones());
 
+
+    @FXML
+    void informacion(){
+        System.out.println("Información");
+    }
+    @FXML
+    void configuracion(){
+        System.out.println("Configuración");
+    }
+    @FXML
+    void proyecto(){
+        System.out.println("Proyecto");
+    }
 
     @FXML
     void inicializarUIHuespedes(ActionEvent event) {
@@ -397,7 +416,7 @@ public class ControladorVentanaPrincipal {
             cltbCheckOut.setCellValueFactory(checkout -> {
                 if (checkout.getValue().getCheckIn()==null){
                     return new SimpleStringProperty("No registrado");
-                }else return new SimpleStringProperty(checkout.getValue().getCheckIn().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")));
+                }else return new SimpleStringProperty(checkout.getValue().getCheckOut().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")));
             });
             cltbCheckOut.setMinWidth(100);
             cltbNumPersonas.setCellValueFactory(new PropertyValueFactory<>("numeroPersonas"));
@@ -432,16 +451,41 @@ public class ControladorVentanaPrincipal {
             escenarioAnadirHuesped.showAndWait();
             HUESPEDES.setAll(VistaGrafica.getInstancia().getControlador().getHuespedes());
         }catch(IOException e){
-            throw new RuntimeException(e);
+            e.getMessage();
         }
     }
 
     private void removeHuesped(){
-        System.out.println("Hola, esto funciona");
+        FXMLLoader fxmlLoader = new FXMLLoader(LocalizadorRecursos.class.getResource("vistas/ventanaBorrarHuesped.fxml"));
+        try{
+            Parent raiz= fxmlLoader.load();
+            Scene scene= new Scene(raiz, 400, 100);
+            Stage escenarioBorrarHuesped = new Stage();
+            escenarioBorrarHuesped.setScene(scene);
+            escenarioBorrarHuesped.setTitle("Borrar Huesped");
+            escenarioBorrarHuesped.resizableProperty().set(false);
+            escenarioBorrarHuesped.initModality(Modality.APPLICATION_MODAL);
+            escenarioBorrarHuesped.showAndWait();
+            HUESPEDES.setAll(VistaGrafica.getInstancia().getControlador().getHuespedes());
+        }catch (IOException e){
+            e.getMessage();
+        }
     }
 
     private void bookingsHuesped(){
-        System.out.println("Hola, esto funciona");
+        FXMLLoader fxmlLoader = new FXMLLoader(LocalizadorRecursos.class.getResource("vistas/ventanaReservasHuesped.fxml"));
+        try{
+            Parent raiz= fxmlLoader.load();
+            Scene scene= new Scene(raiz, 800, 400);
+            Stage escenarioReservasHuesped = new Stage();
+            escenarioReservasHuesped.setScene(scene);
+            escenarioReservasHuesped.setTitle("Reservas Huesped");
+            escenarioReservasHuesped.resizableProperty().set(false);
+            escenarioReservasHuesped.initModality(Modality.APPLICATION_MODAL);
+            escenarioReservasHuesped.showAndWait();
+        }catch (IOException e){
+            e.getMessage();
+        }
     }
 
 }
