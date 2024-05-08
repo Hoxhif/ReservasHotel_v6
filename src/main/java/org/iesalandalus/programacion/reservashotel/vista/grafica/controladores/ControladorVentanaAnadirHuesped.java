@@ -38,6 +38,7 @@ public class ControladorVentanaAnadirHuesped {
         try {
             Huesped huesped = new Huesped(tfNombre.getText(), tfDNI.getText(), tfCorreo.getText(), tfTelefono.getText(), LocalDate.parse(tfFechaNac.getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
             VistaGrafica.getInstancia().getControlador().insertar(huesped);
+            Dialogos.mostrarDialogoInformacion("Creación Huesped", "Se ha insertado correctamente el huesped.");
             Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow(); //Sacado de ChatGPT... un poco raro pero tiene su sentido...
             stage.close();
         }catch (IllegalArgumentException | OperationNotSupportedException e){

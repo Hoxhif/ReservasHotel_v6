@@ -185,9 +185,9 @@ public class ControladorVentanaPrincipal {
             imagenReserva.setFitWidth(50);
             reservasHabitacion.setGraphic(imagenReserva);
         }
-        anadirHabitacion.setOnAction(evento -> addHuesped());
-        borrarHabitacion.setOnAction(evento -> removeHuesped());
-        reservasHabitacion.setOnAction(evento -> bookingsHuesped());
+        anadirHabitacion.setOnAction(evento -> addHabitacion());
+        borrarHabitacion.setOnAction(evento -> removeHabitacion());
+        reservasHabitacion.setOnAction(evento -> bookingsHabitacion());
     }
 
     @FXML
@@ -237,9 +237,9 @@ public class ControladorVentanaPrincipal {
             imagenReserva.setFitWidth(50);
             consultarDisponibilidad.setGraphic(imagenReserva);
         }
-        anadirReserva.setOnAction(evento -> addHuesped());
-        anularReserva.setOnAction(evento -> removeHuesped());
-        consultarDisponibilidad.setOnAction(evento -> bookingsHuesped());
+        anadirReserva.setOnAction(evento -> addReserva());
+        anularReserva.setOnAction(evento -> cancelReserva());
+        consultarDisponibilidad.setOnAction(evento -> isHabitacionDisponible());
     }
 
     void mostrarHuespedes() {
@@ -346,7 +346,10 @@ public class ControladorVentanaPrincipal {
                 if (habitacion instanceof Simple) return new SimpleStringProperty("No tiene");
                 if (habitacion instanceof Doble) return new SimpleStringProperty("No tiene");
                 if (habitacion instanceof Triple) return new SimpleStringProperty("No tiene");
-                if (habitacion instanceof Suite) return new SimpleStringProperty(Boolean.toString((((Suite) habitacion).isTieneJacuzzi())));
+                String jacuzzi;
+                if (((Suite) habitacion).isTieneJacuzzi()) jacuzzi="Con Jacuzzi";
+                else jacuzzi="Sin Jacuzzi";
+                if (habitacion instanceof Suite) return new SimpleStringProperty(jacuzzi);
                 else return new SimpleStringProperty("No especificado");
             });
             cltbHabitacionJacuzzi.setMinWidth(150);
@@ -486,6 +489,69 @@ public class ControladorVentanaPrincipal {
         }catch (IOException e){
             e.getMessage();
         }
+    }
+
+    private void addHabitacion(){
+        FXMLLoader fxmlLoader= new FXMLLoader(LocalizadorRecursos.class.getResource("vistas/ventanaAnadirHabitacion.fxml"));
+        try{
+            Parent raiz= fxmlLoader.load();
+            Scene scene= new Scene(raiz, 537,660);
+            Stage escenarioAnadirHabitacion = new Stage();
+            escenarioAnadirHabitacion.setScene(scene);
+            escenarioAnadirHabitacion.setTitle("Añadir Habitación");
+            escenarioAnadirHabitacion.resizableProperty().set(false);
+            escenarioAnadirHabitacion.initModality(Modality.APPLICATION_MODAL);
+            escenarioAnadirHabitacion.showAndWait();
+            HABITACIONES.setAll(VistaGrafica.getInstancia().getControlador().getHabitaciones());
+        }catch(IOException e){
+            e.getMessage();
+        }
+    }
+
+    private void removeHabitacion(){
+        FXMLLoader fxmlLoader = new FXMLLoader(LocalizadorRecursos.class.getResource("vistas/ventanaBorrarHabitacion.fxml"));
+        try{
+            Parent raiz= fxmlLoader.load();
+            Scene scene= new Scene(raiz, 400, 100);
+            Stage escenarioBorrarHabitacion = new Stage();
+            escenarioBorrarHabitacion.setScene(scene);
+            escenarioBorrarHabitacion.setTitle("Borrar Habitación");
+            escenarioBorrarHabitacion.resizableProperty().set(false);
+            escenarioBorrarHabitacion.initModality(Modality.APPLICATION_MODAL);
+            escenarioBorrarHabitacion.showAndWait();
+            HABITACIONES.setAll(VistaGrafica.getInstancia().getControlador().getHabitaciones());
+        }catch (IOException e){
+            e.getMessage();
+        }
+    }
+
+    private void bookingsHabitacion(){
+        FXMLLoader fxmlLoader = new FXMLLoader(LocalizadorRecursos.class.getResource("vistas/ventanaReservasHabitacion.fxml"));
+        try{
+            Parent raiz= fxmlLoader.load();
+            Scene scene= new Scene(raiz, 800, 400);
+            Stage escenarioReservasHabitacion = new Stage();
+            escenarioReservasHabitacion.setScene(scene);
+            escenarioReservasHabitacion.setTitle("Reservas Habitación");
+            escenarioReservasHabitacion.resizableProperty().set(false);
+            escenarioReservasHabitacion.initModality(Modality.APPLICATION_MODAL);
+            escenarioReservasHabitacion.showAndWait();
+        }catch (IOException e){
+            e.getMessage();
+        }
+
+    }
+
+    private void addReserva(){
+
+    }
+
+    private void cancelReserva(){
+
+    }
+
+    private void isHabitacionDisponible(){
+
     }
 
 }

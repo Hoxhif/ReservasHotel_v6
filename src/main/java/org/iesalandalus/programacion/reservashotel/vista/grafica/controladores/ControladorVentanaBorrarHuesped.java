@@ -8,6 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.Huesped;
 import org.iesalandalus.programacion.reservashotel.vista.grafica.VistaGrafica;
+import org.iesalandalus.programacion.reservashotel.vista.grafica.utilidades.Dialogos;
 
 import javax.naming.OperationNotSupportedException;
 
@@ -21,13 +22,23 @@ public class ControladorVentanaBorrarHuesped {
     @FXML
     void borrarHuesped(ActionEvent event) {
         try{
-        for (Huesped h: VistaGrafica.getInstancia().getControlador().getHuespedes()){
-            if (h.getDni().equals(tfDNIABorrar.getText())){
-                VistaGrafica.getInstancia().getControlador().borrar(h);
-            }
-        }
-        Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
-        stage.close();
+            boolean encontrado = false;
+                for (Huesped h : VistaGrafica.getInstancia().getControlador().getHuespedes()) {
+                    if (h.getDni().equals(tfDNIABorrar.getText())) {
+                        encontrado = true;
+                        VistaGrafica.getInstancia().getControlador().borrar(h);
+                        Dialogos.mostrarDialogoInformacion("Borrado Huesped", "Se ha borrado correctamente el huesped.");
+                    }
+                }
+                if (!encontrado) {
+                    Dialogos.mostrarDialogoAdvertencia("Borrado Huesped", "El huesped seleccionado no existe.");
+                    tfDNIABorrar.deleteText(0,tfDNIABorrar.getText().length());
+                }
+
+                if (encontrado) {
+                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    stage.close();
+                }
         }catch (OperationNotSupportedException e){
             e.getMessage();
         }
