@@ -178,11 +178,11 @@ public class Reservas implements IReservas{
 
         for (Document documentoReservaFutura: documentosReservasFuturas){
             Reserva reserva = MongoDB.getReserva(documentoReservaFutura);
-            if (documentoReservaFutura.getString(MongoDB.CHECKIN) != null || documentoReservaFutura.getString(MongoDB.CHECKIN).equals("No registrado")){
+            if (!documentoReservaFutura.getString(MongoDB.CHECKIN).equals("No registrado")){
                 LocalDateTime fechaCheckIn = LocalDateTime.parse(documentoReservaFutura.getString(MongoDB.CHECKIN),MongoDB.FORMATO_DIA_HORA);
                 reserva.setCheckIn(fechaCheckIn);
             }
-            if (documentoReservaFutura.getString(MongoDB.CHECKOUT)!= null || documentoReservaFutura.getString(MongoDB.CHECKOUT).equals("No registrado")){
+            if (!documentoReservaFutura.getString(MongoDB.CHECKOUT).equals("No registrado")){
                 LocalDateTime fechaCheckOut = LocalDateTime.parse(documentoReservaFutura.getString(MongoDB.CHECKOUT),MongoDB.FORMATO_DIA_HORA);
                 reserva.setCheckOut(fechaCheckOut);
             }

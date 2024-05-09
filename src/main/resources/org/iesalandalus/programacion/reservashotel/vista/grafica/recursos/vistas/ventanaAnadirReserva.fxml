@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Polygon?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="486.0" prefWidth="537.0" style="-fx-background-color: #281738;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.iesalandalus.programacion.reservashotel.vista.grafica.controladores.ControladorVentanaAnadirReserva">
+   <children>
+      <Polygon fill="#ff381f" layoutX="42.0" layoutY="20.0" opacity="0.47" points="-50.0, 40.0, 446.0, 404.0, -50.0, -32.0" stroke="BLACK" strokeType="INSIDE" />
+      <Polygon fill="DODGERBLUE" layoutX="403.0" layoutY="393.0" opacity="0.38" points="-369.0, -90.0, 107.0, 117.0, 294.0, 267.0" stroke="BLACK" strokeType="INSIDE" />
+      <Polygon fill="#d61fff" layoutX="432.0" layoutY="42.0" opacity="0.33" points="187.0, 111.0, -342.0, 174.0, 0.0, -60.0" stroke="BLACK" strokeType="INSIDE" />
+      <Polygon fill="#1fff8e" layoutX="-3.0" layoutY="506.0" opacity="0.43" points="-50.0, 40.0, 149.0, 66.0, 363.0, -494.0" stroke="BLACK" strokeType="INSIDE" />
+      <HBox layoutY="3.0" prefHeight="64.0" prefWidth="234.0">
+         <children>
+            <Label prefHeight="35.0" prefWidth="166.0" text="Añadir Reserva:" textAlignment="RIGHT">
+               <font>
+                  <Font name="Ebrima" size="24.0" />
+               </font>
+               <textFill>
+                  <LinearGradient endX="0.18957345971563977" endY="1.0" startX="0.18009478672985782">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.05263157933950424" green="0.0031676413491368294" blue="0.0031676413491368294" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+               <HBox.margin>
+                  <Insets left="70.0" top="10.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+      <HBox layoutX="7.0" layoutY="132.0" prefHeight="35.0" prefWidth="234.0">
+         <children>
+            <Label alignment="TOP_RIGHT" prefHeight="35.0" prefWidth="202.0" text="ID de Habitación:" textAlignment="RIGHT">
+               <font>
+                  <Font name="Ebrima" size="24.0" />
+               </font>
+               <textFill>
+                  <LinearGradient endX="0.18957345971563977" endY="1.0" startX="0.18009478672985782">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.05263157933950424" green="0.0031676413491368294" blue="0.0031676413491368294" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+               <HBox.margin>
+                  <Insets left="20.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+      <HBox layoutX="7.0" layoutY="181.0" prefHeight="35.0" prefWidth="234.0">
+         <children>
+            <Label alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="229.0" text="Regimen:" textAlignment="RIGHT">
+               <font>
+                  <Font name="Ebrima" size="24.0" />
+               </font>
+               <textFill>
+                  <LinearGradient endX="0.18957345971563977" endY="1.0" startX="0.18009478672985782">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.05263157933950424" green="0.0031676413491368294" blue="0.0031676413491368294" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+               <HBox.margin>
+                  <Insets left="30.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+      <HBox layoutX="7.0" layoutY="238.0" prefHeight="35.0" prefWidth="234.0">
+         <children>
+            <Label alignment="TOP_RIGHT" prefHeight="35.0" prefWidth="235.0" text="Fecha Inicio:" textAlignment="RIGHT">
+               <font>
+                  <Font name="Ebrima" size="24.0" />
+               </font>
+               <textFill>
+                  <LinearGradient endX="0.18957345971563977" endY="1.0" startX="0.18009478672985782">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.05263157933950424" green="0.0031676413491368294" blue="0.0031676413491368294" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+               <HBox.margin>
+                  <Insets left="40.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+      <Label alignment="TOP_RIGHT" layoutX="34.0" layoutY="83.0" prefHeight="35.0" prefWidth="198.0" text="DNI Huesped:" textAlignment="RIGHT">
+         <font>
+            <Font name="Ebrima" size="24.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="0.18957345971563977" endY="1.0" startX="0.18009478672985782">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.05263157933950424" green="0.0031676413491368294" blue="0.0031676413491368294" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <HBox layoutX="270.0" layoutY="231.0" prefHeight="50.0" prefWidth="331.0">
+         <children>
+            <DatePicker fx:id="dpFechaInicion" prefHeight="25.0" prefWidth="154.0" promptText="Fecha Inicio Reserva">
+               <HBox.margin>
+                  <Insets top="12.0" />
+               </HBox.margin>
+            </DatePicker>
+         </children>
+      </HBox>
+      <HBox layoutY="421.0" prefHeight="64.0" prefWidth="537.0">
+         <children>
+            <HBox prefHeight="64.0" prefWidth="140.0" />
+            <Button fx:id="btConfirmar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#insertarReserva" prefHeight="25.0" prefWidth="268.0" text="Añadir Reserva">
+               <HBox.margin>
+                  <Insets top="17.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+      <HBox layoutX="7.0" layoutY="303.0" prefHeight="35.0" prefWidth="234.0">
+         <children>
+            <Label alignment="TOP_RIGHT" prefHeight="35.0" prefWidth="235.0" text="Fecha Fin:">
+               <font>
+                  <Font name="Ebrima" size="22.0" />
+               </font>
+               <textFill>
+                  <LinearGradient endX="0.18957345971563977" endY="1.0" startX="0.18009478672985782">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.05263157933950424" green="0.0031676413491368294" blue="0.0031676413491368294" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+      <HBox layoutX="272.0" layoutY="296.0" prefHeight="50.0" prefWidth="331.0">
+         <children>
+            <DatePicker fx:id="dpFechaFin" prefHeight="25.0" prefWidth="156.0" promptText="Fecha Fin Reserva">
+               <HBox.margin>
+                  <Insets top="13.0" />
+               </HBox.margin>
+            </DatePicker>
+         </children>
+      </HBox>
+      <HBox layoutX="4.0" layoutY="360.0" prefHeight="35.0" prefWidth="234.0">
+         <children>
+            <Label alignment="TOP_RIGHT" prefHeight="35.0" prefWidth="235.0" text="Nº Personas:">
+               <font>
+                  <Font name="Ebrima" size="22.0" />
+               </font>
+               <textFill>
+                  <LinearGradient endX="0.18957345971563977" endY="1.0" startX="0.18009478672985782">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.05263157933950424" green="0.0031676413491368294" blue="0.0031676413491368294" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+      <HBox layoutX="4.0" layoutY="418.0" prefHeight="35.0" prefWidth="234.0" />
+      <HBox layoutX="7.0" layoutY="479.0" prefHeight="35.0" prefWidth="234.0" />
+      <HBox layoutX="272.0" layoutY="352.0" prefHeight="50.0" prefWidth="331.0">
+         <children>
+            <ComboBox fx:id="cbNumPersonas" onMouseClicked="#inicializaDatos" prefWidth="150.0">
+               <HBox.margin>
+                  <Insets top="10.0" />
+               </HBox.margin>
+            </ComboBox>
+         </children>
+      </HBox>
+      <HBox layoutX="272.0" layoutY="471.0" prefHeight="50.0" prefWidth="331.0" />
+      <HBox layoutX="270.0" layoutY="174.0" prefHeight="50.0" prefWidth="331.0">
+         <children>
+            <ChoiceBox fx:id="cbRegimen" onMouseClicked="#inicializaDatos" prefHeight="25.0" prefWidth="152.0">
+               <HBox.margin>
+                  <Insets top="15.0" />
+               </HBox.margin>
+            </ChoiceBox>
+         </children>
+      </HBox>
+      <HBox layoutX="270.0" layoutY="76.0" prefHeight="50.0" prefWidth="331.0">
+         <children>
+            <TextField fx:id="tfDNIHuesped" promptText="DNI">
+               <HBox.margin>
+                  <Insets top="12.0" />
+               </HBox.margin>
+            </TextField>
+         </children>
+      </HBox>
+      <HBox layoutX="270.0" layoutY="125.0" prefHeight="50.0" prefWidth="331.0">
+         <children>
+            <TextField fx:id="tfIDHabitacion" promptText="Identificador">
+               <HBox.margin>
+                  <Insets top="12.0" />
+               </HBox.margin>
+            </TextField>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

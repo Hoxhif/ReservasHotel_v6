@@ -431,31 +431,37 @@ public class VistaTexto extends Vista {
     public void comprobarDisponibilidad(){
         try {
             Habitacion habitacion = Consola.leerHabitacionPorIdentificador();
+            Habitacion real=null;
+            for (Habitacion h: super.getControlador().getHabitaciones()){
+                if (h.getIdentificador().equals(habitacion.getIdentificador())){
+                    real=h;
+                }
+            }
             if (habitacion==null){
                 System.out.println("La habitación no existe.");
             }
-            if (habitacion instanceof Simple){
+            if (real instanceof Simple){
                 Habitacion comprobarHabitacion = consultarDisponibilidad(TipoHabitacion.SIMPLE, Consola.leerFecha("Inserte la fecha de posible reserva: "), Consola.leerFecha("Inserte la fecha de posible fin reserva: "));
                 if (comprobarHabitacion == null)
                     System.out.println("La habitación estará ocupada en esas fechas.");
                 else if (comprobarHabitacion != null)
                     System.out.println("La habitación está disponible en esas fechas.");
             }
-            else if (habitacion instanceof Doble){
+            else if (real instanceof Doble){
                 Habitacion comprobarHabitacion = consultarDisponibilidad(TipoHabitacion.DOBLE, Consola.leerFecha("Inserte la fecha de posible reserva: "), Consola.leerFecha("Inserte la fecha de posible fin reserva: "));
                 if (comprobarHabitacion == null)
                     System.out.println("La habitación estará ocupada en esas fechas.");
                 else if (comprobarHabitacion != null)
                     System.out.println("La habitación está disponible en esas fechas.");
             }
-            else if (habitacion instanceof Triple){
+            else if (real instanceof Triple){
                 Habitacion comprobarHabitacion = consultarDisponibilidad(TipoHabitacion.TRIPLE, Consola.leerFecha("Inserte la fecha de posible reserva: "), Consola.leerFecha("Inserte la fecha de posible fin reserva: "));
                 if (comprobarHabitacion == null)
                     System.out.println("La habitación estará ocupada en esas fechas.");
                 else if (comprobarHabitacion != null)
                     System.out.println("La habitación está disponible en esas fechas.");
             }
-            else if (habitacion instanceof Suite){
+            else if (real instanceof Suite){
                 Habitacion comprobarHabitacion = consultarDisponibilidad(TipoHabitacion.SUITE, Consola.leerFecha("Inserte la fecha de posible reserva: "), Consola.leerFecha("Inserte la fecha de posible fin reserva: "));
                 if (comprobarHabitacion == null)
                     System.out.println("La habitación estará ocupada en esas fechas.");

@@ -9,9 +9,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -26,7 +30,10 @@ import org.iesalandalus.programacion.reservashotel.modelo.dominio.*;
 import org.iesalandalus.programacion.reservashotel.vista.grafica.VistaGrafica;
 import org.iesalandalus.programacion.reservashotel.vista.grafica.recursos.LocalizadorRecursos;
 
+import java.awt.*;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -60,13 +67,16 @@ public class ControladorVentanaPrincipal {
     private Button anadirHuesped=null;
     private Button borrarHuesped=null;
     private Button reservasHuesped=null;
+
     private Button anadirHabitacion=null;
     private Button borrarHabitacion=null;
     private Button reservasHabitacion=null;
+
     private Button anadirReserva=null;
     private Button anularReserva=null;
+    private Button realizarCheckIn=null;
+    private Button realizarCheckOut=null;
     private Button consultarDisponibilidad=null;
-
 
     private static final ObservableList<Huesped> HUESPEDES = FXCollections.observableArrayList(VistaGrafica.getInstancia().getControlador().getHuespedes());
     private static final ObservableList<Reserva> RESERVAS = FXCollections.observableArrayList(VistaGrafica.getInstancia().getControlador().getReservas());
@@ -75,7 +85,11 @@ public class ControladorVentanaPrincipal {
 
     @FXML
     void informacion(){
-        System.out.println("Información");
+        try {
+            Desktop.getDesktop().browse(new URI("https://educacionadistancia.juntadeandalucia.es/formacionprofesional/mod/assign/view.php?id=31077"));
+        }catch (URISyntaxException | IOException e){
+            System.out.println("ERROR DE LINK");
+        }
     }
     @FXML
     void configuracion(){
@@ -83,7 +97,12 @@ public class ControladorVentanaPrincipal {
     }
     @FXML
     void proyecto(){
-        System.out.println("Proyecto");
+        // esto lo he sacado de este vídeo: https://www.youtube.com/watch?v=SlE0dCuO5yc
+        try {
+            Desktop.getDesktop().browse(new URI("https://github.com/Hoxhif/ReservasHotel_v5"));
+        }catch (URISyntaxException | IOException e){
+            System.out.println("ERROR DE LINK");
+        }
     }
 
     @FXML
@@ -106,6 +125,10 @@ public class ControladorVentanaPrincipal {
             anadirReserva=null;
             barraElementos.getChildren().remove(anularReserva);
             anularReserva=null;
+            barraElementos.getChildren().remove(realizarCheckIn);
+            realizarCheckIn=null;
+            barraElementos.getChildren().remove(realizarCheckOut);
+            realizarCheckOut=null;
             barraElementos.getChildren().remove(consultarDisponibilidad);
             consultarDisponibilidad=null;
         }
@@ -132,6 +155,7 @@ public class ControladorVentanaPrincipal {
             imagenReserva.setFitHeight(50);
             imagenReserva.setFitWidth(50);
             reservasHuesped.setGraphic(imagenReserva);
+
         }
         anadirHuesped.setOnAction(evento -> addHuesped());
         borrarHuesped.setOnAction(evento -> removeHuesped());
@@ -158,6 +182,10 @@ public class ControladorVentanaPrincipal {
             anadirReserva=null;
             barraElementos.getChildren().remove(anularReserva);
             anularReserva=null;
+            barraElementos.getChildren().remove(realizarCheckIn);
+            realizarCheckIn=null;
+            barraElementos.getChildren().remove(realizarCheckOut);
+            realizarCheckOut=null;
             barraElementos.getChildren().remove(consultarDisponibilidad);
             consultarDisponibilidad=null;
         }
@@ -217,6 +245,8 @@ public class ControladorVentanaPrincipal {
         if (anadirReserva==null) {
             anadirReserva = new Button("Añadir Reserva");
             anularReserva = new Button("Anular Reserva");
+            realizarCheckIn = new Button("Realizar CheckIn");
+            realizarCheckOut = new Button("Realizar CheckOut");
             consultarDisponibilidad = new Button("Consultar Disponibilidad");
 
             barraElementos.getChildren().add(anadirReserva);
@@ -231,6 +261,18 @@ public class ControladorVentanaPrincipal {
             imagenMenos.setFitWidth(50);
             anularReserva.setGraphic(imagenMenos);
 
+            barraElementos.getChildren().add(realizarCheckIn);
+            ImageView imagenCheckIn = new ImageView("org/iesalandalus/programacion/reservashotel/vista/grafica/recursos/imagenes/checkIn.png");
+            imagenCheckIn.setFitHeight(50);
+            imagenCheckIn.setFitWidth(70);
+            realizarCheckIn.setGraphic(imagenCheckIn);
+
+            barraElementos.getChildren().add(realizarCheckOut);
+            ImageView imagenCheckOut= new ImageView("org/iesalandalus/programacion/reservashotel/vista/grafica/recursos/imagenes/checkOut.png");
+            imagenCheckOut.setFitHeight(50);
+            imagenCheckOut.setFitWidth(70);
+            realizarCheckOut.setGraphic(imagenCheckOut);
+
             barraElementos.getChildren().add(consultarDisponibilidad);
             ImageView imagenReserva = new ImageView("org/iesalandalus/programacion/reservashotel/vista/grafica/recursos/imagenes/disponibilidad.png");
             imagenReserva.setFitHeight(50);
@@ -239,6 +281,8 @@ public class ControladorVentanaPrincipal {
         }
         anadirReserva.setOnAction(evento -> addReserva());
         anularReserva.setOnAction(evento -> cancelReserva());
+        realizarCheckIn.setOnAction(evento -> makeCheckIn());
+        realizarCheckOut.setOnAction(evento -> makeCheckOut());
         consultarDisponibilidad.setOnAction(evento -> isHabitacionDisponible());
     }
 
@@ -417,7 +461,7 @@ public class ControladorVentanaPrincipal {
             });
             cltbCheckIn.setMinWidth(100);
             cltbCheckOut.setCellValueFactory(checkout -> {
-                if (checkout.getValue().getCheckIn()==null){
+                if (checkout.getValue().getCheckOut()==null){
                     return new SimpleStringProperty("No registrado");
                 }else return new SimpleStringProperty(checkout.getValue().getCheckOut().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")));
             });
@@ -543,15 +587,87 @@ public class ControladorVentanaPrincipal {
     }
 
     private void addReserva(){
-
+        FXMLLoader fxmlLoader= new FXMLLoader(LocalizadorRecursos.class.getResource("vistas/ventanaAnadirReserva.fxml"));
+        try{
+            Parent raiz= fxmlLoader.load();
+            Scene scene= new Scene(raiz, 537,472);
+            Stage escenarioAnadirHabitacion = new Stage();
+            escenarioAnadirHabitacion.setScene(scene);
+            escenarioAnadirHabitacion.setTitle("Añadir Reserva");
+            escenarioAnadirHabitacion.resizableProperty().set(false);
+            escenarioAnadirHabitacion.initModality(Modality.APPLICATION_MODAL);
+            escenarioAnadirHabitacion.showAndWait();
+            RESERVAS.setAll(VistaGrafica.getInstancia().getControlador().getReservas());
+        }catch(IOException e){
+            e.getMessage();
+        }
     }
 
     private void cancelReserva(){
+        FXMLLoader fxmlLoader = new FXMLLoader(LocalizadorRecursos.class.getResource("vistas/ventanaCancelarReserva.fxml"));
+        try{
+            Parent raiz= fxmlLoader.load();
+            Scene scene= new Scene(raiz, 800, 400);
+            Stage escenarioBorrarHabitacion = new Stage();
+            escenarioBorrarHabitacion.setScene(scene);
+            escenarioBorrarHabitacion.setTitle("Anular Reserva");
+            escenarioBorrarHabitacion.resizableProperty().set(false);
+            escenarioBorrarHabitacion.initModality(Modality.APPLICATION_MODAL);
+            escenarioBorrarHabitacion.showAndWait();
+            RESERVAS.setAll(VistaGrafica.getInstancia().getControlador().getReservas());
+        }catch (IOException e){
+            e.getMessage();
+        }
+    }
 
+    private void makeCheckIn(){
+        FXMLLoader fxmlLoader = new FXMLLoader(LocalizadorRecursos.class.getResource("vistas/ventanaRealizarCheckIn.fxml"));
+        try{
+            Parent raiz= fxmlLoader.load();
+            Scene scene= new Scene(raiz, 800, 400);
+            Stage escenarioBorrarHabitacion = new Stage();
+            escenarioBorrarHabitacion.setScene(scene);
+            escenarioBorrarHabitacion.setTitle("Realizar CheckIn");
+            escenarioBorrarHabitacion.resizableProperty().set(false);
+            escenarioBorrarHabitacion.initModality(Modality.APPLICATION_MODAL);
+            escenarioBorrarHabitacion.showAndWait();
+            RESERVAS.setAll(VistaGrafica.getInstancia().getControlador().getReservas());
+        }catch (IOException e){
+            e.getMessage();
+        }
+    }
+
+    private void makeCheckOut(){
+        FXMLLoader fxmlLoader = new FXMLLoader(LocalizadorRecursos.class.getResource("vistas/ventanaRealizarCheckOut.fxml"));
+        try{
+            Parent raiz= fxmlLoader.load();
+            Scene scene= new Scene(raiz, 800, 400);
+            Stage escenarioBorrarHabitacion = new Stage();
+            escenarioBorrarHabitacion.setScene(scene);
+            escenarioBorrarHabitacion.setTitle("Realizar CheckOut");
+            escenarioBorrarHabitacion.resizableProperty().set(false);
+            escenarioBorrarHabitacion.initModality(Modality.APPLICATION_MODAL);
+            escenarioBorrarHabitacion.showAndWait();
+            RESERVAS.setAll(VistaGrafica.getInstancia().getControlador().getReservas());
+        }catch (IOException e){
+            e.getMessage();
+        }
     }
 
     private void isHabitacionDisponible(){
-
+        FXMLLoader fxmlLoader = new FXMLLoader(LocalizadorRecursos.class.getResource("vistas/ventanaComprobarDisponibilidad.fxml"));
+        try{
+            Parent raiz= fxmlLoader.load();
+            Scene scene= new Scene(raiz, 400, 221);
+            Stage escenarioComprobarDisponibilidad = new Stage();
+            escenarioComprobarDisponibilidad.setScene(scene);
+            escenarioComprobarDisponibilidad.setTitle("Comprobar Disponibilidad");
+            escenarioComprobarDisponibilidad.resizableProperty().set(false);
+            escenarioComprobarDisponibilidad.initModality(Modality.APPLICATION_MODAL);
+            escenarioComprobarDisponibilidad.showAndWait();
+        }catch (IOException e){
+            e.getMessage();
+        }
     }
 
 }

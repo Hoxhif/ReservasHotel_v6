@@ -14,6 +14,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.Huesped;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.Reserva;
 import org.iesalandalus.programacion.reservashotel.vista.grafica.VistaGrafica;
+import org.iesalandalus.programacion.reservashotel.vista.grafica.utilidades.Dialogos;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -38,6 +39,9 @@ public class ControladorVentanaReservasHuesped {
             if (h.getDni().equals(dni)){
                 listadoReservas=(VistaGrafica.getInstancia().getControlador().getReserva(h));
             }
+        }
+        if (listadoReservas == null){
+            Dialogos.mostrarDialogoAdvertencia("Reservas Huesped", "No se ha encontrado reservas para el huesped indicado o no existe.");
         }
         if (listadoReservas!= null) {
             ObservableList<Reserva> obsReserva = FXCollections.observableArrayList(listadoReservas);

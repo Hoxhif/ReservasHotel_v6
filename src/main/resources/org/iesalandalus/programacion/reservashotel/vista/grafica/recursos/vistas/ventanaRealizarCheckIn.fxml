@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Polygon?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" style="-fx-background-color: #281738;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.iesalandalus.programacion.reservashotel.vista.grafica.controladores.ControladorVentanaRealizarCheckIn">
+   <children>
+      <Polygon fill="#ff381f" layoutX="42.0" layoutY="20.0" opacity="0.47" points="-50.0, 40.0, 15.0, 80.0, -50.0, -32.0" stroke="BLACK" strokeType="INSIDE" />
+      <Polygon fill="DODGERBLUE" layoutX="313.0" layoutY="141.0" opacity="0.38" points="-50.0, 40.0, 50.0, 40.0, 294.0, 267.0" stroke="BLACK" strokeType="INSIDE" />
+      <Polygon fill="#d61fff" layoutX="391.0" layoutY="36.0" opacity="0.33" points="187.0, 111.0, 50.0, 40.0, 0.0, -60.0" stroke="BLACK" strokeType="INSIDE" />
+      <Polygon fill="#1fff8e" layoutX="8.0" layoutY="346.0" opacity="0.43" points="-50.0, 40.0, 46.0, 18.0, 125.0, -73.0" stroke="BLACK" strokeType="INSIDE" />
+      <HBox layoutX="46.0" layoutY="4.0" prefHeight="64.0" prefWidth="234.0">
+         <children>
+            <Label prefHeight="35.0" prefWidth="213.0" text="DNI Huesped:" textAlignment="RIGHT">
+               <font>
+                  <Font name="Ebrima" size="24.0" />
+               </font>
+               <textFill>
+                  <LinearGradient endX="0.18957345971563977" endY="1.0" startX="0.18009478672985782">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.05263157933950424" green="0.0031676413491368294" blue="0.0031676413491368294" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+               <HBox.margin>
+                  <Insets left="80.0" top="15.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+      <TextField fx:id="tfDNIHuesped" layoutX="293.0" layoutY="23.0" prefHeight="25.0" prefWidth="285.0" />
+      <VBox layoutX="-6.0" layoutY="65.0" prefHeight="337.0" prefWidth="807.0">
+         <children>
+            <TableView fx:id="tvListadoReservas" prefHeight="335.0" prefWidth="868.0">
+               <VBox.margin>
+                  <Insets left="4.0" />
+               </VBox.margin>
+            </TableView>
+         </children>
+      </VBox>
+      <Button fx:id="btBuscarReservas" layoutX="668.0" layoutY="23.0" mnemonicParsing="false" onAction="#listarReservas" prefHeight="25.0" prefWidth="97.0" text="Buscar" />
+   </children>
+</AnchorPane>
