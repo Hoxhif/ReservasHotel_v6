@@ -133,20 +133,27 @@ public class ControladorVentanaComprobarDisponibilidad {
 
     @FXML
     void comprobarDisponibilidad(ActionEvent event) {
-        boolean habitacionEncontrada=false;
-        for (Habitacion h: VistaGrafica.getInstancia().getControlador().getHabitaciones()){
-            if (h.getIdentificador().equals(tfIdentificadorAComprobar.getText())){
-                habitacionEncontrada=true;
-                    if (comprobador(h, dpFechaInicio.getValue(),dpFechaFin.getValue())==null) Dialogos.mostrarDialogoInformacion("Comprobar Habitación", "La habitación estará ocupada en estas fechas.");
-                    else Dialogos.mostrarDialogoInformacion("Comprobar Habitación", "La habitación estará libre en estas fechas.");
-                };
-        }
-        if (!habitacionEncontrada){
-            Dialogos.mostrarDialogoAdvertencia("Comprobar Habitación", "La habitación indicada no existe.");
-        }
-        if (habitacionEncontrada){
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.close();
+        if (dpFechaInicio.getValue() == null || dpFechaFin.getValue() == null) {
+            Dialogos.mostrarDialogoError("Error Comprobar Habitación", "Las fechas no pueden ser nulas.");
+        } else {
+            boolean habitacionEncontrada = false;
+            for (Habitacion h : VistaGrafica.getInstancia().getControlador().getHabitaciones()) {
+                if (h.getIdentificador().equals(tfIdentificadorAComprobar.getText())) {
+                    habitacionEncontrada = true;
+                    if (comprobador(h, dpFechaInicio.getValue(), dpFechaFin.getValue()) == null)
+                        Dialogos.mostrarDialogoInformacion("Comprobar Habitación", "La habitación estará ocupada en estas fechas.");
+                    else
+                        Dialogos.mostrarDialogoInformacion("Comprobar Habitación", "La habitación estará libre en estas fechas.");
+                }
+                ;
+            }
+            if (!habitacionEncontrada) {
+                Dialogos.mostrarDialogoAdvertencia("Comprobar Habitación", "La habitación indicada no existe.");
+            }
+            if (habitacionEncontrada) {
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.close();
+            }
         }
     }
 }

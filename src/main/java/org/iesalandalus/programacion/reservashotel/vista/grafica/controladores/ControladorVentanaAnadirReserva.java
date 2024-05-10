@@ -41,9 +41,9 @@ public class ControladorVentanaAnadirReserva {
 
     @FXML
     void inicializaDatos(MouseEvent event) {
-        if (cbNumPersonas.getItems().isEmpty()) cbNumPersonas.getItems().addAll(1,2,3,4);
-        if (cbRegimen.getItems().isEmpty()){
-            for (Regimen regimen: Regimen.values()){
+        if (cbNumPersonas.getItems().isEmpty()) cbNumPersonas.getItems().addAll(1, 2, 3, 4);
+        if (cbRegimen.getItems().isEmpty()) {
+            for (Regimen regimen : Regimen.values()) {
                 cbRegimen.getItems().add(regimen);
             }
         }
@@ -51,30 +51,40 @@ public class ControladorVentanaAnadirReserva {
 
     @FXML
     void insertarReserva(ActionEvent event) {
-        Huesped huesped=null;
-        Habitacion habitacion=null;
-        LocalDate fechaI=dpFechaInicion.getValue();
-        LocalDate fechaF=dpFechaFin.getValue();
+        if (cbRegimen.getItems().isEmpty() || dpFechaInicion.getValue() == null || dpFechaFin.getValue()==null){
+            Dialogos.mostrarDialogoError("Error Creación Reserva","Los campos no pueden ser nulos.");
+        }else{
+        Huesped huesped = null;
+        Habitacion habitacion = null;
+        LocalDate fechaI = dpFechaInicion.getValue();
+        LocalDate fechaF = dpFechaFin.getValue();
         Regimen regimen = cbRegimen.getValue();
         int numPersonas = cbNumPersonas.getValue();
 
 
-        for (Huesped h: VistaGrafica.getInstancia().getControlador().getHuespedes()){
+        for (Huesped h : VistaGrafica.getInstancia().getControlador().getHuespedes()) {
             if (h.getDni().equals(tfDNIHuesped.getText())) huesped = h;
         }
 
-        for (Habitacion h: VistaGrafica.getInstancia().getControlador().getHabitaciones()){
-            if (h.getIdentificador().equals(tfIDHabitacion.getText()))habitacion = h;
+        for (Habitacion h : VistaGrafica.getInstancia().getControlador().getHabitaciones()) {
+            if (h.getIdentificador().equals(tfIDHabitacion.getText())) habitacion = h;
         }
+
+
 
         try {
-            VistaGrafica.getInstancia().getControlador().insertar(new Reserva(huesped, habitacion, regimen, fechaI, fechaF, numPersonas));
-            Dialogos.mostrarDialogoInformacion("Creación Reserva", "Se ha insertado correctamente la reserva correctamente.");
-            Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow(); //Sacado de ChatGPT... un poco raro pero tiene su sentido...
-            stage.close();
-        }catch(IllegalArgumentException | OperationNotSupportedException e){
-            Dialogos.mostrarDialogoError("Creación Reserva", e.getMessage());
-        }
+            try {
+                VistaGrafica.getInstancia().getControlador().insertar(new Reserva(huesped, habitacion, regimen, fechaI, fechaF, numPersonas));
+                Dialogos.mostrarDialogoInformacion("Creación Reserva", "Se ha insertado correctamente la reserva correctamente.");
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow(); //Sacado de ChatGPT... un poco raro pero tiene su sentido...
+                stage.close();
+            } catch (IllegalArgumentException | OperationNotSupportedException e) {
+                Dialogos.mostrarDialogoError("Error Creación Reserva", e.getMessage());
+            }
 
+        }catch (NullPointerException e){
+            Dialogos.mostrarDialogoError("Error Creación Reserva", e.getMessage());
+        }
+    }
     }
 }

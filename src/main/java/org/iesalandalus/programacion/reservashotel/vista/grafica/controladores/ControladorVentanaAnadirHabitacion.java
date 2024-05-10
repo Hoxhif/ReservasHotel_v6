@@ -77,45 +77,54 @@ public class ControladorVentanaAnadirHabitacion {
 
     @FXML
     void insertarHabitacion(ActionEvent event) {
-        if (cbTipo.getValue().equals("Simple")){
-            try {
-                Habitacion habitacionAInsertar = new Simple(cbPlanta.getValue(), cbPuerta.getValue(), Double.parseDouble(tfPrecio.getText()));
-                VistaGrafica.getInstancia().getControlador().insertar(habitacionAInsertar);
-            }catch (IllegalArgumentException | OperationNotSupportedException e){
-                Dialogos.mostrarDialogoError("Error Creación Habitación", e.getMessage());
+        try {
+            if (cbBanos.getItems().isEmpty() || cbTipo.getItems().isEmpty() || cbCamasDobles.getItems().isEmpty() || cbCamasIndividuales.getItems().isEmpty() || cbPuerta.getItems().isEmpty() || cbPlanta.getItems().isEmpty() || tfPrecio.getText() == null){
+                Dialogos.mostrarDialogoError("Error Creación Habitación", "Los campos no pueden ser nulos.");
+            }else{
+            if (cbTipo.getValue().equals("Simple")) {
+                try {
+                    Habitacion habitacionAInsertar = new Simple(cbPlanta.getValue(), cbPuerta.getValue(), Double.parseDouble(tfPrecio.getText()));
+                    VistaGrafica.getInstancia().getControlador().insertar(habitacionAInsertar);
+                } catch (IllegalArgumentException | OperationNotSupportedException e) {
+                    Dialogos.mostrarDialogoError("Error Creación Habitación", e.getMessage());
+                }
             }
-        }
-        if (cbTipo.getValue().equals("Doble")){
-            try{
-                Habitacion habitacionAInsertar = new Doble(cbPlanta.getValue(), cbPuerta.getValue(), Double.parseDouble(tfPrecio.getText()), cbCamasIndividuales.getValue(), cbCamasDobles.getValue());
-                VistaGrafica.getInstancia().getControlador().insertar(habitacionAInsertar);
-            }catch (IllegalArgumentException | OperationNotSupportedException e){
-                Dialogos.mostrarDialogoError("Error Creación Habitación", e.getMessage());
+            if (cbTipo.getValue().equals("Doble")) {
+                try {
+                    Habitacion habitacionAInsertar = new Doble(cbPlanta.getValue(), cbPuerta.getValue(), Double.parseDouble(tfPrecio.getText()), cbCamasIndividuales.getValue(), cbCamasDobles.getValue());
+                    VistaGrafica.getInstancia().getControlador().insertar(habitacionAInsertar);
+                } catch (IllegalArgumentException | OperationNotSupportedException e) {
+                    Dialogos.mostrarDialogoError("Error Creación Habitación", e.getMessage());
+                }
             }
-        }
-        if (cbTipo.getValue().equals("Triple")){
-            try {
-                Habitacion habitacionAInsertar = new Triple(cbPlanta.getValue(), cbPuerta.getValue(), Double.parseDouble(tfPrecio.getText()), cbBanos.getValue(), cbCamasIndividuales.getValue(), cbCamasDobles.getValue());
-                VistaGrafica.getInstancia().getControlador().insertar(habitacionAInsertar);
-            }catch (IllegalArgumentException | OperationNotSupportedException e){
-                Dialogos.mostrarDialogoError("Error Creación Habitación", e.getMessage());
+            if (cbTipo.getValue().equals("Triple")) {
+                try {
+                    Habitacion habitacionAInsertar = new Triple(cbPlanta.getValue(), cbPuerta.getValue(), Double.parseDouble(tfPrecio.getText()), cbBanos.getValue(), cbCamasIndividuales.getValue(), cbCamasDobles.getValue());
+                    VistaGrafica.getInstancia().getControlador().insertar(habitacionAInsertar);
+                } catch (IllegalArgumentException | OperationNotSupportedException e) {
+                    Dialogos.mostrarDialogoError("Error Creación Habitación", e.getMessage());
+                }
             }
-        }
-        if (cbTipo.getValue().equals("Suite")){
-            try{
-                boolean quierejacuzzi;
-                if (rbJacuzzi.isSelected()) quierejacuzzi = true;
-                else quierejacuzzi = false;
-                Habitacion habitacionAInsertar = new Suite(cbPlanta.getValue(), cbPuerta.getValue(), Double.parseDouble(tfPrecio.getText()),cbBanos.getValue(), quierejacuzzi);
-                VistaGrafica.getInstancia().getControlador().insertar(habitacionAInsertar);
-            }catch (IllegalArgumentException | OperationNotSupportedException e){
-                Dialogos.mostrarDialogoError("Error Creación Habitación", e.getMessage());
+            if (cbTipo.getValue().equals("Suite")) {
+                try {
+                    boolean quierejacuzzi;
+                    if (rbJacuzzi.isSelected()) quierejacuzzi = true;
+                    else quierejacuzzi = false;
+                    Habitacion habitacionAInsertar = new Suite(cbPlanta.getValue(), cbPuerta.getValue(), Double.parseDouble(tfPrecio.getText()), cbBanos.getValue(), quierejacuzzi);
+                    VistaGrafica.getInstancia().getControlador().insertar(habitacionAInsertar);
+                } catch (IllegalArgumentException | OperationNotSupportedException e) {
+                    Dialogos.mostrarDialogoError("Error Creación Habitación", e.getMessage());
+                }
             }
-        }
-        Dialogos.mostrarDialogoInformacion("Creación Habitación", "Se ha insertado correctamente la habitación.");
-        Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
-        stage.close();
+            Dialogos.mostrarDialogoInformacion("Creación Habitación", "Se ha insertado correctamente la habitación.");
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.close();
+            }
+        }catch (NullPointerException e){
+        Dialogos.mostrarDialogoError("Error creación Habitación", e.getMessage());
     }
+    }
+
 
     @FXML
     void inicializaDatos(){

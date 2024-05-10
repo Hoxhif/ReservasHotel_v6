@@ -12,6 +12,7 @@ import org.iesalandalus.programacion.reservashotel.vista.grafica.VistaGrafica;
 import org.iesalandalus.programacion.reservashotel.vista.grafica.utilidades.Dialogos;
 
 import javax.naming.OperationNotSupportedException;
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -35,6 +36,8 @@ public class ControladorVentanaAnadirHuesped {
 
     @FXML
     void insertarHuesped(ActionEvent event) {
+        try{
+        try{
         try {
             Huesped huesped = new Huesped(tfNombre.getText(), tfDNI.getText(), tfCorreo.getText(), tfTelefono.getText(), LocalDate.parse(tfFechaNac.getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
             VistaGrafica.getInstancia().getControlador().insertar(huesped);
@@ -44,7 +47,12 @@ public class ControladorVentanaAnadirHuesped {
         }catch (IllegalArgumentException | OperationNotSupportedException e){
             Dialogos.mostrarDialogoError("Error al crear Huesped", e.getMessage());
         }
+        }catch (DateTimeException e){
+            Dialogos.mostrarDialogoError("Error al crear Huesped", "La fecha no es válida.");
         }
-
+    }catch (NullPointerException e){
+            Dialogos.mostrarDialogoError("Error al crear Huesped.", "No puede haber campos nulos.");
+        }
+    }
 }
 
