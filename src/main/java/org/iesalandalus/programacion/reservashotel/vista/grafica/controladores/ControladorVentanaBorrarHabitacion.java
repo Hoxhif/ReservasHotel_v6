@@ -27,8 +27,10 @@ public class ControladorVentanaBorrarHabitacion {
             for (Habitacion h: VistaGrafica.getInstancia().getControlador().getHabitaciones()){
                 if (h.getIdentificador().equals(tfIdentificadorABorrar.getText())){
                     encontrado = true;
-                    VistaGrafica.getInstancia().getControlador().borrar(h);
-                    Dialogos.mostrarDialogoInformacion("Borrado Habitación", "Se ha borrado correctamente la habitación.");
+                    if (VistaGrafica.getInstancia().getControlador().getReservas(h).isEmpty()) {
+                        VistaGrafica.getInstancia().getControlador().borrar(h);
+                        Dialogos.mostrarDialogoInformacion("Borrado Habitación", "Se ha borrado correctamente la habitación.");
+                    }else Dialogos.mostrarDialogoError("Borrar Habitación", "No se puede borrar una habitación con reservas.");
                 }
             }
             if (!encontrado) {

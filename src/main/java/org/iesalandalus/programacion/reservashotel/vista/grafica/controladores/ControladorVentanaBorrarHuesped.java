@@ -26,8 +26,13 @@ public class ControladorVentanaBorrarHuesped {
                 for (Huesped h : VistaGrafica.getInstancia().getControlador().getHuespedes()) {
                     if (h.getDni().equals(tfDNIABorrar.getText())) {
                         encontrado = true;
-                        VistaGrafica.getInstancia().getControlador().borrar(h);
-                        Dialogos.mostrarDialogoInformacion("Borrado Huesped", "Se ha borrado correctamente el huesped.");
+                        if (VistaGrafica.getInstancia().getControlador().getReserva(h).isEmpty()) {
+                            VistaGrafica.getInstancia().getControlador().borrar(h);
+                            Dialogos.mostrarDialogoInformacion("Borrado Huesped", "Se ha borrado correctamente el huesped.");
+                        }
+                        else{
+                            Dialogos.mostrarDialogoError("Borrado Huesped", "No se puede borrar un Huesped con reservas.");
+                        }
                     }
                 }
                 if (!encontrado) {
