@@ -85,7 +85,6 @@
                   <MenuButton mnemonicParsing="false" style="-fx-background-color: #4d1e6b;" text="Opciones" textFill="#f2e4e4">
                     <items>
                       <MenuItem fx:id="btInformacion" mnemonicParsing="false" onAction="#informacion" text="Informacion" />
-                      <MenuItem fx:id="btConfiguracion" mnemonicParsing="false" onAction="#configuracion" text="Configuración" />
                         <MenuItem fx:id="btproyecto" mnemonicParsing="false" onAction="#proyecto" text="Proyecto" />
                     </items>
                      <font>

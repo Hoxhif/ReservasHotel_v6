@@ -56,8 +56,6 @@ public class ControladorVentanaPrincipal {
     @FXML
     private MenuItem btInformacion;
     @FXML
-    private MenuItem btConfiguracion;
-    @FXML
     private MenuItem btproyecto;
 
     private TableView<Huesped> tableviewHuesped = null;
@@ -90,10 +88,6 @@ public class ControladorVentanaPrincipal {
         }catch (URISyntaxException | IOException e){
             System.out.println("ERROR DE LINK");
         }
-    }
-    @FXML
-    void configuracion(){
-        System.out.println("Configuración");
     }
     @FXML
     void proyecto(){
