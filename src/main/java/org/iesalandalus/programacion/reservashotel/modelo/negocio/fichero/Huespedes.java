@@ -33,7 +33,7 @@ public class Huespedes implements IHuespedes {
 
 
     public Huespedes(){
-        comenzar();
+
     }
 
     @Override

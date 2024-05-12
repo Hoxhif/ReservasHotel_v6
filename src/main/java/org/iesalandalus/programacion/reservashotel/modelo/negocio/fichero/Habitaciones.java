@@ -41,7 +41,7 @@ public class Habitaciones implements IHabitaciones {
 
 
     public Habitaciones(){
-        comenzar();
+
     }
 
     public Habitaciones getInstancia(){

@@ -43,7 +43,7 @@ public class Reservas implements IReservas {
 
 
     public Reservas (){
-        comenzar();
+
     }
 
     public Reservas getInstancia(){

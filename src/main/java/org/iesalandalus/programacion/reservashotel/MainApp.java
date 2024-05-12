@@ -29,6 +29,7 @@ public class MainApp {
         for (String cadena: argumentos){
             if (cadena.equals("-fdmongodb")) return FactorialFuenteDatos.MONGODB;
             if (cadena.equals("-fdmemoria")) return FactorialFuenteDatos.MEMORIA;
+            if (cadena.equals("-fdfichero")) return FactorialFuenteDatos.FICHEROS;
         }return FactorialFuenteDatos.MEMORIA;
     }
 
