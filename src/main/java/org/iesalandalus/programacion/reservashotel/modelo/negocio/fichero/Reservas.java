@@ -4,26 +4,57 @@ package org.iesalandalus.programacion.reservashotel.modelo.negocio.fichero;
 
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.*;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.IReservas;
+import org.iesalandalus.programacion.reservashotel.modelo.negocio.fichero.utilidades.UtilidadesXML;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import javax.naming.OperationNotSupportedException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Reservas implements IReservas {
 
     private ArrayList<Reserva> coleccionReservas= new ArrayList<Reserva>();
+    private Document DOM;
+    private Element listaReservas;
+
+    private static final DateTimeFormatter FORMATO_FECHA = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static final DateTimeFormatter FORMATOR_FECHA_HORA = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+    private static final String RUTA_FICHERO="datos/reservas.xml";
+    private static final String RAIZ="Reservas";
+    private static final String RESERVA="Reserva";
+    private static final String DNI_HUESPED="Dni";
+    private static final String PLANTA_HABITACION="Planta";
+    private static final String PUERTA_HABITACION="Puerta";
+    private static final String FECHA_INICIO_RESERVA="FechaInicioReserva";
+    private static final String FECHA_FIN_RESERVA="FechaFinReserva";
+    private static final String REGIMEN="Regimen";
+    private static final String NUMERO_PERSONAS="Personas";
+    private static final String CHECKIN="FechaCheckin";
+    private static final String CHECKOUT="FechaCheckout";
+    private static final String PRECIO="Precio";
+    private static Reservas instancia;
+
+
 
     public Reservas (){
+        comenzar();
+    }
 
+    public Reservas getInstancia(){
+        if (instancia == null)
+            instancia = new Reservas();
+        return instancia;
     }
 
     @Override
     public ArrayList<Reserva> get(){
         ArrayList<Reserva> copiaReservas= new ArrayList<Reserva>();
-        /*for (Reserva reserva: coleccionReservas){
-            copiaReservas.add(reserva);
-        }*/
 
         Iterator<Reserva> iteradorReservas= coleccionReservas.iterator();
 
@@ -32,10 +63,6 @@ public class Reservas implements IReservas {
             copiaReservas.add(reserva);
         }
 
-
-        // He mirado como hacerlo por interner, en este enlace da una solución oara ordenar por fecha de inicio y luego por fecha reserva.https://stackoverflow.com/questions/41402963/sort-an-arraylist-with-multiple-conditions
-
-        // El problema es que lo tengo que hacer directamente en la copia profunda y no en las clases de vista.
         Comparator<Reserva> comparador= new Comparator<Reserva>() {
             @Override
             public int compare(Reserva o1, Reserva o2) {
@@ -50,40 +77,9 @@ public class Reservas implements IReservas {
         return copiaReservas;
     }
 
-    /*private ArrayList<Reserva> copiaProfundaReservas(){
-
-        ArrayList<Reserva> copiaReservas= new ArrayList<Reserva>();
-
-
-        Iterator<Reserva> iteradorReservas= coleccionReservas.iterator();
-
-        while(iteradorReservas.hasNext()){
-            Reserva reserva= new Reserva(iteradorReservas.next());
-            copiaReservas.add(reserva);
-        }
-
-
-        // He mirado como hacerlo por interner, en este enlace da una solución oara ordenar por fecha de inicio y luego por fecha reserva.https://stackoverflow.com/questions/41402963/sort-an-arraylist-with-multiple-conditions
-
-        // El problema es que lo tengo que hacer directamente en la copia profunda y no en las clases de vista.
-        Comparator<Reserva> comparador= new Comparator<Reserva>() {
-            @Override
-            public int compare(Reserva o1, Reserva o2) {
-                if (!o1.getFechaInicioReserva().equals(o2.getFechaInicioReserva()))
-                    return o1.getFechaInicioReserva().compareTo(o2.getFechaInicioReserva());
-                else return o1.getHabitacion().getIdentificador().compareTo(o2.getHabitacion().getIdentificador());
-            }
-
-        };
-        Collections.sort(copiaReservas,comparador);
-
-     return copiaReservas;
-    }*/
-
-
     @Override
     public int getTamano() {
-        return get().size();
+        return listaReservas.getChildNodes().getLength();
     }
 
     @Override
@@ -93,6 +89,7 @@ public class Reservas implements IReservas {
         if (get().contains(reserva))
                 throw new OperationNotSupportedException("ERROR: Ya existe una reserva igual.");
         coleccionReservas.add(reserva);
+        escribirXML(reserva);
     }
 
 
@@ -112,6 +109,17 @@ public class Reservas implements IReservas {
         if (!get().contains(reserva))
             throw new OperationNotSupportedException("ERROR: No existe ninguna reserva como la indicada.");
         coleccionReservas.remove(reserva);
+
+        NodeList reservaNodes = listaReservas.getElementsByTagName(RESERVA);
+        for (int i = 0; i < reservaNodes.getLength(); i++) {
+            Element reservaElement = (Element) reservaNodes.item(i);
+            String dniHuesped = reservaElement.getElementsByTagName(DNI_HUESPED).item(0).getTextContent();
+            if (dniHuesped.equals(reservaElement.getAttribute(DNI_HUESPED))) {
+                Node parent = reservaElement.getParentNode();
+                parent.removeChild(reservaElement);
+                break;
+            }
+        }
     }
 
 
@@ -154,28 +162,11 @@ public class Reservas implements IReservas {
                     if (reserva.getHabitacion() instanceof Suite) copiaReservaTipoHabitacion.add(new Reserva(reserva));
             }
 
-            /*if (reserva.getHabitacion().getClass().getName().equalsIgnoreCase("simple")){
-                copiaReservaTipoHabitacion.add(reserva);
-            }
-            else if (reserva.getHabitacion().getClass().getName().equalsIgnoreCase("doble"))
-                copiaReservaTipoHabitacion.add(reserva);
-            else if (reserva.getHabitacion().getClass().getName().equalsIgnoreCase("triple"))
-                copiaReservaTipoHabitacion.add(reserva);
-            else if (reserva.getHabitacion().getClass().getName().equalsIgnoreCase("suite"))
-                copiaReservaTipoHabitacion.add(reserva);*/
         }
-            /*
-            }
-            if (tipoHabitacion.getClass().isInstance(reserva.getHabitacion()))
-                copiaReservaTipoHabitacion.add(reserva); */
 
         return copiaReservaTipoHabitacion;
-
     }
 
-    /*
-    En este caso, como necesitamos obtener las fechas posteriores a las que tenemos, primero inicializamos una variable de tipo LocalDate con el valor de la fecha actual y entonces hacemos lo mismo que antes verificando la fecha actual.
-     */
 
     @Override
     public ArrayList<Reserva> getReservas(Habitacion habitacion){
@@ -206,11 +197,6 @@ public class Reservas implements IReservas {
             if (reservaFutura.getHabitacion().equals(habitacion) && reservaFutura.getFechaInicioReserva().isAfter(fechaActual))
                 reservasHabitacionFuturas.add(reservaFutura);
         }
-        /*for (Reserva reservaFutura : get()) {
-            if (reservaFutura.getHabitacion().equals(habitacion) && reservaFutura.getFechaInicioReserva().isAfter(fechaActual)) {
-                reservasHabitacionFuturas.add(reservaFutura);
-            }
-        }*/
         return reservasHabitacionFuturas;
     }
 
@@ -225,14 +211,81 @@ public class Reservas implements IReservas {
                 if (reservaCheckin.equals(reserva))
                     reservaCheckin.setCheckIn(fecha);
         }
+    }
 
-        /*for (Reserva reservaARealizarCheckin : coleccionReservas) {
-            if (reservaARealizarCheckin != null) {
-                if (reservaARealizarCheckin.equals(reserva)) {
-                    reservaARealizarCheckin.setCheckIn(fecha);
-                }
-            }
-        }*/
+    public Element huespedToElement(Reserva reserva){
+        Element reservadDOM = DOM.createElement(RESERVA);
+        reservadDOM.setAttribute(DNI_HUESPED, reserva.getHuesped().getDni());
+        reservadDOM.setAttribute(PLANTA_HABITACION, String.valueOf(reserva.getHabitacion().getPlanta()));
+        reservadDOM.setAttribute(PUERTA_HABITACION, String.valueOf(reserva.getHabitacion().getPuerta()));
+
+        Element regimenDOM = DOM.createElement(REGIMEN);
+        regimenDOM.setTextContent(reserva.getRegimen().toString());
+        reservadDOM.appendChild(regimenDOM);
+
+        Element fechaIn = DOM.createElement(FECHA_INICIO_RESERVA);
+        fechaIn.setTextContent(reserva.getFechaInicioReserva().format(FORMATO_FECHA));
+        reservadDOM.appendChild(fechaIn);
+
+        Element fechaFinDOM = DOM.createElement(FECHA_FIN_RESERVA);
+        fechaFinDOM.setTextContent(reserva.getFechaFinReserva().format(FORMATO_FECHA));
+        reservadDOM.appendChild(fechaFinDOM);
+
+        Element numPersonasDOM = DOM.createElement(NUMERO_PERSONAS);
+        numPersonasDOM.setTextContent(reserva.getNumeroPersonas()+"");
+        reservadDOM.appendChild(numPersonasDOM);
+
+        Element checkInDOM = DOM.createElement(CHECKIN);
+        if (reserva.getCheckIn()!=null)checkInDOM.setTextContent(reserva.getCheckIn().format(FORMATOR_FECHA_HORA));
+        reservadDOM.appendChild(checkInDOM);
+
+        Element checkOutDOM = DOM.createElement(CHECKOUT);
+        if (reserva.getCheckOut()!=null) checkOutDOM.setTextContent(reserva.getCheckOut().format(FORMATOR_FECHA_HORA));
+        reservadDOM.appendChild(checkOutDOM);
+
+        Element precioDOM = DOM.createElement(PRECIO);
+        precioDOM.setTextContent(reserva.getPrecio()+"");
+        reservadDOM.appendChild(precioDOM);
+
+        return reservadDOM;
+    }
+
+    public Reserva elementToReserva(Element elementoReserva){
+        Huesped huesped=null;
+        Habitacion habitacion=null;
+        Regimen regimen= null;
+        LocalDate fechaIn;
+        LocalDate fechaFin;
+        int numPersonas;
+
+        for (Reserva r: get()){
+            if (r.getHuesped().getDni().equals(elementoReserva.getAttribute(DNI_HUESPED)))
+                huesped = r.getHuesped();
+        }
+        for (Reserva r: get()){
+            if (r.getHabitacion().getIdentificador().equals(elementoReserva.getAttribute(PLANTA_HABITACION)+elementoReserva.getAttribute(PUERTA_HABITACION)))
+                habitacion=r.getHabitacion();
+        }
+        for (Regimen r: Regimen.values()){
+            if (r.toString().equals(elementoReserva.getAttribute(REGIMEN)))
+                regimen= r;
+        }
+        fechaIn = LocalDate.parse(elementoReserva.getAttribute(FECHA_INICIO_RESERVA));
+        fechaFin = LocalDate.parse(elementoReserva.getAttribute(FECHA_FIN_RESERVA));
+        numPersonas = Integer.parseInt(elementoReserva.getAttribute(NUMERO_PERSONAS));
+
+        return new Reserva(huesped, habitacion, regimen, fechaIn, fechaFin, numPersonas);
+    }
+
+    public void leerXML(){
+        for (int i = 0; i < DOM.getElementsByTagName(RESERVA).getLength(); i++){
+            Element reserva = (Element) DOM.getElementsByTagName(RESERVA).item(i);
+            coleccionReservas.add(elementToReserva(reserva));
+        }
+    }
+
+    public void escribirXML(Reserva reserva){
+        listaReservas.appendChild(huespedToElement(reserva));
     }
 
     @Override
@@ -246,13 +299,17 @@ public class Reservas implements IReservas {
                 if (reservaCheckout.equals(reserva))
                     reservaCheckout.setCheckOut(fecha);
         }
-        /*for (Reserva reservaARealizarCheckout: coleccionReservas){
-            if (reservaARealizarCheckout!=null){
-            if (reservaARealizarCheckout.equals(reserva)){
-                reservaARealizarCheckout.setCheckOut(fecha);
-            }*/
             }
 
-            public void comenzar(){}
-            public void terminar(){}
+            public void comenzar(){
+                DOM = UtilidadesXML.xmlToDom(RUTA_FICHERO);
+                if (DOM == null){
+                    DOM= UtilidadesXML.crearDomVacio(RAIZ);
+                }
+                leerXML();
+                listaReservas = DOM.getDocumentElement();
+            }
+            public void terminar(){
+                UtilidadesXML.domToXml(DOM, RUTA_FICHERO);
+            }
         }
