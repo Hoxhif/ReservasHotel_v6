@@ -33,7 +33,7 @@ public class Huespedes implements IHuespedes {
 
 
     public Huespedes(){
-
+        comenzar();
     }
 
     @Override
@@ -107,7 +107,7 @@ public class Huespedes implements IHuespedes {
         }
     }
 
-    public Huespedes getInstancia(){
+    public static Huespedes getInstancia(){
         if (instancia == null)
             instancia = new Huespedes();
         return instancia;
@@ -122,7 +122,9 @@ public class Huespedes implements IHuespedes {
         listaHuespedes = DOM.getDocumentElement();
     }
     public void terminar(){
-        UtilidadesXML.domToXml(DOM, RUTA_FICHERO);
+        if (UtilidadesXML.domToXml(DOM, RUTA_FICHERO))
+            System.out.println("Archivos guardados correctamente");
+        else System.out.println("Error al guardar los archivos");
     }
 
     public Huesped elementToHuesped(Element elementoHuesped){

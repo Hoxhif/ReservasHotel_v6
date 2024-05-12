@@ -41,10 +41,10 @@ public class Habitaciones implements IHabitaciones {
 
 
     public Habitaciones(){
-
+        comenzar();
     }
 
-    public Habitaciones getInstancia(){
+    public static Habitaciones getInstancia(){
         if (instancia == null)
             instancia = new Habitaciones();
         return instancia;
@@ -284,7 +284,9 @@ public class Habitaciones implements IHabitaciones {
         listaHabitaciones = DOM.getDocumentElement();
     }
     public void terminar(){
-        UtilidadesXML.domToXml(DOM, RUTA_FICHERO);
+        if (UtilidadesXML.domToXml(DOM, RUTA_FICHERO))
+            System.out.println("Archivos guardados correctamente");
+        else System.out.println("Error al guardar los archivos");
     }
 
 

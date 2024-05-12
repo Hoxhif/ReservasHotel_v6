@@ -43,10 +43,10 @@ public class Reservas implements IReservas {
 
 
     public Reservas (){
-
+        comenzar();
     }
 
-    public Reservas getInstancia(){
+    public static Reservas getInstancia(){
         if (instancia == null)
             instancia = new Reservas();
         return instancia;
@@ -310,6 +310,8 @@ public class Reservas implements IReservas {
                 listaReservas = DOM.getDocumentElement();
             }
             public void terminar(){
-                UtilidadesXML.domToXml(DOM, RUTA_FICHERO);
+                if (UtilidadesXML.domToXml(DOM, RUTA_FICHERO))
+                    System.out.println("Archivos guardados correctamente");
+                else System.out.println("Error al guardar los archivos");
             }
         }

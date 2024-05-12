@@ -12,16 +12,16 @@ public class FuenteDatosFichero implements IFuenteDatos {
 
     @Override
     public IHuespedes crearHuespedes(){
-        return new Huespedes();
+        return Huespedes.getInstancia();
     }
 
     @Override
     public IHabitaciones crearHabitaciones(){
-        return new Habitaciones();
+        return Habitaciones.getInstancia();
     }
 
     @Override
     public IReservas crearReservas(){
-        return new Reservas();
+        return Reservas.getInstancia();
     }
 }
