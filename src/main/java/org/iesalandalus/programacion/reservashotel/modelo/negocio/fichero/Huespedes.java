@@ -15,7 +15,7 @@ import java.util.*;
 
 public class Huespedes implements IHuespedes {
 
-    private ArrayList<Huesped> coleccionHuesped;
+    private ArrayList<Huesped> coleccionHuesped= new ArrayList<>();
     private Document DOM;
     private Element listaHuespedes;
 
@@ -50,10 +50,10 @@ public class Huespedes implements IHuespedes {
         while (huespedIterator.hasNext()){
             //Habitacion habitacion= new Habitacion(habitacionIterator.next());
             huesped= huespedIterator.next();
-                //Hacemos uso de un casting para convertir la habitación en un simple.
+                //Hacemos uso de un casting para convertir la habitaciï¿½n en un simple.
                 copiaHuesped.add(new Huesped(huesped));
         }
-        // Había usado reversed al principio porque pensaba que iría de mas a menos, pero parece ser que no, que va de menos a mas por defecto.
+        // Habï¿½a usado reversed al principio porque pensaba que irï¿½a de mas a menos, pero parece ser que no, que va de menos a mas por defecto.
         Collections.sort(copiaHuesped, Comparator.comparing(Huesped::getDni));
         return copiaHuesped;
     }
@@ -89,7 +89,7 @@ public class Huespedes implements IHuespedes {
         if (huesped == null)
             throw new NullPointerException("ERROR: No se puede borrar un huesped nulo nula.");
         if (!get().contains(huesped))
-            throw new OperationNotSupportedException("ERROR: No existe ningún huesped como la indicada.");
+            throw new OperationNotSupportedException("ERROR: No existe ningï¿½n huesped como la indicada.");
         else{
             coleccionHuesped.remove(huesped);
 
@@ -114,6 +114,7 @@ public class Huespedes implements IHuespedes {
     }
 
     public void comenzar(){
+        DOM = UtilidadesXML.xmlToDom(RUTA_FICHERO);
         if (DOM == null){
             DOM=UtilidadesXML.crearDomVacio(RAIZ);
         }
@@ -158,6 +159,7 @@ public class Huespedes implements IHuespedes {
 
         Element fechaDOM = DOM.createElement(FECHA_NACIMIENTO);
         fechaDOM.setTextContent(huesped.getFechaNacimiento().format(FORMATO_FECHA));
+        huespedDOM.appendChild(fechaDOM);
 
         return huespedDOM;
     }
