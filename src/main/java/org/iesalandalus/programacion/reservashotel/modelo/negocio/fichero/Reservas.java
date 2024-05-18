@@ -354,10 +354,20 @@ public class Reservas implements IReservas {
                 identificadorExistentes.add(identificadorHabitacion+identificador2Habitacion);
             }
         }
-        for (Reserva reservas : coleccionReservas) {
+        for (Reserva reservas : get()) {
             if (!dniExistentes.contains(reservas.getHuesped().getDni())){
                 if (!identificadorExistentes.contains(reservas.getHabitacion().getIdentificador()))
                     listaReservas.appendChild(reservaToElement(reservas));
+            }
+            else if (reservas.getCheckIn()!= null || reservas.getCheckOut()!= null){
+                try {
+                    Reserva reservaCambiada = new Reserva(reservas);
+                    borrar(reservas);
+                    insertar(reservaCambiada);
+                    listaReservas.appendChild(reservaToElement(reservaCambiada));
+                }catch (OperationNotSupportedException e){
+                    System.out.println(e.getMessage());
+                }
             }
         }
     }
