@@ -335,14 +335,62 @@ public class Reservas implements IReservas {
     }
 
     public void escribirXML() {
-        ArrayList<String> dniExistentes = new ArrayList<>();
-        NodeList huespedNodes = listaReservas.getElementsByTagName(RESERVA);
-        for (int i = 0; i < huespedNodes.getLength(); i++) {
-            Element huespedElement = (Element) huespedNodes.item(i);
-            String dniHuesped = huespedElement.getAttribute(DNI_HUESPED);
-            dniExistentes.add(dniHuesped);
+        //ArrayList<String> dniExistentes = new ArrayList<>();
+        //ArrayList<String> identificadorExistentes = new ArrayList<>();
+        /*NodeList reservasNodes = listaReservas.getElementsByTagName(RESERVA);
+        for (int i = 0; i < reservasNodes.getLength(); i++) {
+            Element reservaElement = (Element) reservasNodes.item(i);
+            String dniHuesped = reservaElement.getAttribute(DNI_HUESPED);
+            String habiPlanta = reservaElement.getAttribute(PLANTA_HABITACION);
+            String habiPuerta = reservaElement.getAttribute(PUERTA_HABITACION);
+            String idHabi = habiPlanta + habiPuerta;
+
+            //dniExistentes.add(dniHuesped);
+            //identificadorExistentes.add(habiPlanta+habiPuerta);
+
+            for (Reserva reserva : get()){
+                if (!reserva.getHabitacion().getIdentificador().equals(idHabi) || !reserva.getHuesped().getDni().equals(dniHuesped)){
+                    listaReservas.appendChild(reservaToElement(reserva));
+                }
+                else if (reserva.getCheckIn() != null || reserva.getCheckOut() != null){
+                    try{
+                        Reserva reservaCambiada = new Reserva(reserva);
+                        borrar(reserva);
+                        insertar(reservaCambiada);
+                        listaReservas.appendChild(reservaToElement(reservaCambiada));
+                    }catch (OperationNotSupportedException e){
+                        System.out.println(e.getMessage());
+                }
+            }
         }
-        ArrayList<String> identificadorExistentes = new ArrayList<>();
+        }*/
+        NodeList reservasNode = listaReservas.getElementsByTagName(RESERVA);
+        for (Reserva reserva: get()){
+            boolean existe= false;
+            for (int i=0; i<reservasNode.getLength();i++) {
+                Node nodoReservas = reservasNode.item(i); //Esto lo he tenido que hacer para quitarme un problema de class cast exception usando chatgpt
+                if (nodoReservas.getNodeType() == Node.ELEMENT_NODE) {
+                    Element reservaElemento = (Element) nodoReservas;
+                    String dniHuesped = reservaElemento.getAttribute(DNI_HUESPED);
+                    String plantaHabi = reservaElemento.getAttribute(PLANTA_HABITACION);
+                    String puertaHabi = reservaElemento.getAttribute(PUERTA_HABITACION);
+                    String idHabi = plantaHabi + puertaHabi;
+                    if (reserva.getHabitacion().getIdentificador().equals(idHabi) && reserva.getHuesped().getDni().equals(dniHuesped)) {
+                        existe = true;
+                        if (reserva.getCheckIn() != null || reserva.getCheckOut() != null) {
+                            Element nuevaReservaElemento = reservaToElement(reserva);
+                            listaReservas.replaceChild(nuevaReservaElemento, reservaElemento);
+                        }
+                        break;
+                    }
+                }
+            }
+            if (!existe){
+                listaReservas.appendChild(reservaToElement(reserva));
+            }
+        }
+    }
+    /*
         NodeList habitacionesNodes = listaReservas.getElementsByTagName(RESERVA);
         NodeList habitaciones2Nodes = listaReservas.getElementsByTagName(RESERVA);
         for (int i = 0; i < habitacionesNodes.getLength(); i++) {
@@ -353,24 +401,15 @@ public class Reservas implements IReservas {
                 String identificador2Habitacion = habitacionElement2.getAttribute(PUERTA_HABITACION);
                 identificadorExistentes.add(identificadorHabitacion+identificador2Habitacion);
             }
-        }
-        for (Reserva reservas : get()) {
-            if (!dniExistentes.contains(reservas.getHuesped().getDni())){
-                if (!identificadorExistentes.contains(reservas.getHabitacion().getIdentificador()))
-                    listaReservas.appendChild(reservaToElement(reservas));
-            }
-            else if (reservas.getCheckIn()!= null || reservas.getCheckOut()!= null){
-                try {
-                    Reserva reservaCambiada = new Reserva(reservas);
-                    borrar(reservas);
-                    insertar(reservaCambiada);
-                    listaReservas.appendChild(reservaToElement(reservaCambiada));
-                }catch (OperationNotSupportedException e){
-                    System.out.println(e.getMessage());
-                }
-            }
-        }
-    }
+        }*/
+    /*
+    NodeList listaNodos = DOM.getDocumentElement().getChildNodes();
+            for (int i = 0; i < listaNodos.getLength(); i++) {
+                Node nodo = listaNodos.item(i);
+                if (nodo.getNodeType() == Node.ELEMENT_NODE) {
+                    if (!reservas.getHuesped().getDni().equals((elementToReserva((Element) DOM.getDocumentElement().getChildNodes().item(i)).getHuesped().getDni())) || !reservas.getHabitacion().getIdentificador().equals((elementToReserva((Element) DOM.getDocumentElement().getChildNodes().item(i)).getHabitacion().getIdentificador())))
+                        listaReservas.appendChild(reservaToElement(reservas));
+     */
 
     @Override
     public void realizarCheckout(Reserva reserva, LocalDateTime fecha) {

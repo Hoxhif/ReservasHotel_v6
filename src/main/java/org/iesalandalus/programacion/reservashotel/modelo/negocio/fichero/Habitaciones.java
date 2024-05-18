@@ -91,7 +91,7 @@ public class Habitaciones implements IHabitaciones {
                 case SIMPLE: copiaHabitaciones.add(new Simple((Simple)comprobarHabitacion)); break;
                 case DOBLE: copiaHabitaciones.add(new Doble((Doble)comprobarHabitacion)); break;
                 case TRIPLE: copiaHabitaciones.add(new Triple((Triple) comprobarHabitacion)); break;
-                case SUITE: copiaHabitaciones.add(new Suite((Suite) comprobarHabitacion));
+                case SUITE: copiaHabitaciones.add(new Suite((Suite) comprobarHabitacion)); break;
             }
         }
         Collections.sort(copiaHabitaciones, Comparator.comparing(Habitacion::getIdentificador));
