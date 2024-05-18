@@ -146,8 +146,8 @@ public class Habitaciones implements IHabitaciones {
             NodeList habitacionNodes = listaHabitaciones.getElementsByTagName(HABITACION);
             for (int i = 0; i < habitacionNodes.getLength(); i++) {
                 Element habitacionElement = (Element) habitacionNodes.item(i);
-                String dniHuesped = habitacionElement.getElementsByTagName(IDENTIFICADOR).item(0).getTextContent();
-                if (dniHuesped.equals(habitacionElement.getAttribute(IDENTIFICADOR))) {
+                String idHabitacion = habitacionElement.getAttribute(IDENTIFICADOR);
+                if (idHabitacion.equals(habitacion.getIdentificador())) {
                     Node parent = habitacionElement.getParentNode();
                     parent.removeChild(habitacionElement);
                     break;
@@ -179,8 +179,8 @@ public class Habitaciones implements IHabitaciones {
         habitaciondDOM.appendChild(precioDOM);
 
         if (habitacion instanceof Doble) {
-            Element tipoDOM = DOM.createElement(TIPO);
-            tipoDOM.setTextContent(tipo);
+            Element tipoDOM = DOM.createElement(tipo);
+            //tipoDOM.setTextContent(tipo);
             habitaciondDOM.appendChild(tipoDOM);
 
             Element camasInDOM = DOM.createElement(CAMAS_INDIVIDUALES);
@@ -193,8 +193,8 @@ public class Habitaciones implements IHabitaciones {
         }
 
         if (habitacion instanceof Triple){
-            Element tipoDOM = DOM.createElement(TIPO);
-            tipoDOM.setTextContent(tipo);
+            Element tipoDOM = DOM.createElement(tipo);
+            //tipoDOM.setTextContent(tipo);
             habitaciondDOM.appendChild(tipoDOM);
 
             Element camasInDOM = DOM.createElement(CAMAS_INDIVIDUALES);
@@ -211,8 +211,8 @@ public class Habitaciones implements IHabitaciones {
         }
 
         if (habitacion instanceof Suite){
-            Element tipoDOM = DOM.createElement(TIPO);
-            tipoDOM.setTextContent(tipo);
+            Element tipoDOM = DOM.createElement(tipo);
+            //tipoDOM.setTextContent(tipo);
             habitaciondDOM.appendChild(tipoDOM);
 
             Element banosDOM = DOM.createElement(BANOS);
@@ -317,8 +317,18 @@ public class Habitaciones implements IHabitaciones {
     }
 
     public void escribirXML(){
-        for (Habitacion h: coleccionHabitaciones){
-            listaHabitaciones.appendChild(habitacionToElement(h));
+        ArrayList<String> identificadorExistentes = new ArrayList<>();
+        NodeList habitacionesNodes = listaHabitaciones.getElementsByTagName(HABITACION);
+        for (int i = 0; i < habitacionesNodes.getLength(); i++) {
+            Element habitacionElement = (Element) habitacionesNodes.item(i);
+            String puertaHabitacion = habitacionElement.getElementsByTagName(PUERTA).item(0).getTextContent();
+            String plantaHabitacion = habitacionElement.getElementsByTagName(PLANTA).item(0).getTextContent();
+            identificadorExistentes.add(plantaHabitacion+puertaHabitacion);
+        }
+        for (Habitacion habitacion : coleccionHabitaciones) {
+            if (!identificadorExistentes.contains(habitacion.getIdentificador())) {
+                listaHabitaciones.appendChild(habitacionToElement(habitacion));
+            }
         }
     }
 

@@ -98,8 +98,8 @@ public class Huespedes implements IHuespedes {
             NodeList huespedNodes = listaHuespedes.getElementsByTagName(HUESPED);
             for (int i = 0; i < huespedNodes.getLength(); i++) {
                 Element huespedElement = (Element) huespedNodes.item(i);
-                String dniHuesped = huespedElement.getElementsByTagName(DNI).item(0).getTextContent();
-                if (dniHuesped.equals(huespedElement.getAttribute(DNI))) {
+                String dniHuesped = huespedElement.getAttribute(DNI);
+                if (dniHuesped.equals(huesped.getDni())) {
                     Node parent = huespedElement.getParentNode();
                     parent.removeChild(huespedElement);
                     break;
@@ -222,16 +222,25 @@ public class Huespedes implements IHuespedes {
             for (int i=0; i<listaNodos.getLength(); i++){
                 Node nodo= listaNodos.item(i);
                 if (nodo.getNodeType() == Node.ELEMENT_NODE){
-                    coleccionHuesped.add(elementToHuesped((Element)DOM.getDocumentElement().getChildNodes().item(i)));
+                    Huesped huesped = elementToHuesped((Element)DOM.getDocumentElement().getChildNodes().item(i));
+                    coleccionHuesped.add(huesped);
                 }
         }
     }
 
     public void escribirXML(){
-        for (Huesped h: coleccionHuesped){
-            listaHuespedes.appendChild(huespedToElement(h));
+        ArrayList<String> dniExistentes = new ArrayList<>();
+        NodeList huespedNodes = listaHuespedes.getElementsByTagName(HUESPED);
+        for (int i = 0; i < huespedNodes.getLength(); i++) {
+            Element huespedElement = (Element) huespedNodes.item(i);
+            String dni = huespedElement.getAttribute(DNI);
+            //String dniHuesped = huespedElement.getElementsByTagName(DNI).item(0).getTextContent();
+            dniExistentes.add(dni);
         }
-            //listaHuespedes.appendChild(huespedToElement(huesped));
+        for (Huesped huesped : coleccionHuesped) {
+            if (!dniExistentes.contains(huesped.getDni())) {
+                listaHuespedes.appendChild(huespedToElement(huesped));
+            }
+        }
     }
-
 }

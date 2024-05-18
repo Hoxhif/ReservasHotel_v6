@@ -112,8 +112,10 @@ public class Reservas implements IReservas {
         NodeList reservaNodes = listaReservas.getElementsByTagName(RESERVA);
         for (int i = 0; i < reservaNodes.getLength(); i++) {
             Element reservaElement = (Element) reservaNodes.item(i);
-            String dniHuesped = reservaElement.getElementsByTagName(DNI_HUESPED).item(0).getTextContent();
-            if (dniHuesped.equals(reservaElement.getAttribute(DNI_HUESPED))) {
+            String dniHuesped = reservaElement.getAttribute(DNI_HUESPED);
+            String plantaHabi = reservaElement.getAttribute(PLANTA_HABITACION);
+            String puertaHabi = reservaElement.getAttribute(PUERTA_HABITACION);
+            if (dniHuesped.equals(reserva.getHuesped().getDni()) && reserva.getHabitacion().getIdentificador().equals(plantaHabi+puertaHabi)) {
                 Node parent = reservaElement.getParentNode();
                 parent.removeChild(reservaElement);
                 break;
@@ -333,8 +335,30 @@ public class Reservas implements IReservas {
     }
 
     public void escribirXML() {
-        for (Reserva r : coleccionReservas) {
-            listaReservas.appendChild(reservaToElement(r));
+        ArrayList<String> dniExistentes = new ArrayList<>();
+        NodeList huespedNodes = listaReservas.getElementsByTagName(RESERVA);
+        for (int i = 0; i < huespedNodes.getLength(); i++) {
+            Element huespedElement = (Element) huespedNodes.item(i);
+            String dniHuesped = huespedElement.getAttribute(DNI_HUESPED);
+            dniExistentes.add(dniHuesped);
+        }
+        ArrayList<String> identificadorExistentes = new ArrayList<>();
+        NodeList habitacionesNodes = listaReservas.getElementsByTagName(RESERVA);
+        NodeList habitaciones2Nodes = listaReservas.getElementsByTagName(RESERVA);
+        for (int i = 0; i < habitacionesNodes.getLength(); i++) {
+            for (int j = 0; i<habitaciones2Nodes.getLength();i++){
+                Element habitacionElement = (Element) habitacionesNodes.item(i);
+                String identificadorHabitacion = habitacionElement.getAttribute(PLANTA_HABITACION);
+                Element habitacionElement2 = (Element) habitaciones2Nodes.item(j);
+                String identificador2Habitacion = habitacionElement2.getAttribute(PUERTA_HABITACION);
+                identificadorExistentes.add(identificadorHabitacion+identificador2Habitacion);
+            }
+        }
+        for (Reserva reservas : coleccionReservas) {
+            if (!dniExistentes.contains(reservas.getHuesped().getDni())){
+                if (!identificadorExistentes.contains(reservas.getHabitacion().getIdentificador()))
+                    listaReservas.appendChild(reservaToElement(reservas));
+            }
         }
     }
 
@@ -365,5 +389,8 @@ public class Reservas implements IReservas {
         if (UtilidadesXML.domToXml(DOM, RUTA_FICHERO))
             System.out.println("Archivos guardados correctamente");
         else System.out.println("Error al guardar los archivos");
-    }
+
+        }
+
+
 }
