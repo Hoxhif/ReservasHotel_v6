@@ -40,6 +40,7 @@ public class LanzadorVentanaPrincipal extends Application {
     private void confirmarSalida(Stage escenarioPrincipal, WindowEvent e){
         if (Dialogos.mostrarDialogoConfirmacion("DAW - Gesti�n Hotel", "�Est�s seguro de que desea cerrar la aplicaci�n?")){
             escenarioPrincipal.close();
+            VistaGrafica.getInstancia().terminar();
             System.exit(0);
         }else{
             e.consume();
