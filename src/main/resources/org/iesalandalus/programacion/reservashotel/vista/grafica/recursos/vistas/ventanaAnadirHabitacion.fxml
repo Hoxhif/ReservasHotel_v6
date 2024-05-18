@@ -192,7 +192,7 @@
       </HBox>
       <HBox layoutY="546.0" prefHeight="64.0" prefWidth="600.0">
          <children>
-            <Button fx:id="btConfirmar" mnemonicParsing="false" onAction="#insertarHabitacion" prefHeight="25.0" prefWidth="286.0" text="Añadir Huesped">
+            <Button fx:id="btConfirmar" mnemonicParsing="false" onAction="#insertarHabitacion" prefHeight="25.0" prefWidth="286.0" text="Añadir Habitación">
                <HBox.margin>
                   <Insets left="160.0" top="17.0" />
                </HBox.margin>
