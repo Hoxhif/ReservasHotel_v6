@@ -113,7 +113,7 @@ public class Habitaciones implements IHabitaciones {
         }
 
         coleccionHabitaciones.add(habitacion);
-        escribirXML(habitacion);
+        //escribirXML(habitacion);
     }
 
     @Override
@@ -229,61 +229,116 @@ public class Habitaciones implements IHabitaciones {
     }
 
     public Habitacion elementToHabitacion(Element elementoHabitacion){
-        int planta;
-        int puerta;
-        double precio;
-        int numCamIn;
-        int numCamDob;
-        int numBanos;
-        boolean jacuzzi;
+        String planta=null;
+        String puerta=null;
+        String precio=null;
+        String numCamIn=null;
+        String numCamDob=null;
+        String numBanos=null;
+        boolean jacuzzi=false;
 
-        planta = Integer.parseInt(elementoHabitacion.getAttribute(PLANTA));
-        puerta = Integer.parseInt(elementoHabitacion.getAttribute(PUERTA));
-        precio = Double.parseDouble(elementoHabitacion.getAttribute(PRECIO));
+        NodeList plantaList = elementoHabitacion.getElementsByTagName(PLANTA);
+        if (plantaList.getLength() > 0) {
+            planta = plantaList.item(0).getTextContent();
+        }
+
+        NodeList puertaList = elementoHabitacion.getElementsByTagName(PUERTA);
+        if (puertaList.getLength() > 0) {
+            puerta = puertaList.item(0).getTextContent();
+        }
+
+        NodeList precioList = elementoHabitacion.getElementsByTagName(PRECIO);
+        if (precioList.getLength()> 0){
+            precio = precioList.item(0).getTextContent();
+        }
+
+        //planta = Integer.parseInt(elementoHabitacion.getAttribute(PLANTA));
+        //puerta = Integer.parseInt(elementoHabitacion.getAttribute(PUERTA));
+        //precio = Double.parseDouble(elementoHabitacion.getAttribute(PRECIO));
 
         switch (elementoHabitacion.getAttribute(TIPO)){
-            case SIMPLE: return new Simple(planta, puerta, precio);
+            case SIMPLE: return new Simple(Integer.parseInt(planta), Integer.parseInt(puerta), Double.parseDouble(precio));
             case DOBLE:
-                numCamIn = Integer.parseInt(elementoHabitacion.getAttribute(CAMAS_INDIVIDUALES));
+                NodeList numCamInList = elementoHabitacion.getElementsByTagName(CAMAS_INDIVIDUALES);
+                if (numCamInList.getLength()>0)
+                    numCamIn = numCamInList.item(0).getTextContent();
+                NodeList numCamDoblesList = elementoHabitacion.getElementsByTagName(CAMAS_DOBLES);
+                if (numCamDoblesList.getLength() > 0)
+                    numCamDob = numCamDoblesList.item(0).getTextContent();
+                return new Doble(Integer.parseInt(planta),Integer.parseInt(puerta), Double.parseDouble(precio), Integer.parseInt(numCamIn), Integer.parseInt(numCamDob));
+                /*numCamIn = Integer.parseInt(elementoHabitacion.getAttribute(CAMAS_INDIVIDUALES));
                 numCamDob = Integer.parseInt(elementoHabitacion.getAttribute(CAMAS_DOBLES));
-                return new Doble(planta, puerta, precio, numCamIn, numCamDob);
-
+                return new Doble(planta, puerta, precio, numCamIn, numCamDob);*/
             case TRIPLE:
-                numCamIn = Integer.parseInt(elementoHabitacion.getAttribute(CAMAS_INDIVIDUALES));
+                /*numCamIn = Integer.parseInt(elementoHabitacion.getAttribute(CAMAS_INDIVIDUALES));
                 numCamDob = Integer.parseInt(elementoHabitacion.getAttribute(CAMAS_DOBLES));
                 numBanos = Integer.parseInt(elementoHabitacion.getAttribute(BANOS));
-                return new Triple(planta, puerta, precio, numBanos, numCamIn, numCamDob);
-
+                return new Triple(planta, puerta, precio, numBanos, numCamIn, numCamDob);*/
+                NodeList numCamInListTriple = elementoHabitacion.getElementsByTagName(CAMAS_INDIVIDUALES);
+                if (numCamInListTriple.getLength()>0)
+                    numCamIn = numCamInListTriple.item(0).getTextContent();
+                NodeList numCamDoblesListTriple = elementoHabitacion.getElementsByTagName(CAMAS_DOBLES);
+                if (numCamDoblesListTriple.getLength() > 0)
+                    numCamDob = numCamDoblesListTriple.item(0).getTextContent();
+                NodeList numBanosList = elementoHabitacion.getElementsByTagName(BANOS);
+                if (numBanosList.getLength()>0)
+                    numBanos = numBanosList.item(0).getTextContent();
+                return new Triple(Integer.parseInt(planta),Integer.parseInt(puerta), Double.parseDouble(precio), Integer.parseInt(numBanos),Integer.parseInt(numCamIn), Integer.parseInt(numCamDob));
             case SUITE:
-                numBanos = Integer.parseInt(elementoHabitacion.getAttribute(BANOS));
+                /*numBanos = Integer.parseInt(elementoHabitacion.getAttribute(BANOS));
                 if (elementoHabitacion.getAttribute(JACUZZI).equals("Con Jacuzzi")) jacuzzi=true;
                 else jacuzzi=false;
-                return new Suite(planta, puerta, precio, numBanos, jacuzzi);
-
-            default: return new Simple(planta, puerta, precio);
+                return new Suite(planta, puerta, precio, numBanos, jacuzzi);*/
+                NodeList numBanosListSuite = elementoHabitacion.getElementsByTagName(BANOS);
+                if (numBanosListSuite.getLength()>0)
+                    numBanos = numBanosListSuite.item(0).getTextContent();
+                NodeList jacuzziList = elementoHabitacion.getElementsByTagName(JACUZZI);
+                if (jacuzziList.getLength()>0)
+                    if (jacuzziList.item(0).getTextContent().equals("Con Jacuzzi"))
+                        jacuzzi=true;
+                    else jacuzzi=false;
+                return new Suite(Integer.parseInt(planta),Integer.parseInt(puerta), Double.parseDouble(precio), Integer.parseInt(numBanos), jacuzzi);
+            default: return new Simple(Integer.parseInt(planta), Integer.parseInt(puerta), Double.parseDouble(precio));
         }
     }
 
     public void leerXML(){
-        for (int i = 0; i < DOM.getElementsByTagName(HABITACION).getLength(); i++){
+        /*for (int i = 0; i < DOM.getElementsByTagName(HABITACION).getLength(); i++){
             Element habitacion = (Element) DOM.getElementsByTagName(HABITACION).item(i);
             coleccionHabitaciones.add(elementToHabitacion(habitacion));
+        }*/
+        NodeList listaNodos = DOM.getDocumentElement().getChildNodes();
+        for (int i=0; i<listaNodos.getLength(); i++){
+            Node nodo= listaNodos.item(i);
+            if (nodo.getNodeType() == Node.ELEMENT_NODE){
+                coleccionHabitaciones.add(elementToHabitacion((Element)DOM.getDocumentElement().getChildNodes().item(i)));
+            }
         }
     }
 
-    public void escribirXML(Habitacion habitacion){
-        listaHabitaciones.appendChild(habitacionToElement(habitacion));
+    public void escribirXML(){
+        for (Habitacion h: coleccionHabitaciones){
+            listaHabitaciones.appendChild(habitacionToElement(h));
+        }
     }
 
     public void comenzar(){
+        /*if (UtilidadesXML.xmlToDom(RUTA_FICHERO) != null)
+            DOM = UtilidadesXML.xmlToDom(RUTA_FICHERO);
+        if (DOM == null){
+            DOM= UtilidadesXML.crearDomVacio(RUTA_FICHERO, RAIZ);
+        }
+        leerXML();
+        listaHabitaciones = DOM.getDocumentElement();*/
         DOM = UtilidadesXML.xmlToDom(RUTA_FICHERO);
         if (DOM == null){
-            DOM= UtilidadesXML.crearDomVacio(RAIZ);
+            DOM= UtilidadesXML.crearDomVacio(RUTA_FICHERO, RAIZ);
         }
         leerXML();
         listaHabitaciones = DOM.getDocumentElement();
     }
     public void terminar(){
+        escribirXML();
         if (UtilidadesXML.domToXml(DOM, RUTA_FICHERO))
             System.out.println("Archivos guardados correctamente");
         else System.out.println("Error al guardar los archivos");

@@ -18,52 +18,51 @@ import java.util.*;
 
 public class Reservas implements IReservas {
 
-    private ArrayList<Reserva> coleccionReservas= new ArrayList<Reserva>();
+    private ArrayList<Reserva> coleccionReservas = new ArrayList<Reserva>();
     private Document DOM;
     private Element listaReservas;
 
     private static final DateTimeFormatter FORMATO_FECHA = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static final DateTimeFormatter FORMATOR_FECHA_HORA = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
-    private static final String RUTA_FICHERO="datos/reservas.xml";
-    private static final String RAIZ="Reservas";
-    private static final String RESERVA="Reserva";
-    private static final String DNI_HUESPED="Dni";
-    private static final String PLANTA_HABITACION="Planta";
-    private static final String PUERTA_HABITACION="Puerta";
-    private static final String FECHA_INICIO_RESERVA="FechaInicioReserva";
-    private static final String FECHA_FIN_RESERVA="FechaFinReserva";
-    private static final String REGIMEN="Regimen";
-    private static final String NUMERO_PERSONAS="Personas";
-    private static final String CHECKIN="FechaCheckin";
-    private static final String CHECKOUT="FechaCheckout";
-    private static final String PRECIO="Precio";
+    private static final String RUTA_FICHERO = "datos/reservas.xml";
+    private static final String RAIZ = "Reservas";
+    private static final String RESERVA = "Reserva";
+    private static final String DNI_HUESPED = "Dni";
+    private static final String PLANTA_HABITACION = "Planta";
+    private static final String PUERTA_HABITACION = "Puerta";
+    private static final String FECHA_INICIO_RESERVA = "FechaInicioReserva";
+    private static final String FECHA_FIN_RESERVA = "FechaFinReserva";
+    private static final String REGIMEN = "Regimen";
+    private static final String NUMERO_PERSONAS = "Personas";
+    private static final String CHECKIN = "FechaCheckin";
+    private static final String CHECKOUT = "FechaCheckout";
+    private static final String PRECIO = "Precio";
     private static Reservas instancia;
 
 
-
-    public Reservas (){
+    public Reservas() {
         comenzar();
     }
 
-    public static Reservas getInstancia(){
+    public static Reservas getInstancia() {
         if (instancia == null)
             instancia = new Reservas();
         return instancia;
     }
 
     @Override
-    public ArrayList<Reserva> get(){
-        ArrayList<Reserva> copiaReservas= new ArrayList<Reserva>();
+    public ArrayList<Reserva> get() {
+        ArrayList<Reserva> copiaReservas = new ArrayList<Reserva>();
 
-        Iterator<Reserva> iteradorReservas= coleccionReservas.iterator();
+        Iterator<Reserva> iteradorReservas = coleccionReservas.iterator();
 
-        while(iteradorReservas.hasNext()){
-            Reserva reserva= new Reserva(iteradorReservas.next());
+        while (iteradorReservas.hasNext()) {
+            Reserva reserva = new Reserva(iteradorReservas.next());
             copiaReservas.add(reserva);
         }
 
-        Comparator<Reserva> comparador= new Comparator<Reserva>() {
+        Comparator<Reserva> comparador = new Comparator<Reserva>() {
             @Override
             public int compare(Reserva o1, Reserva o2) {
                 if (!o1.getFechaInicioReserva().equals(o2.getFechaInicioReserva()))
@@ -72,7 +71,7 @@ public class Reservas implements IReservas {
             }
 
         };
-        Collections.sort(copiaReservas,comparador);
+        Collections.sort(copiaReservas, comparador);
 
         return copiaReservas;
     }
@@ -83,18 +82,18 @@ public class Reservas implements IReservas {
     }
 
     @Override
-    public void insertar (Reserva reserva) throws OperationNotSupportedException{
+    public void insertar(Reserva reserva) throws OperationNotSupportedException {
         if (reserva == null)
             throw new NullPointerException("ERROR: No se puede insertar una reserva nula.");
         if (get().contains(reserva))
-                throw new OperationNotSupportedException("ERROR: Ya existe una reserva igual.");
+            throw new OperationNotSupportedException("ERROR: Ya existe una reserva igual.");
         coleccionReservas.add(reserva);
-        escribirXML(reserva);
+        //escribirXML();
     }
 
 
     @Override
-    public Reserva buscar (Reserva reserva){
+    public Reserva buscar(Reserva reserva) {
         if (reserva == null)
             throw new NullPointerException("ERROR: No se puede buscar una reserva nula.");
         if (get().contains(reserva))
@@ -103,7 +102,7 @@ public class Reservas implements IReservas {
     }
 
     @Override
-    public void borrar (Reserva reserva)throws OperationNotSupportedException{
+    public void borrar(Reserva reserva) throws OperationNotSupportedException {
         if (reserva == null)
             throw new NullPointerException("ERROR: No se puede borrar una reserva nula.");
         if (!get().contains(reserva))
@@ -124,14 +123,14 @@ public class Reservas implements IReservas {
 
 
     @Override
-    public ArrayList<Reserva> getReservas (Huesped huesped) {
+    public ArrayList<Reserva> getReservas(Huesped huesped) {
         if (huesped == null)
             throw new NullPointerException("ERROR: No se pueden buscar reservas de un huésped nulo.");
 
-        ArrayList<Reserva> copiaReservaHuesped= new ArrayList<>();
-        Iterator<Reserva> iteratorReserva= get().iterator();
-        while (iteratorReserva.hasNext()){
-            Reserva reserva= iteratorReserva.next();
+        ArrayList<Reserva> copiaReservaHuesped = new ArrayList<>();
+        Iterator<Reserva> iteratorReserva = get().iterator();
+        while (iteratorReserva.hasNext()) {
+            Reserva reserva = iteratorReserva.next();
             if (reserva.getHuesped().equals(huesped))
                 copiaReservaHuesped.add(reserva);
         }
@@ -144,14 +143,14 @@ public class Reservas implements IReservas {
     }
 
     @Override
-    public ArrayList<Reserva> getReservas (TipoHabitacion tipoHabitacion) {
+    public ArrayList<Reserva> getReservas(TipoHabitacion tipoHabitacion) {
         if (tipoHabitacion == null)
             throw new NullPointerException("ERROR: No se pueden buscar reservas de un tipo de habitación nula.");
-        ArrayList<Reserva> copiaReservaTipoHabitacion= new ArrayList<>();
-        Iterator<Reserva> iteratorReserva= get().iterator();
-        while (iteratorReserva.hasNext()){
-            Reserva reserva= iteratorReserva.next();
-            switch (tipoHabitacion){
+        ArrayList<Reserva> copiaReservaTipoHabitacion = new ArrayList<>();
+        Iterator<Reserva> iteratorReserva = get().iterator();
+        while (iteratorReserva.hasNext()) {
+            Reserva reserva = iteratorReserva.next();
+            switch (tipoHabitacion) {
                 case SIMPLE:
                     if (reserva.getHabitacion() instanceof Simple) copiaReservaTipoHabitacion.add(new Reserva(reserva));
                 case DOBLE:
@@ -169,15 +168,15 @@ public class Reservas implements IReservas {
 
 
     @Override
-    public ArrayList<Reserva> getReservas(Habitacion habitacion){
+    public ArrayList<Reserva> getReservas(Habitacion habitacion) {
         if (habitacion == null)
             throw new NullPointerException("ERROR: No se pueden buscar reservas de una habitación nula.");
 
         ArrayList<Reserva> reservasHabitacionFuturas = new ArrayList<>();
-        Iterator<Reserva> iteradorReservasFuturas= get().iterator();
+        Iterator<Reserva> iteradorReservasFuturas = get().iterator();
 
-        while (iteradorReservasFuturas.hasNext()){
-            Reserva reservaFutura= iteradorReservasFuturas.next();
+        while (iteradorReservasFuturas.hasNext()) {
+            Reserva reservaFutura = iteradorReservasFuturas.next();
             if (reservaFutura.getHabitacion().equals(habitacion))
                 reservasHabitacionFuturas.add(reservaFutura);
         }
@@ -185,15 +184,15 @@ public class Reservas implements IReservas {
     }
 
     @Override
-    public ArrayList<Reserva> getReservasFuturas (Habitacion habitacion) {
+    public ArrayList<Reserva> getReservasFuturas(Habitacion habitacion) {
         if (habitacion == null)
             throw new NullPointerException("ERROR: No se pueden buscar reservas de una habitación nula.");
         LocalDate fechaActual = LocalDate.now();
         ArrayList<Reserva> reservasHabitacionFuturas = new ArrayList<>();
-        Iterator<Reserva> iteradorReservasFuturas= get().iterator();
+        Iterator<Reserva> iteradorReservasFuturas = get().iterator();
 
-        while (iteradorReservasFuturas.hasNext()){
-            Reserva reservaFutura= iteradorReservasFuturas.next();
+        while (iteradorReservasFuturas.hasNext()) {
+            Reserva reservaFutura = iteradorReservasFuturas.next();
             if (reservaFutura.getHabitacion().equals(habitacion) && reservaFutura.getFechaInicioReserva().isAfter(fechaActual))
                 reservasHabitacionFuturas.add(reservaFutura);
         }
@@ -205,15 +204,15 @@ public class Reservas implements IReservas {
         if (reserva == null | fecha == null)
             throw new NullPointerException("Ni la reserva ni la fecha pueden ser nulas.");
         Iterator<Reserva> iteradorReservaCheckin = coleccionReservas.iterator();
-        while (iteradorReservaCheckin.hasNext()){
+        while (iteradorReservaCheckin.hasNext()) {
             Reserva reservaCheckin = iteradorReservaCheckin.next();
-            if (reservaCheckin!=null)
+            if (reservaCheckin != null)
                 if (reservaCheckin.equals(reserva))
                     reservaCheckin.setCheckIn(fecha);
         }
     }
 
-    public Element huespedToElement(Reserva reserva){
+    public Element reservaToElement(Reserva reserva) {
         Element reservadDOM = DOM.createElement(RESERVA);
         reservadDOM.setAttribute(DNI_HUESPED, reserva.getHuesped().getDni());
         reservadDOM.setAttribute(PLANTA_HABITACION, String.valueOf(reserva.getHabitacion().getPlanta()));
@@ -232,86 +231,139 @@ public class Reservas implements IReservas {
         reservadDOM.appendChild(fechaFinDOM);
 
         Element numPersonasDOM = DOM.createElement(NUMERO_PERSONAS);
-        numPersonasDOM.setTextContent(reserva.getNumeroPersonas()+"");
+        numPersonasDOM.setTextContent(reserva.getNumeroPersonas() + "");
         reservadDOM.appendChild(numPersonasDOM);
 
         Element checkInDOM = DOM.createElement(CHECKIN);
-        if (reserva.getCheckIn()!=null)checkInDOM.setTextContent(reserva.getCheckIn().format(FORMATOR_FECHA_HORA));
+        if (reserva.getCheckIn() != null) checkInDOM.setTextContent(reserva.getCheckIn().format(FORMATOR_FECHA_HORA));
         reservadDOM.appendChild(checkInDOM);
 
         Element checkOutDOM = DOM.createElement(CHECKOUT);
-        if (reserva.getCheckOut()!=null) checkOutDOM.setTextContent(reserva.getCheckOut().format(FORMATOR_FECHA_HORA));
+        if (reserva.getCheckOut() != null)
+            checkOutDOM.setTextContent(reserva.getCheckOut().format(FORMATOR_FECHA_HORA));
         reservadDOM.appendChild(checkOutDOM);
 
         Element precioDOM = DOM.createElement(PRECIO);
-        precioDOM.setTextContent(reserva.getPrecio()+"");
+        precioDOM.setTextContent(reserva.getPrecio() + "");
         reservadDOM.appendChild(precioDOM);
 
         return reservadDOM;
     }
 
-    public Reserva elementToReserva(Element elementoReserva){
-        Huesped huesped=null;
-        Habitacion habitacion=null;
-        Regimen regimen= null;
-        LocalDate fechaIn;
-        LocalDate fechaFin;
-        int numPersonas;
+    public Reserva elementToReserva(Element elementoReserva) {
+        String dni;
+        String identificador;
+        Huesped huesped = null;
+        Habitacion habitacion = null;
+        String regimenString=null;
+        Regimen regimen = null;
+        String fechaIn=null;
+        String fechaFin=null;
+        LocalDate fechaIFinal;
+        LocalDate fechaFFinal;
+        String numPersonas=null;
+        String checkInString="";
+        String checkOutString="";
+        Reserva reserva;
 
-        for (Reserva r: get()){
-            if (r.getHuesped().getDni().equals(elementoReserva.getAttribute(DNI_HUESPED)))
-                huesped = r.getHuesped();
+        dni = elementoReserva.getAttribute(DNI_HUESPED);
+
+        identificador = elementoReserva.getAttribute(PLANTA_HABITACION)+elementoReserva.getAttribute(PUERTA_HABITACION);
+
+
+        for (Huesped huesoped: Huespedes.getInstancia().get()) {
+            if (huesoped.getDni().equals(dni))
+                huesped = huesoped;
         }
-        for (Reserva r: get()){
-            if (r.getHabitacion().getIdentificador().equals(elementoReserva.getAttribute(PLANTA_HABITACION)+elementoReserva.getAttribute(PUERTA_HABITACION)))
-                habitacion=r.getHabitacion();
+        for (Habitacion h: Habitaciones.getInstancia().get()) {
+            if (h.getIdentificador().equals(identificador))
+                habitacion = h;
         }
+
+        NodeList fechaILista = elementoReserva.getElementsByTagName(FECHA_INICIO_RESERVA);
+        if (fechaILista.getLength()>0)
+            fechaIn = fechaILista.item(0).getTextContent();
+        String fechadivididaI[] = fechaIn.split("/");
+        fechaIFinal = LocalDate.of(Integer.parseInt(fechadivididaI[2]), Integer.parseInt(fechadivididaI[1]), Integer.parseInt(fechadivididaI[0]));
+
+        NodeList fechaFLista = elementoReserva.getElementsByTagName(FECHA_FIN_RESERVA);
+        if (fechaFLista.getLength()>0)
+            fechaFin = fechaFLista.item(0).getTextContent();
+        String fechadivididaF[] = fechaFin.split("/");
+        fechaFFinal = LocalDate.of(Integer.parseInt(fechadivididaF[2]), Integer.parseInt(fechadivididaF[1]), Integer.parseInt(fechadivididaF[0]));
+
+        NodeList numPersonasList = elementoReserva.getElementsByTagName(NUMERO_PERSONAS);
+        if (numPersonasList.getLength()>0)
+            numPersonas = numPersonasList.item(0).getTextContent();
+
+        NodeList regimenList = elementoReserva.getElementsByTagName(REGIMEN);
+        if (regimenList.getLength()>0)
+            regimenString = regimenList.item(0).getTextContent();
+
         for (Regimen r: Regimen.values()){
-            if (r.toString().equals(elementoReserva.getAttribute(REGIMEN)))
-                regimen= r;
+            if (r.toString().equals(regimenString))
+                regimen=r;
         }
-        fechaIn = LocalDate.parse(elementoReserva.getAttribute(FECHA_INICIO_RESERVA));
-        fechaFin = LocalDate.parse(elementoReserva.getAttribute(FECHA_FIN_RESERVA));
-        numPersonas = Integer.parseInt(elementoReserva.getAttribute(NUMERO_PERSONAS));
 
-        return new Reserva(huesped, habitacion, regimen, fechaIn, fechaFin, numPersonas);
+        reserva = new Reserva(huesped, habitacion, regimen, fechaIFinal, fechaFFinal, Integer.parseInt(numPersonas));
+
+        NodeList checkInList = elementoReserva.getElementsByTagName(CHECKIN);
+        if (checkInList.getLength()>0)
+            checkInString= checkInList.item(0).getTextContent();
+        if (!checkInString.isBlank()) {
+            reserva.setCheckIn(LocalDateTime.parse(checkInString, FORMATOR_FECHA_HORA));
+        }
+
+        NodeList checkoutList = elementoReserva.getElementsByTagName(CHECKOUT);
+        if (checkoutList.getLength()>0)
+            checkOutString = checkoutList.item(0).getTextContent();
+        if (!checkOutString.isBlank())
+            reserva.setCheckOut(LocalDateTime.parse(checkOutString,FORMATOR_FECHA_HORA));
+        return reserva;
     }
 
-    public void leerXML(){
-        for (int i = 0; i < DOM.getElementsByTagName(RESERVA).getLength(); i++){
-            Element reserva = (Element) DOM.getElementsByTagName(RESERVA).item(i);
-            coleccionReservas.add(elementToReserva(reserva));
+    public void leerXML() {
+        NodeList listaNodos = DOM.getDocumentElement().getChildNodes();
+        for (int i = 0; i < listaNodos.getLength(); i++) {
+            Node nodo = listaNodos.item(i);
+            if (nodo.getNodeType() == Node.ELEMENT_NODE) {
+                coleccionReservas.add(elementToReserva((Element) DOM.getDocumentElement().getChildNodes().item(i)));
+            }
         }
     }
 
-    public void escribirXML(Reserva reserva){
-        listaReservas.appendChild(huespedToElement(reserva));
+    public void escribirXML() {
+        for (Reserva r : coleccionReservas) {
+            listaReservas.appendChild(reservaToElement(r));
+        }
     }
 
     @Override
-    public void realizarCheckout(Reserva reserva, LocalDateTime fecha){
+    public void realizarCheckout(Reserva reserva, LocalDateTime fecha) {
         if (reserva == null | fecha == null)
             throw new NullPointerException("Ni la reserva ni la fecha pueden ser nulas.");
-        Iterator<Reserva> iteradorReservaCheckout= coleccionReservas.iterator();
-        while (iteradorReservaCheckout.hasNext()){
+        Iterator<Reserva> iteradorReservaCheckout = coleccionReservas.iterator();
+        while (iteradorReservaCheckout.hasNext()) {
             Reserva reservaCheckout = iteradorReservaCheckout.next();
-            if (reservaCheckout!=null)
+            if (reservaCheckout != null)
                 if (reservaCheckout.equals(reserva))
                     reservaCheckout.setCheckOut(fecha);
         }
-            }
+    }
 
-            public void comenzar(){
-                DOM = UtilidadesXML.xmlToDom(RUTA_FICHERO);
-                if (DOM == null){
-                    DOM= UtilidadesXML.crearDomVacio(RAIZ);
-                }
-                leerXML();
-                listaReservas = DOM.getDocumentElement();
-            }
-            public void terminar(){
-                if (UtilidadesXML.domToXml(DOM, RUTA_FICHERO))
-                    System.out.println("Archivos guardados correctamente");
-                else System.out.println("Error al guardar los archivos");
-            }
+    public void comenzar() {
+        DOM = UtilidadesXML.xmlToDom(RUTA_FICHERO);
+        if (DOM == null) {
+            DOM = UtilidadesXML.crearDomVacio(RUTA_FICHERO, RAIZ);
         }
+        leerXML();
+        listaReservas = DOM.getDocumentElement();
+    }
+
+    public void terminar() {
+        escribirXML();
+        if (UtilidadesXML.domToXml(DOM, RUTA_FICHERO))
+            System.out.println("Archivos guardados correctamente");
+        else System.out.println("Error al guardar los archivos");
+    }
+}

@@ -68,7 +68,8 @@ public class Huespedes implements IHuespedes {
         }
 
         coleccionHuesped.add(huesped);
-        escribirXML(huesped);
+        //escribirXML(huesped);
+        //leerXML();
     }
 
     @Override
@@ -114,31 +115,72 @@ public class Huespedes implements IHuespedes {
     }
 
     public void comenzar(){
+        // El método getDocumentElement nos proporciona el elemento Raiz de nuestro XML.
+        //listaHuespedes = DOM.getDocumentElement();
+        //DOM = UtilidadesXML.xmlToDom(RUTA_FICHERO);
+        //leerXML();
+        //if (UtilidadesXML.xmlToDom(RUTA_FICHERO) != null)
         DOM = UtilidadesXML.xmlToDom(RUTA_FICHERO);
         if (DOM == null){
-            DOM=UtilidadesXML.crearDomVacio(RAIZ);
+            DOM= UtilidadesXML.crearDomVacio(RUTA_FICHERO, RAIZ);
         }
         leerXML();
         listaHuespedes = DOM.getDocumentElement();
-    }
+        }
+
+
     public void terminar(){
+        escribirXML();
         if (UtilidadesXML.domToXml(DOM, RUTA_FICHERO))
             System.out.println("Archivos guardados correctamente");
         else System.out.println("Error al guardar los archivos");
     }
 
     public Huesped elementToHuesped(Element elementoHuesped){
-        String nombre;
+        String nombre=null;
         String dni;
-        String correo;
-        String telefono;
-        LocalDate fechaNac;
-
+        String correo=null;
+        String telefono=null;
+        LocalDate fechaNac=null;
+        String fechaNacimiento;
+/*
         nombre = elementoHuesped.getAttribute(NOMBRE);
         dni = elementoHuesped.getAttribute(DNI);
         correo = elementoHuesped.getAttribute(CORREO);
         telefono = elementoHuesped.getAttribute(TELEFONO);
-        fechaNac = LocalDate.parse(elementoHuesped.getAttribute(FECHA_NACIMIENTO));
+        fechaNacimiento = elementoHuesped.getAttribute(FECHA_NACIMIENTO);
+        String fechadividida[] = fechaNacimiento.split("/");
+        fechaNac = LocalDate.of(Integer.parseInt(fechadividida[2]), Integer.parseInt(fechadividida[1]), Integer.parseInt(fechadividida[0]));*/
+
+        NodeList nombreList = elementoHuesped.getElementsByTagName(NOMBRE);
+        if (nombreList.getLength() > 0) {
+            nombre = nombreList.item(0).getTextContent();
+        }
+
+        /*NodeList dniList = elementoHuesped.getElementsByTagName(DNI);
+        if (dniList.getLength() > 0) {
+            dni = dniList.item(0).getTextContent();
+        }*/
+
+        dni = elementoHuesped.getAttribute(DNI);
+
+        NodeList correoList = elementoHuesped.getElementsByTagName(CORREO);
+        if (correoList.getLength() > 0) {
+            correo = correoList.item(0).getTextContent();
+        }
+
+        NodeList telefonoList = elementoHuesped.getElementsByTagName(TELEFONO);
+        if (telefonoList.getLength() > 0) {
+            telefono = telefonoList.item(0).getTextContent();
+        }
+
+        NodeList fechaNacimientoList = elementoHuesped.getElementsByTagName(FECHA_NACIMIENTO);
+        if (fechaNacimientoList.getLength() > 0) {
+            fechaNacimiento = fechaNacimientoList.item(0).getTextContent();
+            String fechadividida[] = fechaNacimiento.split("/");
+            fechaNac = LocalDate.of(Integer.parseInt(fechadividida[2]), Integer.parseInt(fechadividida[1]), Integer.parseInt(fechadividida[0]));
+        }
+
 
         return new Huesped(nombre, dni, correo, telefono, fechaNac);
     }
@@ -167,20 +209,29 @@ public class Huespedes implements IHuespedes {
     }
 
     public void leerXML(){
-        for (int i = 0; i < DOM.getElementsByTagName(HUESPED).getLength(); i++){
+        /*for (int i = 0; i < DOM.getElementsByTagName(HUESPED).getLength(); i++){
             Element huesped = (Element) DOM.getElementsByTagName(HUESPED).item(i);
             /*
             String dni = huesped.getElementsByTagName(DNI).item(0).getTextContent();
             String nombre = huesped.getElementsByTagName(NOMBRE).item(0).getTextContent();
             String telefono = huesped.getElementsByTagName(TELEFONO).item(0).getTextContent();
             String correo = huesped.getElementsByTagName(CORREO).item(0).getTextContent();
-            LocalDate fechaNac = LocalDate.parse(huesped.getElementsByTagName(FECHA_NACIMIENTO).item(0).getTextContent());*/
-            coleccionHuesped.add(elementToHuesped(huesped));
+            LocalDate fechaNac = LocalDate.parse(huesped.getElementsByTagName(FECHA_NACIMIENTO).item(0).getTextContent());
+            coleccionHuesped.add(elementToHuesped(huesped));*/
+            NodeList listaNodos = DOM.getDocumentElement().getChildNodes();
+            for (int i=0; i<listaNodos.getLength(); i++){
+                Node nodo= listaNodos.item(i);
+                if (nodo.getNodeType() == Node.ELEMENT_NODE){
+                    coleccionHuesped.add(elementToHuesped((Element)DOM.getDocumentElement().getChildNodes().item(i)));
+                }
         }
     }
 
-    public void escribirXML(Huesped huesped){
-            listaHuespedes.appendChild(huespedToElement(huesped));
+    public void escribirXML(){
+        for (Huesped h: coleccionHuesped){
+            listaHuespedes.appendChild(huespedToElement(h));
+        }
+            //listaHuespedes.appendChild(huespedToElement(huesped));
     }
 
 }

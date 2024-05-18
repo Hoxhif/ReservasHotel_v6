@@ -1,13 +1,14 @@
 package org.iesalandalus.programacion.reservashotel.modelo.negocio.fichero.utilidades;
+import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
+import org.w3c.dom.DocumentType;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
@@ -19,11 +20,13 @@ public class UtilidadesXML {
     public static Document xmlToDom(String raiz){
         Document documento=null;
         try {
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            documento = db.parse(raiz);
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance(); //Fabrica de constructores de documento.
+            DocumentBuilder builder = factory.newDocumentBuilder();  // Se encarga de procesar el fichero xml y convertirlo en un arbol DOM
+            documento = builder.parse(raiz);
 
-        }catch (Exception e){
+        }catch (ParserConfigurationException | IOException e){
+            System.out.println(e.getMessage());
+        }catch (SAXException e){
             System.out.println(e.getMessage());
         }
         return documento;
@@ -34,7 +37,7 @@ public class UtilidadesXML {
     try {
         File f= new File(ruta);
         TransformerFactory tFactory = TransformerFactory.newInstance();
-        tFactory.setAttribute("indent-number", 2);
+        tFactory.setAttribute("indent-number", Integer.valueOf(4));
         Transformer transformador = tFactory.newTransformer();
         transformador.setOutputProperty(OutputKeys.INDENT, "yes");
         FileOutputStream fos= new FileOutputStream(f);
@@ -53,18 +56,30 @@ public class UtilidadesXML {
     return false;
     }
 
-    public static Document crearDomVacio(String raiz){
-        DocumentBuilderFactory dbf= DocumentBuilderFactory.newInstance();
-        DocumentBuilder db;
-        Document d= null;
+    public static Document crearDomVacio(String direccion,String raiz){
 
         try {
-            db = dbf.newDocumentBuilder();
-            d = db.newDocument();
-            d.appendChild(d.createElement(raiz));
-        }catch (ParserConfigurationException e){
+            DocumentBuilderFactory factoria = DocumentBuilderFactory.newInstance();
+            DocumentBuilder constructor = factoria.newDocumentBuilder();
+
+            Document document = constructor.newDocument();
+            Element root = document.createElement(raiz);
+            document.appendChild(root);
+
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+
+
+            DOMSource source = new DOMSource(document);
+            StreamResult result = new StreamResult(new File(direccion));
+            transformer.transform(source, result);
+                return document;
+        }catch (ParserConfigurationException | TransformerConfigurationException e){
+            System.out.println(e.getMessage());
+        }catch (TransformerException e){
             System.out.println(e.getMessage());
         }
-        return d;
+        return null;
     }
+
 }
