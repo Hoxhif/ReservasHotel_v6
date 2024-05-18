@@ -88,10 +88,28 @@ public class Habitaciones implements IHabitaciones {
         while(iteradorHabitacion.hasNext()){
             Habitacion comprobarHabitacion= iteradorHabitacion.next();
             switch (tipoHabitacion){
-                case SIMPLE: copiaHabitaciones.add(new Simple((Simple)comprobarHabitacion)); break;
-                case DOBLE: copiaHabitaciones.add(new Doble((Doble)comprobarHabitacion)); break;
-                case TRIPLE: copiaHabitaciones.add(new Triple((Triple) comprobarHabitacion)); break;
-                case SUITE: copiaHabitaciones.add(new Suite((Suite) comprobarHabitacion)); break;
+                case SIMPLE:
+                    if (comprobarHabitacion instanceof Simple) {
+                        copiaHabitaciones.add((Simple) comprobarHabitacion);
+                    }
+                    break;
+                case DOBLE:
+                    if (comprobarHabitacion instanceof Doble) {
+                        copiaHabitaciones.add((Doble) comprobarHabitacion);
+                    }
+                    break;
+                case TRIPLE:
+                    if (comprobarHabitacion instanceof Triple) {
+                        copiaHabitaciones.add((Triple) comprobarHabitacion);
+                    }
+                    break;
+                case SUITE:
+                    if (comprobarHabitacion instanceof Suite) {
+                        copiaHabitaciones.add((Suite) comprobarHabitacion);
+                    }
+                    break;
+                default:
+                    throw new IllegalArgumentException("Tipo de habitación no soportado: " + tipoHabitacion);
             }
         }
         Collections.sort(copiaHabitaciones, Comparator.comparing(Habitacion::getIdentificador));

@@ -1,10 +1,56 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Reservas>
+                    
+    
+    
+    
+    <Reserva Dni="77657325X" Planta="1" Puerta="1">
+        <Regimen>1.- Solo Alojamiento</Regimen>
+        <FechaInicioReserva>20/05/2024</FechaInicioReserva>
+        <FechaFinReserva>21/05/2024</FechaFinReserva>
+        <Personas>1</Personas>
+        <FechaCheckin>20/05/2024 12:00</FechaCheckin>
+        <FechaCheckout>21/05/2024 12:00</FechaCheckout>
+        <Precio>130.0</Precio>
+    </Reserva>
                 
-
     
-
     
-
     
+    <Reserva Dni="77657325X" Planta="1" Puerta="2">
+                                
+        
+        
+        <Regimen>1.- Solo Alojamiento</Regimen>
+                                
+        
+        
+        <FechaInicioReserva>20/05/2024</FechaInicioReserva>
+                                
+        
+        
+        <FechaFinReserva>21/05/2024</FechaFinReserva>
+                                
+        
+        
+        <Personas>1</Personas>
+                                
+        
+        
+        <FechaCheckin/>
+                                
+        
+        
+        <FechaCheckout/>
+                                
+        
+        
+        <Precio>0.0</Precio>
+                            
+    
+    
+    </Reserva>
+            
+
+
 </Reservas>

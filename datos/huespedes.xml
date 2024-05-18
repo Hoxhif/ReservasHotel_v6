@@ -1,22 +1,83 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Huespedes>
-                                        
+                                    
     
     
+    
+    
+    
+    
+    
+    <Huesped Dni="77657325X">
+                                                                        
+        
+        
+        
+        
+        
+        
+        
+        <Nombre>Jose</Nombre>
+                                                                        
+        
+        
+        
+        
+        
+        
+        
+        <Correo>jose@gmail.com</Correo>
+                                                                        
+        
+        
+        
+        
+        
+        
+        
+        <Telefono>614276396</Telefono>
+                                                                        
+        
+        
+        
+        
+        
+        
+        
+        <FechaNacimiento>18/06/2001</FechaNacimiento>
+                                                                    
+    
+    
+    
+    
+    
+    
+    
+    </Huesped>
+                                
+
+
+
+
 
     
     
+    <Huesped Dni="27535437K">
+                        
+        
+        <Nombre>Manolo</Nombre>
+                        
+        
+        <Correo>manolo@gmail.com</Correo>
+                        
+        
+        <Telefono>642661499</Telefono>
+                        
+        
+        <FechaNacimiento>15/07/1969</FechaNacimiento>
+                    
     
-    
-    
-    
-    
-    
-                            
-
-
-
-
-
+    </Huesped>
+        
 
 </Huespedes>

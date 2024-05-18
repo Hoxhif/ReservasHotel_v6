@@ -1,6 +1,87 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Habitaciones>
                                     
+    
+    
+    
+    
+    
+    
+    
+    <Habitación Identificador="11" Tipo="Suite">
+                                                                        
+        
+        
+        
+        
+        
+        
+        
+        <Planta>1</Planta>
+                                                                        
+        
+        
+        
+        
+        
+        
+        
+        <Puerta>1</Puerta>
+                                                                        
+        
+        
+        
+        
+        
+        
+        
+        <Precio>130.0</Precio>
+                                                                        
+        
+        
+        
+        
+        
+        
+        
+        <Suite>
+                                                                                                            
+            
+            
+            
+            
+            
+            
+            
+            <Banos>1</Banos>
+                                                                                                            
+            
+            
+            
+            
+            
+            
+            
+            <Jacuzzi>Con Jacuzzi</Jacuzzi>
+                                                                                                        
+        
+        
+        
+        
+        
+        
+        
+        </Suite>
+                                                                    
+    
+    
+    
+    
+    
+    
+    
+    </Habitación>
+                                
 
     
     
@@ -8,10 +89,36 @@
     
     
     
+    <Habitación Identificador="12" Tipo="Simple">
+                                                        
+        
+        
+        
+        
+        
+        <Planta>1</Planta>
+                                                        
+        
+        
+        
+        
+        
+        <Puerta>2</Puerta>
+                                                        
+        
+        
+        
+        
+        
+        <Precio>130.0</Precio>
+                                                    
     
     
-                            
-
+    
+    
+    
+    </Habitación>
+                        
 
 
 
